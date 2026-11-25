@@ -4,9 +4,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BENCH/ VIETNAM | Everyday Streetwear, Denim &amp; Basics</title>
+  <link rel="icon" type="image/jpeg" href="bench-logo.jpg" />
   <!-- Early Dark Mode Init (prevents white flash on load) -->
   <script>
     (function () {
+      var pageParams = new URLSearchParams(window.location.search);
+      var pageView = pageParams.get('view');
+      var collectionCategory = pageParams.get('category');
+      if (pageView === 'outfit-studio') {
+        document.documentElement.classList.add('outfit-studio-view');
+      }
+      if (
+        pageView === 'collection' &&
+        (collectionCategory === 'Men' || collectionCategory === 'Women')
+      ) {
+        document.documentElement.classList.add('collection-page-view');
+      }
       try {
         var saved = localStorage.getItem('bench-vn-theme');
         if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -55,6 +68,64 @@
     }
     .panel-reveal {
       animation: panelReveal 0.18s ease-out both;
+    }
+    html:not(.collection-page-view) #catalog {
+      display: none;
+    }
+    html:not(.outfit-studio-view) #outfit-studio {
+      display: none;
+    }
+    html.outfit-studio-view #home-hero,
+    html.outfit-studio-view #catalog,
+    html.outfit-studio-view #home-latest-drops,
+    html.outfit-studio-view #mens-collection,
+    html.outfit-studio-view #womens-collection,
+    html.outfit-studio-view #lookbook,
+    html.outfit-studio-view footer {
+      display: none;
+    }
+    html.outfit-studio-view #outfit-studio {
+      display: block;
+    }
+    html.outfit-studio-view #desktop-nav,
+    html.outfit-studio-view #mobile-menu-btn,
+    html.outfit-studio-view #mobile-nav-drawer,
+    html.outfit-studio-view #search-toggle-btn,
+    html.outfit-studio-view #search-bar-drawer {
+      display: none;
+    }
+    html.outfit-studio-view #studio-home-link {
+      display: inline-flex;
+    }
+    html.collection-page-view #home-hero,
+    html.collection-page-view #home-latest-drops,
+    html.collection-page-view #mens-collection,
+    html.collection-page-view #womens-collection,
+    html.collection-page-view #lookbook,
+    html.collection-page-view footer,
+    html.collection-page-view #outfit-studio {
+      display: none;
+    }
+    html.collection-page-view #desktop-nav,
+    html.collection-page-view #mobile-menu-btn,
+    html.collection-page-view #mobile-nav-drawer,
+    html.collection-page-view #category-tabs {
+      display: none;
+    }
+    html.collection-page-view #studio-home-link {
+      display: none;
+    }
+    html.collection-page-view #collection-route-nav,
+    html.collection-page-view #collection-subcategory-filter {
+      display: block;
+    }
+    #mens-collection[open] > summary svg,
+    #womens-collection[open] > summary svg {
+      transform: rotate(180deg);
+    }
+    #mens-collection > summary::-webkit-details-marker,
+    #womens-collection > summary::-webkit-details-marker {
+      display: none;
     }
     :focus-visible {
       outline: 2px solid #E31837;
@@ -170,7 +241,7 @@
             </svg>
           </button>
 
-          <a href="#" class="group inline-flex items-center gap-2 focus:outline-none">
+          <a href="index.html" class="group inline-flex items-center gap-2 focus:outline-none">
             <span class="bg-benchRed text-white font-display font-extrabold text-xl sm:text-2xl tracking-tighter px-3 py-1 rounded-md shadow-xs group-hover:bg-charcoal transition-colors duration-200">
               BENCH/
             </span>
@@ -182,16 +253,14 @@
 
         <!-- Center: Desktop Category Navigation -->
         <nav id="desktop-nav" class="hidden lg:flex items-center gap-6 text-sm font-semibold tracking-wide">
-          <div class="relative py-6" data-mega-root="new">
-            <a href="#catalog" onclick="filterSubCategory('All', '')" class="inline-flex items-center gap-1 hover:text-benchRed transition">
+          <div class="relative py-6">
+            <a href="index.html#home-latest-drops" class="inline-flex items-center gap-1 hover:text-benchRed transition">
               <span data-i18n="navNew">New Arrivals</span>
-              <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
             </a>
-            <div id="mega-panel-new" class="panel-reveal hidden absolute left-0 top-full w-[520px] bg-white border border-neutral-200/90 shadow-2xl rounded-b-2xl p-6 z-50"></div>
           </div>
 
           <div class="relative py-6" data-mega-root="men">
-            <a href="#catalog" onclick="filterSubCategory('Men', '')" class="inline-flex items-center gap-1 hover:text-benchRed transition">
+            <a href="index.html?view=collection&amp;category=Men" class="inline-flex items-center gap-1 hover:text-benchRed transition">
               <span data-i18n="navMen">Men</span>
               <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
             </a>
@@ -199,26 +268,26 @@
           </div>
 
           <div class="relative py-6" data-mega-root="women">
-            <a href="#catalog" onclick="filterSubCategory('Women', '')" class="inline-flex items-center gap-1 hover:text-benchRed transition">
+            <a href="index.html?view=collection&amp;category=Women" class="inline-flex items-center gap-1 hover:text-benchRed transition">
               <span data-i18n="navWomen">Women</span>
               <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
             </a>
             <div id="mega-panel-women" class="panel-reveal hidden absolute -left-16 top-full w-[540px] bg-white border border-neutral-200/90 shadow-2xl rounded-b-2xl p-6 z-50"></div>
           </div>
 
-          <div class="relative py-6" data-mega-root="denim">
-            <a href="#catalog" onclick="filterSubCategory('Denim', '')" class="inline-flex items-center gap-1 hover:text-benchRed transition">
-              <span data-i18n="navDenim">Denim</span>
-              <svg class="w-3.5 h-3.5 opacity-60 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-            </a>
-            <div id="mega-panel-denim" class="panel-reveal hidden absolute -left-24 top-full w-[520px] bg-white border border-neutral-200/90 shadow-2xl rounded-b-2xl p-6 z-50"></div>
-          </div>
-
-          <a href="#outfit-studio" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-benchRed/10 text-benchRed hover:bg-benchRed hover:text-white transition">
+          <a href="index.html?view=outfit-studio#outfit-studio" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-benchRed/10 text-benchRed hover:bg-benchRed hover:text-white transition">
             <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
             <span data-i18n="navOutfitStudio">Outfit Studio</span>
           </a>
         </nav>
+        <a
+          id="studio-home-link"
+          href="index.html"
+          data-i18n="studioHomeLink"
+          class="hidden items-center gap-1.5 px-2 text-xs sm:text-sm font-bold text-charcoal hover:text-benchRed transition"
+        >
+          Shop
+        </a>
 
         <!-- Right: Language Switcher, Dark Mode Toggle, Search Toggle & Shopping Bag -->
         <div class="flex items-center gap-1.5 sm:gap-2.5">
@@ -304,8 +373,17 @@
     </div>
   </header>
 
+  <nav id="collection-route-nav" aria-label="Collection navigation" class="hidden border-b border-neutral-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center gap-2 py-3">
+      <a id="collection-nav-home" href="index.html" data-i18n="collectionNavHome" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Home</a>
+      <a id="collection-nav-men" href="index.html?view=collection&amp;category=Men" data-i18n="collectionNavMen" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Men</a>
+      <a id="collection-nav-women" href="index.html?view=collection&amp;category=Women" data-i18n="collectionNavWomen" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Women</a>
+      <a id="collection-nav-studio" href="index.html?view=outfit-studio#outfit-studio" data-i18n="collectionNavStudio" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Outfit Studio</a>
+    </div>
+  </nav>
+
   <!-- 3. EDITORIAL HERO SECTION -->
-  <section class="relative overflow-hidden bg-offwhite border-b border-neutral-200">
+  <section id="home-hero" class="relative overflow-hidden bg-offwhite border-b border-neutral-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
 
@@ -327,7 +405,7 @@
           </p>
 
           <div class="flex flex-wrap items-center gap-3.5 pt-2">
-            <a href="#catalog" data-i18n="heroCtaPrimary" class="inline-flex items-center justify-center bg-benchRed hover:bg-benchRedDark text-white font-bold text-sm px-7 py-4 rounded-xl transition shadow-sm">
+            <a href="#mens-collection" data-i18n="heroCtaPrimary" class="inline-flex items-center justify-center bg-benchRed hover:bg-benchRedDark text-white font-bold text-sm px-7 py-4 rounded-xl transition shadow-sm">
               Shop The Collection
             </a>
             <a href="#lookbook" data-i18n="heroCtaSecondary" class="inline-flex items-center justify-center bg-white hover:bg-neutral-100 text-charcoal border border-neutral-300 font-bold text-sm px-7 py-4 rounded-xl transition">
@@ -371,16 +449,31 @@
     </div>
   </section>
 
-  <!-- 4. INTERACTIVE PRODUCT CATALOG SECTION -->
+  <section id="home-latest-drops" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-7">
+      <div>
+        <span data-i18n="latestDropsEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">JUST IN</span>
+        <h2 data-i18n="catalogTitle" class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-charcoal mt-1">Latest Drops</h2>
+        <p data-i18n="latestDropsSubtitle" class="text-sm text-neutral-600 mt-2">A few of the latest arrivals, selected for you.</p>
+      </div>
+    </div>
+    <div id="home-latest-drops-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6"></div>
+  </section>
+
+  <!-- 4. COLLECTION PRODUCT GRID -->
   <main id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
 
     <!-- Section Header + Filter Pills + Sort -->
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-neutral-200">
       <div>
-        <span data-i18n="catalogEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">Curated Catalog</span>
-        <h2 data-i18n="catalogTitle" class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-charcoal mt-1">
+        <span data-i18n="catalogEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">The Collection</span>
+        <h2 id="catalog-title" data-i18n="catalogTitle" class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-charcoal mt-1">
           Latest Drops
         </h2>
+        <div id="collection-subcategory-filter" class="hidden mt-5">
+          <p data-i18n="collectionTypeLabel" class="text-xs font-bold text-neutral-500 mb-2">Shop by item type</p>
+          <div id="collection-subcategory-buttons" role="group" class="flex flex-wrap gap-2"></div>
+        </div>
       </div>
 
       <!-- Category Filter Tabs & Sort Dropdown -->
@@ -414,13 +507,36 @@
 
     <!-- Active Results Count -->
     <div class="flex items-center justify-between py-4 text-xs text-neutral-500 font-medium">
-      <p id="results-count">Showing 15 products</p>
+      <p id="results-count" aria-live="polite">Showing products</p>
       <p data-i18n="vatNote">All prices inclusive of VAT (₫ VND)</p>
+    </div>
+    <div id="active-filter-summary" class="hidden flex-wrap items-center gap-x-3 gap-y-2 pb-4 text-xs" aria-live="polite">
+      <span data-i18n="activeFilters" class="font-bold text-neutral-500">Active filters:</span>
+      <span id="active-filter-values" class="text-neutral-700"></span>
+      <button
+        type="button"
+        onclick="resetFilters()"
+        data-i18n="clearFilters"
+        class="font-bold text-benchRed hover:underline"
+      >
+        Clear filters
+      </button>
     </div>
 
     <!-- Responsive Product Grid -->
     <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
       <!-- Populated dynamically via JS -->
+    </div>
+    <div class="flex justify-center pt-8">
+      <button
+        id="load-more-btn"
+        type="button"
+        onclick="loadMoreProducts()"
+        data-i18n="loadMoreProducts"
+        class="hidden bg-white border border-neutral-300 hover:border-benchRed hover:text-benchRed text-charcoal font-bold text-sm px-6 py-3 rounded-xl transition"
+      >
+        Load more products
+      </button>
     </div>
 
     <!-- Empty Search State -->
@@ -432,6 +548,48 @@
       </button>
     </div>
   </main>
+
+  <details id="mens-collection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 border-t border-neutral-200/80 group">
+    <summary aria-controls="mens-collection-content" class="flex items-center justify-between gap-4 cursor-pointer list-none">
+      <div>
+        <span data-i18n="mensCollectionEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">THE COLLECTION</span>
+        <h2 data-i18n="mensCollectionTitle" class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-charcoal mt-1">Men’s Collection</h2>
+        <p data-i18n="mensCollectionSubtitle" class="text-sm text-neutral-600 mt-2">Everyday essentials, relaxed denim, and street-ready layers.</p>
+      </div>
+      <svg aria-hidden="true" class="w-6 h-6 shrink-0 text-benchRed transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+      </svg>
+    </summary>
+    <div id="mens-collection-content" class="pt-6">
+      <div id="mens-collection-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+      <div class="flex justify-end pt-5">
+        <a href="index.html?view=collection&amp;category=Men" data-i18n="mensCollectionLink" class="text-sm font-bold text-benchRed hover:underline">
+          Shop Men’s Collection →
+        </a>
+      </div>
+    </div>
+  </details>
+
+  <details id="womens-collection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 border-t border-neutral-200/80 group">
+    <summary aria-controls="womens-collection-content" class="flex items-center justify-between gap-4 cursor-pointer list-none">
+      <div>
+        <span data-i18n="womensCollectionEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">THE COLLECTION</span>
+        <h2 data-i18n="womensCollectionTitle" class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-charcoal mt-1">Women’s Collection</h2>
+        <p data-i18n="womensCollectionSubtitle" class="text-sm text-neutral-600 mt-2">Versatile tops, denim, and easy everyday favorites.</p>
+      </div>
+      <svg aria-hidden="true" class="w-6 h-6 shrink-0 text-benchRed transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+      </svg>
+    </summary>
+    <div id="womens-collection-content" class="pt-6">
+      <div id="womens-collection-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6"></div>
+      <div class="flex justify-end pt-5">
+        <a href="index.html?view=collection&amp;category=Women" data-i18n="womensCollectionLink" class="text-sm font-bold text-benchRed hover:underline">
+          Shop Women’s Collection →
+        </a>
+      </div>
+    </div>
+  </details>
 
   <!-- 4B. INTERACTIVE OUTFIT VISUAL STUDIO (TOPS / BOTTOMS MIX & MATCH + SAVED OUTFITS) -->
   <section id="outfit-studio" class="bg-[#F6F2F2] border-y border-neutral-200/80 py-16 sm:py-24">
@@ -456,30 +614,70 @@
         <div class="lg:col-span-5 space-y-5">
           <!-- Tops / Bottoms Selector Card -->
           <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border border-neutral-200/80">
-            <!-- Segmented Tabs -->
-            <div class="grid grid-cols-2 gap-3 mb-5">
-              <button
-                type="button"
-                id="studio-tab-tops"
-                onclick="switchStudioTab('tops')"
-                data-i18n="studioTopsTab"
-                class="py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#8B1A2B] text-white shadow-xs transition"
+            <div class="mb-5">
+              <p data-i18n="studioGenderStep" class="text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
+                1. Choose Men or Women
+              </p>
+              <div
+                role="group"
+                id="studio-gender-group"
+                aria-label="Choose gender"
+                class="grid grid-cols-2 gap-3"
               >
-                Tops
-              </button>
-              <button
-                type="button"
-                id="studio-tab-bottoms"
-                onclick="switchStudioTab('bottoms')"
-                data-i18n="studioBottomsTab"
-                class="py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition"
-              >
-                Bottoms
-              </button>
+                <button
+                  type="button"
+                  id="studio-gender-men"
+                  onclick="switchStudioGender('Men')"
+                  data-i18n="studioMenTab"
+                  aria-pressed="true"
+                  class="py-2.5 px-4 rounded-xl font-bold text-sm bg-[#8B1A2B] text-white transition"
+                >
+                  Men
+                </button>
+                <button
+                  type="button"
+                  id="studio-gender-women"
+                  onclick="switchStudioGender('Women')"
+                  data-i18n="studioWomenTab"
+                  aria-pressed="false"
+                  class="py-2.5 px-4 rounded-xl font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition"
+                >
+                  Women
+                </button>
+              </div>
+            </div>
+
+            <div class="mb-5">
+              <p data-i18n="studioItemTypeStep" class="text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
+                2. Choose Tops or Bottoms
+              </p>
+              <div class="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  id="studio-tab-tops"
+                  onclick="switchStudioTab('tops')"
+                  data-i18n="studioTopsTab"
+                  class="py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#8B1A2B] text-white shadow-xs transition"
+                >
+                  Tops
+                </button>
+                <button
+                  type="button"
+                  id="studio-tab-bottoms"
+                  onclick="switchStudioTab('bottoms')"
+                  data-i18n="studioBottomsTab"
+                  class="py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition"
+                >
+                  Bottoms
+                </button>
+              </div>
             </div>
 
             <!-- Garment Thumbnail Grid -->
-            <div id="studio-items-grid" class="grid grid-cols-3 gap-3">
+            <p data-i18n="studioItemStep" class="text-xs font-bold uppercase tracking-wider text-charcoal mb-2">
+              3. Choose an item
+            </p>
+            <div id="studio-items-grid" class="grid grid-cols-3 gap-3 max-h-[520px] overflow-y-auto pr-1">
               <!-- Populated dynamically via renderOutfitStudio() -->
             </div>
           </div>
@@ -504,18 +702,6 @@
             <div class="flex items-center gap-3 pt-1" id="studio-color-swatches">
               <!-- Populated dynamically via renderOutfitStudio() -->
             </div>
-
-            <!-- Add to Outfit Hanger Button -->
-            <button
-              type="button"
-              onclick="applySelectionToOutfit()"
-              class="w-full bg-[#8B1A2B] hover:bg-[#6E1321] text-white font-bold text-sm py-4 px-6 rounded-2xl transition shadow-sm flex items-center justify-center gap-2.5"
-            >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6a2 2 0 10-2-2c0 1.1.9 2 2 2zm0 0v2l-7.5 5.2A1.5 1.5 0 005.35 16h13.3a1.5 1.5 0 00.85-2.8L12 8z" />
-              </svg>
-              <span data-i18n="studioAddToOutfitBtn">Add to Outfit</span>
-            </button>
           </div>
         </div>
 
@@ -637,7 +823,7 @@
             </div>
           </div>
           <div class="pt-2">
-            <a href="#catalog" onclick="filterSubCategory('Denim', '')" class="inline-flex items-center gap-2 bg-white text-charcoal hover:bg-benchRed hover:text-white font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl transition">
+            <a href="index.html?view=collection&amp;category=Men&amp;subcategory=Jeans" class="inline-flex items-center gap-2 bg-white text-charcoal hover:bg-benchRed hover:text-white font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl transition">
               <span data-i18n="lookbookCta">Shop The Denim Capsule</span>
               <span>→</span>
             </a>
@@ -702,10 +888,9 @@
         <div class="lg:col-span-2 space-y-3 text-sm">
           <h4 data-i18n="footerShopHeading" class="font-extrabold uppercase tracking-wider text-xs text-charcoal">Shop</h4>
           <ul class="space-y-2 text-neutral-600">
-            <li><a href="#catalog" onclick="filterSubCategory('All', '')" data-i18n="navNew" class="hover:text-benchRed transition">New Arrivals</a></li>
-            <li><a href="#catalog" onclick="filterSubCategory('Men', '')" data-i18n="footerMens" class="hover:text-benchRed transition">Men’s Apparel</a></li>
-            <li><a href="#catalog" onclick="filterSubCategory('Women', '')" data-i18n="footerWomens" class="hover:text-benchRed transition">Women’s Apparel</a></li>
-            <li><a href="#catalog" onclick="filterSubCategory('Denim', '')" data-i18n="footerDenim" class="hover:text-benchRed transition">Denim Studio</a></li>
+            <li><a href="index.html#home-latest-drops" data-i18n="navNew" class="hover:text-benchRed transition">New Arrivals</a></li>
+            <li><a href="index.html?view=collection&amp;category=Men" data-i18n="footerMens" class="hover:text-benchRed transition">Men’s Apparel</a></li>
+            <li><a href="index.html?view=collection&amp;category=Women" data-i18n="footerWomens" class="hover:text-benchRed transition">Women’s Apparel</a></li>
           </ul>
         </div>
 
@@ -713,9 +898,6 @@
         <div class="lg:col-span-2 space-y-3 text-sm">
           <h4 data-i18n="footerCareHeading" class="font-extrabold uppercase tracking-wider text-xs text-charcoal">Customer Care</h4>
           <ul class="space-y-2 text-neutral-600">
-            <li><a href="#catalog" data-i18n="footerSizeGuide" class="hover:text-benchRed transition">Size Guide</a></li>
-            <li><a href="#catalog" data-i18n="footerShipping" class="hover:text-benchRed transition">Vietnam Shipping &amp; Delivery</a></li>
-            <li><a href="#catalog" data-i18n="footerReturns" class="hover:text-benchRed transition">30-Day Exchange</a></li>
             <li><a href="#lookbook" data-i18n="footerLocator" class="hover:text-benchRed transition">Vietnam Store Locator</a></li>
           </ul>
         </div>
@@ -986,8 +1168,14 @@
         navNew: "New Arrivals",
         navMen: "Men",
         navWomen: "Women",
-        navDenim: "Denim",
         navOutfitStudio: "Outfit Studio",
+        studioHomeLink: "Shop",
+        collectionNavHome: "Home",
+        collectionNavMen: "Men",
+        collectionNavWomen: "Women",
+        collectionNavStudio: "Outfit Studio",
+        collectionTypeLabel: "Shop by item type",
+        collectionTypeAll: "All items",
         bagBtn: "Bag",
         searchPlaceholder: "Search graphic tees, carpenter denim, overshirts...",
         heroBadge: "Saigon & Hanoi Release ’26",
@@ -1002,8 +1190,18 @@
         trust3Title: "Easy Returns",
         trust3Sub: "30-day exchange",
         newDropTag: "NEW DROP",
-        catalogEyebrow: "Curated Catalog",
+        catalogEyebrow: "The Collection",
         catalogTitle: "Latest Drops",
+        mensCollectionEyebrow: "The Collection",
+        mensCollectionTitle: "Men’s Collection",
+        mensCollectionSubtitle: "Everyday essentials, relaxed denim, and street-ready layers.",
+        mensCollectionLink: "Shop Men’s Collection →",
+        womensCollectionEyebrow: "The Collection",
+        womensCollectionTitle: "Women’s Collection",
+        womensCollectionSubtitle: "Versatile tops, denim, and easy everyday favorites.",
+        womensCollectionLink: "Shop Women’s Collection →",
+        latestDropsEyebrow: "Just In",
+        latestDropsSubtitle: "A few of the latest arrivals, selected for you.",
         catAll: "All",
         catMen: "Men",
         catWomen: "Women",
@@ -1017,6 +1215,13 @@
         emptySearchTitle: "No matching items found",
         emptySearchSub: "Try clearing your search term or switching categories.",
         resetFiltersBtn: "Reset Filters",
+        activeFilters: "Active filters:",
+        clearFilters: "Clear filters",
+        loadMoreProducts: "Load more products",
+        showingProducts: "Showing {shown} of {total} products",
+        categoryFilterLabel: "Category:",
+        subcategoryFilterLabel: "Subcategory:",
+        searchFilterLabel: "Search:",
         lookbookBadge: "CAMPAIGN 04 // BENCH/ VIETNAM",
         lookbookTitle: "Built for the <br />Streets of Saigon.",
         lookbookBody: "From Manila to Ho Chi Minh City and Hanoi, Bench/ champions accessible everyday fashion. Our Vietnam debut capsule pairs crisp architectural tailoring with lived-in denim—crafted for warm days and vibrant city nights.",
@@ -1033,11 +1238,7 @@
         footerShopHeading: "Shop",
         footerMens: "Men’s Apparel",
         footerWomens: "Women’s Apparel",
-        footerDenim: "Denim Studio",
         footerCareHeading: "Customer Care",
-        footerSizeGuide: "Size Guide",
-        footerShipping: "Vietnam Shipping & Delivery",
-        footerReturns: "30-Day Exchange",
         footerLocator: "Vietnam Store Locator",
         footerDiscoverHeading: "Discover",
         exploreVietnamBtn: "Explore Vietnam",
@@ -1070,10 +1271,11 @@
         continueShoppingBtn: "Continue Shopping",
         quickViewBtn: "Quick View",
         addBtn: "+ Add",
-        detailsHeading: "Details",
+        detailsHeading: "Product details",
         colorLabel: "Color",
         selectSizeLabel: "Select Size",
-        fitNote: "True to size • Regular fit",
+        availableSizesCount: "{count} sizes available",
+        unavailableSizesNote: "Unavailable sizes are crossed out.",
         addToBagBtn: "Add to Shopping Bag",
         emptyBagTitle: "Your Bench/ Vietnam bag is empty",
         emptyBagSub: "Explore our everyday tees, denim, and Saigon & Hanoi streetwear staples.",
@@ -1086,10 +1288,14 @@
         studioEyebrow: "BENCH/ VISUAL STYLING",
         studioTitle: "Interactive Outfit Builder",
         studioSubtitle: "Mix and match Bench/ Tops & Bottoms, preview your complete outfit silhouette side-by-side, and save your favorite combinations.",
+        studioGenderStep: "1. Choose Men or Women",
+        studioItemTypeStep: "2. Choose Tops or Bottoms",
+        studioItemStep: "3. Choose an item",
+        studioMenTab: "Men",
+        studioWomenTab: "Women",
         studioTopsTab: "Tops",
         studioBottomsTab: "Bottoms",
         studioProductDetails: "Product Details",
-        studioAddToOutfitBtn: "Add to Outfit",
         studioLivePreview: "LIVE VISUAL",
         studioYourFitTitle: "Your Current Outfit",
         studioNamePlaceholder: "Name this look (e.g. Saigon Weekend)",
@@ -1105,8 +1311,14 @@
         navNew: "Hàng Mới Về",
         navMen: "Nam",
         navWomen: "Nữ",
-        navDenim: "Denim",
         navOutfitStudio: "Phối Đồ Ảo",
+        studioHomeLink: "Cửa hàng",
+        collectionNavHome: "Trang chủ",
+        collectionNavMen: "Nam",
+        collectionNavWomen: "Nữ",
+        collectionNavStudio: "Phối Đồ Ảo",
+        collectionTypeLabel: "Chọn loại sản phẩm",
+        collectionTypeAll: "Tất cả sản phẩm",
         bagBtn: "Giỏ hàng",
         searchPlaceholder: "Tìm áo thun in hình, quần denim, áo khoác sơ mi...",
         heroBadge: "Ra Mắt Tại Sài Gòn & Hà Nội ’26",
@@ -1121,8 +1333,18 @@
         trust3Title: "Đổi Trả Dễ Dàng",
         trust3Sub: "Đổi hàng trong 30 ngày",
         newDropTag: "MỚI RA MẮT",
-        catalogEyebrow: "Danh Mục Tuyển Chọn",
+        catalogEyebrow: "Bộ Sưu Tập",
         catalogTitle: "Sản Phẩm Mới Nhất",
+        mensCollectionEyebrow: "Bộ Sưu Tập",
+        mensCollectionTitle: "Bộ Sưu Tập Nam",
+        mensCollectionSubtitle: "Trang phục thiết yếu hàng ngày, denim phóng khoáng và các lớp áo cá tính.",
+        mensCollectionLink: "Mua Bộ Sưu Tập Nam →",
+        womensCollectionEyebrow: "Bộ Sưu Tập",
+        womensCollectionTitle: "Bộ Sưu Tập Nữ",
+        womensCollectionSubtitle: "Áo dễ phối, denim và những món đồ yêu thích hàng ngày.",
+        womensCollectionLink: "Mua Bộ Sưu Tập Nữ →",
+        latestDropsEyebrow: "Mới Về",
+        latestDropsSubtitle: "Một vài sản phẩm mới nhất được tuyển chọn dành cho bạn.",
         catAll: "Tất cả",
         catMen: "Nam",
         catWomen: "Nữ",
@@ -1136,6 +1358,13 @@
         emptySearchTitle: "Không tìm thấy sản phẩm phù hợp",
         emptySearchSub: "Hãy thử xóa từ khóa tìm kiếm hoặc chọn danh mục khác.",
         resetFiltersBtn: "Đặt Lại Bộ Lọc",
+        activeFilters: "Bộ lọc đang dùng:",
+        clearFilters: "Xóa bộ lọc",
+        loadMoreProducts: "Tải thêm sản phẩm",
+        showingProducts: "Đang hiển thị {shown}/{total} sản phẩm",
+        categoryFilterLabel: "Danh mục:",
+        subcategoryFilterLabel: "Danh mục con:",
+        searchFilterLabel: "Tìm kiếm:",
         lookbookBadge: "CHIẾN DỊCH 04 // BENCH/ VIỆT NAM",
         lookbookTitle: "Thiết Kế Cho <br />Đường Phố Sài Gòn.",
         lookbookBody: "Từ Manila đến TP. Hồ Chí Minh và Hà Nội, Bench/ mang đến thời trang ứng dụng hàng ngày đầy cá tính. Bộ sưu tập ra mắt tại Việt Nam kết hợp đường cắt hiện đại cùng chất liệu denim phóng khoáng cho những ngày nắng ấm và đêm thành phố sôi động.",
@@ -1152,11 +1381,7 @@
         footerShopHeading: "Mua Sắm",
         footerMens: "Thời Trang Nam",
         footerWomens: "Thời Trang Nữ",
-        footerDenim: "Thế Giới Denim",
         footerCareHeading: "Chăm Sóc Khách Hàng",
-        footerSizeGuide: "Hướng Dẫn Chọn Size",
-        footerShipping: "Giao Hàng Toàn Quốc",
-        footerReturns: "Đổi Hàng Trong 30 Ngày",
         footerLocator: "Hệ Thống Cửa Hàng VN",
         footerDiscoverHeading: "Khám Phá",
         exploreVietnamBtn: "Khám Phá Việt Nam",
@@ -1189,10 +1414,11 @@
         continueShoppingBtn: "Tiếp Tục Mua Sắm",
         quickViewBtn: "Xem Nhanh",
         addBtn: "+ Thêm",
-        detailsHeading: "Chi Tiết Sản Phẩm",
+        detailsHeading: "Thông Tin Sản Phẩm",
         colorLabel: "Màu sắc",
         selectSizeLabel: "Chọn Kích Cỡ",
-        fitNote: "Chuẩn kích cỡ • Phom suông vừa",
+        availableSizesCount: "Còn {count} kích cỡ",
+        unavailableSizesNote: "Kích cỡ gạch ngang đã hết hàng.",
         addToBagBtn: "Thêm Vào Giỏ Hàng",
         emptyBagTitle: "Giỏ hàng Bench/ Việt Nam của bạn đang trống",
         emptyBagSub: "Khám phá ngay áo thun thiết yếu, quần denim và thời trang đường phố Sài Gòn & Hà Nội.",
@@ -1205,10 +1431,14 @@
         studioEyebrow: "PHỐI ĐỒ TRỰC QUAN BENCH/",
         studioTitle: "Tự Tay Phối Trang Phục",
         studioSubtitle: "Kết hợp Áo & Quần Bench/, xem trực tiếp tổng thể bộ trang phục và lưu lại những set đồ yêu thích của bạn.",
+        studioGenderStep: "1. Chọn Nam hoặc Nữ",
+        studioItemTypeStep: "2. Chọn Áo hoặc Quần",
+        studioItemStep: "3. Chọn sản phẩm",
+        studioMenTab: "Nam",
+        studioWomenTab: "Nữ",
         studioTopsTab: "Áo",
         studioBottomsTab: "Quần",
         studioProductDetails: "Chi Tiết Sản Phẩm",
-        studioAddToOutfitBtn: "Thêm Vào Bộ Đồ",
         studioLivePreview: "XEM TRƯỚC",
         studioYourFitTitle: "Bộ Trang Phục Hiện Tại",
         studioNamePlaceholder: "Đặt tên set đồ (vd: Dạo Phố Sài Gòn)",
@@ -1228,6 +1458,23 @@
       Unisex: "Unisex"
     };
 
+    const subcategoryLabelsVi = {
+      "T-Shirts": "Áo Thun",
+      "Tank Tops": "Áo Ba Lỗ",
+      "Polo Shirts": "Áo Polo",
+      "Bras & Panties": "Áo Ngực & Quần Lót Nữ",
+      "Blouses & Shirts": "Áo Kiểu & Sơ Mi",
+      "Sweatshirts & Knitwear": "Áo Nỉ & Đồ Len",
+      "Jackets & Outerwear": "Áo Khoác",
+      Shorts: "Quần Short",
+      Jeans: "Quần Jeans",
+      Pants: "Quần Dài & Chinos",
+      "Boxer Shorts": "Quần Lót Nam"
+    };
+    const subcategoryLabelsEn = {
+      Pants: "Pants & Chinos"
+    };
+
     const badgeLabelsVi = {
       "NEW DROP": "MỚI RA MẮT",
       "VN LAUNCH": "RA MẮT VN",
@@ -1239,6 +1486,15 @@
 
     function t(key) {
       return (translations[currentLang] && translations[currentLang][key]) || translations.en[key] || key;
+    }
+
+    function getCollectionUrl(category, subcategory) {
+      const params = new URLSearchParams({
+        view: "collection",
+        category
+      });
+      if (subcategory) params.set("subcategory", subcategory);
+      return `index.html?${params.toString()}`;
     }
 
     function setLanguage(lang) {
@@ -1280,7 +1536,12 @@
         }
       });
 
+      renderCatalogTitle();
+      renderCollectionNavigation();
+      renderCollectionSubcategoryButtons();
       renderProducts();
+      renderHomeCollections();
+      renderFeaturedProducts();
       renderCart();
       renderMegaMenus();
       renderMobileMegaMenu();
@@ -1289,43 +1550,8 @@
       showToast(t("langSwitchedToast"));
     }
 
-    // 0B. TWO-COLUMN MEGA MENU STRUCTURE (CLEANLY ORGANIZED BY CATALOG SECTIONS)
+    // 0B. GENDER COLLECTION MEGA MENU STRUCTURE
     const megaMenuData = {
-      new: [
-        {
-          titleEn: "FEATURED DROPS",
-          titleVi: "BỘ SƯU TẬP NỔI BẬT",
-          cat: "All",
-          keyword: "",
-          items: [
-            { en: "Latest Arrivals", vi: "Hàng Mới Về", cat: "All", keyword: "" },
-            { en: "Bench x Kim Soo Hyun", vi: "Bench x Kim Soo Hyun", cat: "Men", keyword: "Kim Soo Hyun" },
-            { en: "Bench x Chris Nick", vi: "Bench x Chris Nick", cat: "Denim", keyword: "Chris Nick" },
-            { en: "Bench Everyday", vi: "Bench Everyday", cat: "Men", keyword: "Everyday" }
-          ]
-        },
-        {
-          titleEn: "TRENDING TOPS",
-          titleVi: "ÁO THỊNH HÀNH",
-          cat: "Men",
-          keyword: "",
-          items: [
-            { en: "Graphic T-Shirts", vi: "Áo Thun In Hình", cat: "Men", keyword: "sub:T-Shirts" },
-            { en: "Varsity Jackets", vi: "Áo Khoác Varsity", cat: "Men", keyword: "sub:Jackets & Outerwear" },
-            { en: "Hooded Pullovers", vi: "Áo Hoodie Chui Đầu", cat: "Men", keyword: "sub:Sweatshirts & Knitwear" },
-            { en: "Long Sleeve Polos", vi: "Áo Polo Tay Dài", cat: "Men", keyword: "sub:Polo Shirts" }
-          ]
-        },
-        {
-          titleEn: "VALUE PACKS",
-          titleVi: "COMBO TIẾT KIỆM",
-          cat: "Men",
-          keyword: "3-in-1",
-          items: [
-            { en: "3-in-1 Tank Tops", vi: "Combo 3 Áo Ba Lỗ", cat: "Men", keyword: "sub:Tank Tops" }
-          ]
-        }
-      ],
       men: [
         {
           titleEn: "TOPS",
@@ -1383,7 +1609,6 @@
           keyword: "",
           items: [
             { en: "Jeans", vi: "Quần Jeans", cat: "Women", keyword: "sub:Jeans" },
-            { en: "Pants & Chinos", vi: "Quần Dài & Chinos", cat: "Women", keyword: "sub:Pants" },
             { en: "Shorts", vi: "Quần Short", cat: "Women", keyword: "sub:Shorts" }
           ]
         },
@@ -1393,56 +1618,17 @@
           cat: "Women",
           keyword: "",
           items: [
-            { en: "Boxer Shorts", vi: "Quần Boxer", cat: "Women", keyword: "sub:Boxer Shorts" },
-            { en: "Undershirts (3-in-1)", vi: "Áo Lót Trong (Combo 3)", cat: "Women", keyword: "sub:Tank Tops" }
-          ]
-        }
-      ],
-      denim: [
-        {
-          titleEn: "JEANS",
-          titleVi: "QUẦN JEANS",
-          cat: "Denim",
-          keyword: "sub:Jeans",
-          items: [
-            { en: "Bench x Chris Nick Denim", vi: "Quần Jeans Bench x Chris Nick", cat: "Denim", keyword: "sub:Jeans" }
-          ]
-        },
-        {
-          titleEn: "PANTS & CHINOS",
-          titleVi: "QUẦN DÀI & CHINOS",
-          cat: "Denim",
-          keyword: "sub:Pants",
-          items: [
-            { en: "Basic Chinos", vi: "Quần Chinos Cơ Bản", cat: "Denim", keyword: "Chinos" },
-            { en: "Woven Trousers", vi: "Quần Dài Vải Dệt", cat: "Denim", keyword: "Woven" },
-            { en: "Jogging Pants", vi: "Quần Jogger", cat: "Denim", keyword: "Jogging" }
-          ]
-        },
-        {
-          titleEn: "SHORTS",
-          titleVi: "QUẦN SHORT",
-          cat: "Denim",
-          keyword: "sub:Shorts",
-          items: [
-            { en: "Walking Shorts", vi: "Quần Short Đi Dạo", cat: "Denim", keyword: "sub:Shorts" }
+            { en: "Bras & Panties", vi: "Áo Ngực & Quần Lót Nữ", cat: "Women", keyword: "sub:Bras & Panties" }
           ]
         }
       ]
     };
 
-    const activeMegaIndices = {
-      new: 0,
-      men: 0,
-      women: 0,
-      denim: 0
-    };
+    const activeMegaIndices = { men: 0, women: 0 };
 
     const lockedMegaGroups = {
-      new: false,
       men: false,
-      women: false,
-      denim: false
+      women: false
     };
 
     const megaHoverTimers = {};
@@ -1559,12 +1745,14 @@
       const rightListHtml = activeGroup.items
         .map((sub) => {
           const subLabel = currentLang === "vi" ? sub.vi : sub.en;
-          const href = sub.anchor || "#catalog";
+          const collectionCategory = menuKey === "men" ? "Men" : "Women";
+          const subcategory = sub.keyword.startsWith("sub:") ? sub.keyword.slice(4) : "";
+          const href = getCollectionUrl(collectionCategory, subcategory).replace(/&/g, "&amp;");
           return `
             <li>
               <a
                 href="${href}"
-                onclick="filterSubCategory('${sub.cat}', '${sub.keyword}'); closeAllMegaPanels();"
+                onclick="closeAllMegaPanels()"
                 class="block py-1.5 text-[13px] font-medium text-neutral-700 hover:text-benchRed transition"
               >
                 ${subLabel}
@@ -1591,7 +1779,7 @@
     }
 
     function renderMegaMenus() {
-      Object.keys(megaMenuData).forEach((key) => renderSingleMegaPanel(key));
+      ["men", "women"].forEach((key) => renderSingleMegaPanel(key));
     }
 
     function renderMobileMegaMenu() {
@@ -1599,15 +1787,27 @@
       if (!container) return;
 
       const topNavConfig = [
-        { key: "new", labelKey: "navNew", highlight: false },
-        { key: "men", labelKey: "navMen", highlight: true },
-        { key: "women", labelKey: "navWomen", highlight: false },
-        { key: "denim", labelKey: "navDenim", highlight: false }
+        { key: "men", labelKey: "navMen", highlight: true, collectionCategory: "Men" },
+        { key: "women", labelKey: "navWomen", highlight: false, collectionCategory: "Women" }
       ];
 
-      container.innerHTML = topNavConfig
+      container.innerHTML = `
+        <a href="index.html#home-latest-drops" class="block py-2.5 px-3 rounded-lg font-bold text-sm text-charcoal hover:bg-neutral-100">
+          ${t("navNew")}
+        </a>
+      ` + topNavConfig
         .map((navItem, nIdx) => {
           const groups = megaMenuData[navItem.key] || [];
+          const collectionLink = navItem.collectionCategory
+            ? `
+              <a
+                href="${getCollectionUrl(navItem.collectionCategory).replace(/&/g, "&amp;")}"
+                class="block py-2 text-xs font-bold text-benchRed hover:underline"
+              >
+                ${t(navItem.collectionCategory === "Men" ? "mensCollectionLink" : "womensCollectionLink")}
+              </a>
+            `
+            : "";
           const groupsHtml = groups.length
             ? groups
                 .map((grp, gIdx) => {
@@ -1616,11 +1816,12 @@
                   const subItemsHtml = grp.items
                     .map((sub) => {
                       const sLabel = currentLang === "vi" ? sub.vi : sub.en;
-                      const href = sub.anchor || "#catalog";
+                      const subcategory = sub.keyword.startsWith("sub:") ? sub.keyword.slice(4) : "";
+                      const href = getCollectionUrl(navItem.collectionCategory, subcategory).replace(/&/g, "&amp;");
                       return `
                         <a
                           href="${href}"
-                          onclick="filterSubCategory('${sub.cat}', '${sub.keyword}'); closeMobileMenu();"
+                          onclick="closeMobileMenu()"
                           class="block py-1 text-xs font-medium text-neutral-600 hover:text-benchRed"
                         >
                           ${sLabel}
@@ -1670,16 +1871,319 @@
                 </svg>
               </button>
               <div id="mob-root-${navItem.key}" class="hidden pl-5 pr-3 py-2 space-y-1">
+                ${collectionLink}
                 ${groupsHtml}
               </div>
             </div>
           `;
         })
-        .join("");
+        .join("") +
+        `
+          <a
+            href="index.html?view=outfit-studio#outfit-studio"
+            class="block py-3 px-3 font-bold text-sm text-benchRed hover:bg-neutral-100 rounded-lg transition"
+          >
+            ${t("navOutfitStudio")}
+          </a>
+        `;
     }
 
-    // 1. CURATED BENCH/ VIETNAM PRODUCT CATALOG (PRICED IN VND ₫)
+    // 1. PRODUCT DATA (PRICED IN VND ₫)
     const products = [
+      {
+        id: 62,
+        name: "Women's 2-in-1 Pack Wireless Bra",
+        nameVi: "Áo Ngực Không Gọng Nữ Bộ 2",
+        category: "Women",
+        subCategory: "Bras & Panties",
+        gender: "Women",
+        price: 219000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/TUR0035BEBK_MN_F_ZA.jpg?v=1753671494&width=640",
+        fallback: "https://placehold.co/600x750/E8DED2/141414?text=WOMENS+WIRELESS+BRA+2-PACK",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/TUR0035BEBK_MN_F_ZA.jpg?v=1753671494&width=640",
+            label: "Product Image"
+          }
+        ],
+        colors: [
+          { name: "Assorted Colors", nameVi: "Nhiều màu", hex: "#B8A58C" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Women's two-piece pack wireless bra.",
+        descriptionVi: "Bộ 2 áo ngực không gọng dành cho nữ.",
+        details: ["Two-piece pack", "Wireless bra"],
+        detailsVi: ["Bộ gồm 2 chiếc", "Áo ngực không gọng"]
+      },
+      {
+        id: 61,
+        name: "Women's 2-in-1 Pack Wired Bra",
+        nameVi: "Áo Ngực Có Gọng Nữ Bộ 2",
+        category: "Women",
+        subCategory: "Bras & Panties",
+        gender: "Women",
+        price: 219000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/TUR0040CBBU_FL_W_ZA.jpg?v=1753671887&width=640",
+        fallback: "https://placehold.co/600x750/B9C5D0/141414?text=WOMENS+WIRED+BRA+2-PACK",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/TUR0040CBBU_FL_W_ZA.jpg?v=1753671887&width=640",
+            label: "Product Image"
+          }
+        ],
+        colors: [
+          { name: "Assorted Colors", nameVi: "Nhiều màu", hex: "#B8A58C" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Women's two-piece pack wired bra.",
+        descriptionVi: "Bộ 2 áo ngực có gọng dành cho nữ.",
+        details: ["Two-piece pack", "Wired bra"],
+        detailsVi: ["Bộ gồm 2 chiếc", "Áo ngực có gọng"]
+      },
+      {
+        id: 60,
+        name: "Women's 3-in-1 Pack Mid-Rise Bikini",
+        nameVi: "Quần Lót Bikini Cạp Vừa Nữ Bộ 3",
+        category: "Women",
+        subCategory: "Bras & Panties",
+        gender: "Women",
+        price: 149000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/TUG0028BEBR_FL_F_ZA.jpg?v=1753688747&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/TUG0028BEBE_FL_F_ZA_bed75578-08e0-4633-a5bf-0be1c84de67e.jpg?v=1753688747&width=640",
+        fallback: "https://placehold.co/600x750/E8DED2/141414?text=WOMENS+MID-RISE+BIKINI+3-PACK",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/TUG0028BEBR_FL_F_ZA.jpg?v=1753688747&width=640",
+            label: "Product Image 1"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/TUG0028BEBE_FL_F_ZA_bed75578-08e0-4633-a5bf-0be1c84de67e.jpg?v=1753688747&width=640",
+            label: "Product Image 2"
+          }
+        ],
+        colors: [
+          { name: "Assorted Colors", nameVi: "Nhiều màu", hex: "#B8A58C" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Women's three-piece pack mid-rise bikini underwear.",
+        descriptionVi: "Bộ 3 quần lót bikini cạp vừa dành cho nữ.",
+        details: ["Three-piece pack", "Mid-rise bikini cut"],
+        detailsVi: ["Bộ gồm 3 chiếc", "Kiểu bikini cạp vừa"]
+      },
+      {
+        id: 54,
+        name: "Men's Oversized Jacket",
+        nameVi: "Áo Khoác Phom Rộng Nam Bench/",
+        category: "Men",
+        subCategory: "Jackets & Outerwear",
+        gender: "Men",
+        price: 345000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/BWL0025BK3_FL_F_ZA.jpg?v=1753673157&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/BWL0025BK3_FL_B_ZA.jpg?v=1753673158&width=640",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/BWL0025BK3_FL_F_ZA.jpg?v=1753673157&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/BWL0025BK3_FL_B_ZA.jpg?v=1753673158&width=640",
+            label: "Back Flat-Lay"
+          }
+        ],
+        fallback: "https://placehold.co/600x750/141414/FFFFFF?text=MENS+OVERSIZED+JACKET",
+        colors: [
+          { name: "Jet Black", nameVi: "Đen Tuyền", hex: "#141414" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Relaxed men's oversized streetwear jacket in jet black crafted for effortless city layering, breathable comfort, and clean everyday styling.",
+        descriptionVi: "Áo khoác nam phom rộng màu đen tuyền thiết kế hiện đại, dễ dàng phối layer dạo phố và mang lại cảm giác thoải mái suốt ngày dài.",
+        details: [
+          "Relaxed Oversized Streetwear Silhouette",
+          "Lightweight Durable Outer Shell",
+          "Full-Front Closure & Side Pockets",
+          "Easy All-Season City Layering"
+        ],
+        detailsVi: [
+          "Phom rộng oversized phong cách đường phố",
+          "Chất vải bền nhẹ thoáng khí",
+          "Khóa cài phía trước cùng túi hai bên tiện dụng",
+          "Dễ phối layer quanh năm"
+        ]
+      },
+      {
+        id: 53,
+        name: "Bench x Harry Potter Men's Long Sleeve Pullover",
+        nameVi: "Áo Nỉ Tay Dài Nam Bench x Harry Potter",
+        category: "Men",
+        subCategory: "Sweatshirts & Knitwear",
+        gender: "Men",
+        price: 259000,
+        badge: "LIMITED",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/BWP0139BU3_FL_F_ZA.jpg?v=1766137847&width=640",
+        fallback: "https://placehold.co/600x750/1E3A5F/FFFFFF?text=BENCH+X+HARRY+POTTER+PULLOVER",
+        colors: [
+          { name: "Navy Blue", nameVi: "Xanh Navy", hex: "#1E3A5F" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Official Bench x Harry Potter men's long-sleeve crewneck pullover in deep navy featuring Wizarding World graphic detailing and soft loop-terry fleece.",
+        descriptionVi: "Áo nỉ tay dài cổ tròn nam phiên bản hợp tác chính thức Bench x Harry Potter màu xanh navy với họa tiết Wizarding World nổi bật và chất nỉ mềm mại.",
+        details: [
+          "Official Bench x Harry Potter Collaboration",
+          "Soft Cotton-Blend Fleece Knit",
+          "Ribbed Crewneck, Cuffs & Hem",
+          "Relaxed Everyday Fit"
+        ],
+        detailsVi: [
+          "Bộ sưu tập hợp tác chính thức Bench x Harry Potter",
+          "Chất vải nỉ cotton pha mềm mại",
+          "Bo cổ tròn, cổ tay và gấu áo co giãn tốt",
+          "Phom suông thoải mái hàng ngày"
+        ]
+      },
+      {
+        id: 52,
+        name: "Men's Varsity Jacket",
+        nameVi: "Áo Khoác Varsity Nam Bench/",
+        category: "Men",
+        subCategory: "Sweatshirts & Knitwear",
+        gender: "Men",
+        price: 785000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/IWR0234BK3_FL_F_ZA.jpg?v=1782970251&width=640",
+        fallback: "https://placehold.co/600x750/141414/FFFFFF?text=MENS+VARSITY+JACKET",
+        colors: [
+          { name: "Collegiate Black", nameVi: "Đen Học Đường", hex: "#141414" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Classic men's varsity jacket in collegiate black crafted with structured fleece fabric, contrast striped rib trims, and a snap-button front closure.",
+        descriptionVi: "Áo khoác varsity nam cổ điển màu đen chất vải nỉ đứng phom với bo viền kẻ sọc tương phản và hàng nút bấm phía trước.",
+        details: [
+          "Heavyweight Structured Fleece Body",
+          "Contrast Striped Ribbed Collar, Cuffs & Hem",
+          "Snap-Button Front Placket",
+          "Relaxed Collegiate Streetwear Fit"
+        ],
+        detailsVi: [
+          "Chất vải nỉ dày dặn đứng phom",
+          "Bo cổ, cổ tay và gấu áo dệt kẻ sọc tương phản",
+          "Hàng nút bấm phía trước chắc chắn",
+          "Phom dáng thể thao học đường năng động"
+        ]
+      },
+      {
+        id: 51,
+        name: "Men's Graphic T-Shirt (BOG0161)",
+        nameVi: "Áo Thun Nam In Hình Bench/ (BOG0161)",
+        category: "Men",
+        subCategory: "T-Shirts",
+        gender: "Men",
+        price: 129000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/BOG0161BK3_FL_F_ZA.jpg?v=1753673189&width=640",
+        fallback: "https://placehold.co/600x750/141414/FFFFFF?text=MENS+GRAPHIC+TEE+BOG0161",
+        colors: [
+          { name: "Jet Black", nameVi: "Đen Tuyền", hex: "#141414" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Everyday men's graphic T-shirt (BOG0161) in jet black combed cotton jersey featuring bold front print artwork and a classic ribbed crew collar.",
+        descriptionVi: "Áo thun nam in hình hàng ngày (BOG0161) chất liệu cotton chải kỹ màu đen tuyền với họa tiết in ngực nổi bật và cổ tròn bo gân.",
+        details: [
+          "100% Breathable Combed Cotton",
+          "Front Graphic Print Artwork",
+          "Ribbed Crew Neckline",
+          "Regular Everyday Fit"
+        ],
+        detailsVi: [
+          "100% Cotton chải kỹ thoáng mát",
+          "Họa tiết in mặt trước sắc nét",
+          "Cổ tròn bo gân giữ phom",
+          "Phom suông tiêu chuẩn dễ mặc"
+        ]
+      },
+      {
+        id: 50,
+        name: "Men's Graphic T-Shirt (BOT3039)",
+        nameVi: "Áo Thun Nam In Hình Bench/ (BOT3039)",
+        category: "Men",
+        subCategory: "T-Shirts",
+        gender: "Men",
+        price: 129000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/BOT3039SL3_FL_F_ZA.jpg?v=1753673083&width=640",
+        fallback: "https://placehold.co/600x750/64748B/FFFFFF?text=MENS+GRAPHIC+TEE+BOT3039",
+        colors: [
+          { name: "Slate Blue", nameVi: "Xanh Đá", hex: "#64748B" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Men's graphic T-shirt (BOT3039) in cool slate blue cotton jersey with crisp chest typography print designed for tropical daily comfort.",
+        descriptionVi: "Áo thun nam in hình (BOT3039) tông xanh đá dịu mắt chất liệu cotton jersey thoáng nhẹ cho sự thoải mái suốt ngày dài.",
+        details: [
+          "100% Soft Cotton Jersey",
+          "High-Definition Chest Print",
+          "Ribbed Crew Collar & Short Sleeves",
+          "Regular Fit"
+        ],
+        detailsVi: [
+          "100% Cotton Jersey mềm mại",
+          "Hình in ngực sắc nét bền màu",
+          "Cổ tròn bo gân tay ngắn",
+          "Phom suông tiêu chuẩn"
+        ]
+      },
+      {
+        id: 49,
+        name: "Bench x Kim Soo Hyun Men's Round Neck Shirt",
+        nameVi: "Áo Thun Cổ Tròn Nam Bench x Kim Soo Hyun",
+        category: "Men",
+        subCategory: "T-Shirts",
+        gender: "Men",
+        price: 219000,
+        badge: "LIMITED",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/BOD0183GR3_FL_F_ZA.jpg?v=1789022502&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/BOD0183GR3_FL_B_ZA.jpg?v=1789022502&width=640",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/BOD0183GR3_FL_F_ZA.jpg?v=1789022502&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/BOD0183GR3_FL_B_ZA.jpg?v=1789022502&width=640",
+            label: "Back Flat-Lay"
+          }
+        ],
+        fallback: "https://placehold.co/600x750/3F4F44/FFFFFF?text=BENCH+X+KIM+SOO+HYUN+TEE",
+        colors: [
+          { name: "Olive Green", nameVi: "Xanh Ô Liu", hex: "#3F4F44" }
+        ],
+        sizes: ["S", "M", "L", "XL"],
+        description: "Official Bench x Kim Soo Hyun men's round-neck T-shirt in earthy olive green crafted from soft combed cotton with front and back capsule detailing.",
+        descriptionVi: "Áo thun cổ tròn nam phiên bản hợp tác chính thức Bench x Kim Soo Hyun màu xanh ô liu chất vải cotton chải kỹ mềm mát với chi tiết in mặt trước và mặt sau.",
+        details: [
+          "Official Bench x Kim Soo Hyun Collaboration",
+          "100% Combed Cotton Single Jersey",
+          "Front & Back Capsule Print Detailing",
+          "Ribbed Crew Neckline"
+        ],
+        detailsVi: [
+          "Bộ sưu tập hợp tác chính thức Bench x Kim Soo Hyun",
+          "100% Cotton chải kỹ thoáng khí",
+          "Chi tiết in mặt trước và sau tinh tế",
+          "Cổ tròn bo gân chắc chắn"
+        ]
+      },
       {
         id: 48,
         name: "Women's Athleisure Skort",
@@ -1959,6 +2463,166 @@
           "Khóa kéo kết hợp nút gài chắc chắn",
           "Phom ống đứng dễ phối đồ"
         ]
+      },
+      {
+        id: 59,
+        name: "Women's Jogging Pants",
+        nameVi: "Quần Jogger Nữ Bench/",
+        category: "Women",
+        subCategory: "Jeans",
+        gender: "Women",
+        price: 382000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/YJP0099GY2_FL_F_ZA.jpg?v=1792035030&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/YJP0099GY2_FL_B_ZA.jpg?v=1792035030&width=640",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YJP0099GY2_FL_F_ZA.jpg?v=1792035030&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YJP0099GY2_FL_B_ZA.jpg?v=1792035030&width=640",
+            label: "Back Flat-Lay"
+          }
+        ],
+        fallback: "https://placehold.co/600x750/6B7280/FFFFFF?text=WOMENS+JOGGING+PANTS",
+        colors: [
+          { name: "Gray", nameVi: "Xám", hex: "#6B7280" }
+        ],
+        sizes: ["XS", "S", "M", "L"],
+        description: "Women's gray jogging pants with a relaxed silhouette for everyday wear.",
+        descriptionVi: "Quần jogger nữ màu xám với phom dáng thoải mái, phù hợp mặc hàng ngày.",
+        details: ["Gray colorway", "Front and back product views"],
+        detailsVi: ["Tông màu xám", "Hình ảnh sản phẩm mặt trước và mặt sau"]
+      },
+      {
+        id: 58,
+        name: "Women's Woven Pants",
+        nameVi: "Quần Vải Dệt Nữ Bench/",
+        category: "Women",
+        subCategory: "Jeans",
+        gender: "Women",
+        price: 344000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/YPS0444BK3_FL_F_ZA.jpg?v=1774834080&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/YPS0444BK3_FL_B_ZA.jpg?v=1774834080&width=640",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YPS0444BK3_FL_F_ZA.jpg?v=1774834080&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YPS0444BK3_FL_B_ZA.jpg?v=1774834080&width=640",
+            label: "Back Flat-Lay"
+          }
+        ],
+        fallback: "https://placehold.co/600x750/141414/FFFFFF?text=WOMENS+WOVEN+PANTS",
+        colors: [
+          { name: "Black", nameVi: "Đen", hex: "#141414" }
+        ],
+        sizes: ["XS", "S", "M", "L"],
+        description: "Women's black woven pants with a versatile everyday style.",
+        descriptionVi: "Quần vải dệt nữ màu đen với kiểu dáng dễ phối cho trang phục hàng ngày.",
+        details: ["Black colorway", "Front and back product views"],
+        detailsVi: ["Tông màu đen", "Hình ảnh sản phẩm mặt trước và mặt sau"]
+      },
+      {
+        id: 57,
+        name: "Women's Wide Leg Fringe Pants",
+        nameVi: "Quần Ống Rộng Tua Rua Nữ Bench/",
+        category: "Women",
+        subCategory: "Jeans",
+        gender: "Women",
+        price: 644000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/YPD0889BD3_FL_F_ZA.jpg?v=1774834396&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/YPD0889BD3_FL_B_ZA.jpg?v=1774834406&width=640",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YPD0889BD3_FL_F_ZA.jpg?v=1774834396&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YPD0889BD3_FL_B_ZA.jpg?v=1774834406&width=640",
+            label: "Back Flat-Lay"
+          }
+        ],
+        fallback: "https://placehold.co/600x750/35546D/FFFFFF?text=WOMENS+WIDE+LEG+FRINGE+PANTS",
+        colors: [
+          { name: "Blue Denim", nameVi: "Denim Xanh", hex: "#35546D" }
+        ],
+        sizes: ["26", "28", "30", "32"],
+        description: "Women's dark-blue wide-leg pants with a fringed hem detail.",
+        descriptionVi: "Quần nữ ống rộng màu xanh denim đậm với chi tiết gấu tua rua.",
+        details: ["Wide-leg silhouette", "Fringed hem", "Front and back product views"],
+        detailsVi: ["Phom ống rộng", "Gấu quần tua rua", "Hình ảnh sản phẩm mặt trước và mặt sau"]
+      },
+      {
+        id: 56,
+        name: "Women's Woven Skort",
+        nameVi: "Váy Quần Vải Dệt Nữ Bench/",
+        category: "Women",
+        subCategory: "Shorts",
+        gender: "Women",
+        price: 306000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/YKS0027BK3_FL_F_ZA_f77b8c71-c37d-4187-9e34-f9a70be54066.jpg?v=1753671767&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/YKS0027BK3_FL_B_ZA.jpg?v=1753671767&width=640",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YKS0027BK3_FL_F_ZA_f77b8c71-c37d-4187-9e34-f9a70be54066.jpg?v=1753671767&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YKS0027BK3_FL_B_ZA.jpg?v=1753671767&width=640",
+            label: "Back Flat-Lay"
+          }
+        ],
+        fallback: "https://placehold.co/600x750/141414/FFFFFF?text=WOMENS+WOVEN+SKORT",
+        colors: [
+          { name: "Black", nameVi: "Đen", hex: "#141414" }
+        ],
+        sizes: ["XS", "S", "M", "L"],
+        description: "Women's black woven skort with a clean, versatile look.",
+        descriptionVi: "Váy quần vải dệt nữ màu đen với kiểu dáng gọn gàng, dễ phối.",
+        details: ["Black colorway", "Front and back product views"],
+        detailsVi: ["Tông màu đen", "Hình ảnh sản phẩm mặt trước và mặt sau"]
+      },
+      {
+        id: 55,
+        name: "Women's Bermuda Denim Shorts",
+        nameVi: "Quần Short Jeans Bermuda Nữ Bench/",
+        category: "Women",
+        subCategory: "Shorts",
+        gender: "Women",
+        price: 344000,
+        badge: "NEW DROP",
+        isNew: true,
+        image: "https://shop.bench.com.ph/cdn/shop/files/YKK0163BD3_FL_F_ZA.jpg?v=1762789613&width=640",
+        hoverImage: "https://shop.bench.com.ph/cdn/shop/files/YKK0163BD3_FL_B_ZA.jpg?v=1762789613&width=640",
+        gallery: [
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YKK0163BD3_FL_F_ZA.jpg?v=1762789613&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YKK0163BD3_FL_B_ZA.jpg?v=1762789613&width=640",
+            label: "Back Flat-Lay"
+          }
+        ],
+        fallback: "https://placehold.co/600x750/35546D/FFFFFF?text=WOMENS+BERMUDA+DENIM+SHORTS",
+        colors: [
+          { name: "Blue Denim", nameVi: "Denim Xanh", hex: "#35546D" }
+        ],
+        sizes: ["26", "28", "30", "32"],
+        description: "Women's blue denim shorts in a Bermuda length.",
+        descriptionVi: "Quần short jeans nữ màu xanh với độ dài Bermuda.",
+        details: ["Bermuda length", "Front and back product views"],
+        detailsVi: ["Độ dài Bermuda", "Hình ảnh sản phẩm mặt trước và mặt sau"]
       },
       {
         id: 42,
@@ -2264,6 +2928,18 @@
           {
             src: "https://shop.bench.com.ph/cdn/shop/files/YLR0625BU3_MD_S1_ZA.jpg?v=1781751247&width=640",
             label: "Side Profile View"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YLR0625BU3_FL_F_ZA.jpg?v=1781751248&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YLR0625BU3_FL_B_ZA.jpg?v=1781751248&width=640",
+            label: "Back Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YLR0625BU3_FL_W_ZA.jpg?v=1781751248&width=640",
+            label: "Stripe & Collar Detail"
           }
         ],
         fallback: "https://placehold.co/600x750/3B6E8C/FFFFFF?text=WOMENS+STRIPED+WOVEN+POLO",
@@ -2306,6 +2982,18 @@
           {
             src: "https://shop.bench.com.ph/cdn/shop/files/YCK0054PI2_MD_S1_ZA.jpg?v=1781680551&width=640",
             label: "Side Profile View"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YCK0054PI2_FL_F_ZA.jpg?v=1781680551&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YCK0054PI2_FL_B_ZA.jpg?v=1781680551&width=640",
+            label: "Back Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YCK0054PI2_FL_W_ZA.jpg?v=1781680551&width=640",
+            label: "Collar & Knit Detail"
           }
         ],
         fallback: "https://placehold.co/600x750/F4C2C2/141414?text=WOMENS+FLAT+KNIT+SHIRT",
@@ -2501,6 +3189,14 @@
           {
             src: "https://shop.bench.com.ph/cdn/shop/files/YTN0971CR2_MD_W_ZA.jpg?v=1753673357&width=640",
             label: "Detail Close-Up"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YTN0971CR2_FL_F_ZA.jpg?v=1753673357&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YTN0971CR2_FL_B_ZA.jpg?v=1753673357&width=640",
+            label: "Back Flat-Lay"
           }
         ],
         fallback: "https://placehold.co/600x750/EAE6DF/141414?text=BENCH+EVERYDAY+WOMENS+CROP+TOP",
@@ -2623,6 +3319,14 @@
           {
             src: "https://shop.bench.com.ph/cdn/shop/files/YOF0066WH3_MD_B_ZA.jpg?v=1753673532&width=640",
             label: "Back View"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YOF0066WH3_FL_F_ZA.jpg?v=1753673532&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YOF0066WH3_FL_B_ZA.jpg?v=1753673532&width=640",
+            label: "Back Flat-Lay"
           }
         ],
         fallback: "https://placehold.co/600x750/F7F7F5/141414?text=WOMENS+OVERSIZED+GRAPHIC+TEE",
@@ -2709,6 +3413,18 @@
           {
             src: "https://shop.bench.com.ph/cdn/shop/files/YTF2466BU2_MD_W_ZA.jpg?v=1753673487&width=640",
             label: "Statement Print Detail"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YTF2466BU2_FL_F_ZA.jpg?v=1753673487&width=640",
+            label: "Front Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YTF2466BU2_FL_B_ZA.jpg?v=1753673487&width=640",
+            label: "Back Flat-Lay"
+          },
+          {
+            src: "https://shop.bench.com.ph/cdn/shop/files/YTF2466BU2_FL_W_ZA.jpg?v=1753673487&width=640",
+            label: "Fabric & Print Close-Up"
           }
         ],
         fallback: "https://placehold.co/600x750/3B6E8C/FFFFFF?text=WOMENS+CROPPED+STATEMENT+TEE",
@@ -3392,9 +4108,63 @@
     ];
 
     // 2. APPLICATION STATE
-    let activeCategory = "All";
-    let searchQuery = "";
+    const collectionRouteParams = new URLSearchParams(window.location.search);
+    const catalogPageType = collectionRouteParams.get("view");
+    const requestedCollectionCategory = collectionRouteParams.get("category");
+    const collectionPageCategory =
+      catalogPageType === "collection" &&
+      (requestedCollectionCategory === "Men" || requestedCollectionCategory === "Women")
+        ? requestedCollectionCategory
+        : "";
+    const collectionSubcategoryOrder = [
+      "T-Shirts",
+      "Tank Tops",
+      "Polo Shirts",
+      "Blouses & Shirts",
+      "Sweatshirts & Knitwear",
+      "Jackets & Outerwear",
+      "Jeans",
+      "Pants",
+      "Shorts",
+      "Boxer Shorts",
+      "Bras & Panties"
+    ];
+    const collectionSubcategories = collectionPageCategory
+      ? Array.from(
+          new Set([
+            ...products
+              .filter(
+                (product) =>
+                  product.category === collectionPageCategory ||
+                  product.gender === collectionPageCategory ||
+                  product.gender === "Unisex"
+              )
+              .map((product) => product.subCategory)
+              .filter(Boolean),
+            ...(collectionPageCategory === "Women" ? ["Bras & Panties"] : [])
+          ])
+        ).sort((a, b) => {
+          const aIndex = collectionSubcategoryOrder.indexOf(a);
+          const bIndex = collectionSubcategoryOrder.indexOf(b);
+          return (
+            (aIndex === -1 ? collectionSubcategoryOrder.length : aIndex) -
+            (bIndex === -1 ? collectionSubcategoryOrder.length : bIndex)
+          );
+        })
+      : [];
+    const requestedCollectionSubcategory = collectionRouteParams.get("subcategory");
+    const normalizedCollectionSubcategory =
+      requestedCollectionSubcategory === "Bras" || requestedCollectionSubcategory === "Panties"
+        ? "Bras & Panties"
+        : requestedCollectionSubcategory;
+    const collectionPageSubcategory = collectionSubcategories.includes(normalizedCollectionSubcategory)
+      ? normalizedCollectionSubcategory
+      : "";
+    let activeCategory = collectionPageCategory || "All";
+    let searchQuery = collectionPageSubcategory ? `sub:${collectionPageSubcategory}` : "";
     let sortOption = "featured";
+    const PRODUCTS_PER_PAGE = 12;
+    let productDisplayLimit = PRODUCTS_PER_PAGE;
 
     let cart = [
       {
@@ -3436,6 +4206,74 @@
       return currentLang === "vi" ? (categoryLabelsVi[cat] || cat) : cat;
     }
 
+    function getSubcategoryLabel(subcategory) {
+      return currentLang === "vi"
+        ? subcategoryLabelsVi[subcategory] || subcategory
+        : subcategoryLabelsEn[subcategory] || subcategory;
+    }
+
+    function renderCatalogTitle() {
+      const titleEl = document.getElementById("catalog-title");
+      if (!titleEl) return;
+
+      const titleKey = collectionPageCategory
+        ? activeCategory === "Men"
+          ? "mensCollectionTitle"
+          : "womensCollectionTitle"
+        : "catalogTitle";
+      titleEl.textContent = t(titleKey);
+    }
+
+    function renderCollectionNavigation() {
+      if (!collectionPageCategory) return;
+
+      ["Men", "Women"].forEach((category) => {
+        const link = document.getElementById(
+          category === "Men" ? "collection-nav-men" : "collection-nav-women"
+        );
+        if (!link) return;
+
+        const isActive = collectionPageCategory === category;
+        link.className = isActive
+          ? "collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold bg-charcoal text-white transition"
+          : "collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition";
+        if (isActive) {
+          link.setAttribute("aria-current", "page");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    }
+
+    function renderCollectionSubcategoryButtons() {
+      const container = document.getElementById("collection-subcategory-buttons");
+      if (!container || !collectionPageCategory) return;
+
+      const normalizedQuery = searchQuery.trim();
+      const selectedSubcategory = normalizedQuery.toLowerCase().startsWith("sub:")
+        ? normalizedQuery.slice(4).trim().toLowerCase()
+        : "";
+      const options = [
+        { value: "", label: t("collectionTypeAll") },
+        ...collectionSubcategories.map((subcategory) => ({
+          value: subcategory,
+          label: getSubcategoryLabel(subcategory)
+        }))
+      ];
+
+      container.setAttribute("aria-label", t("collectionTypeLabel"));
+      container.innerHTML = options
+        .map(({ value, label }) => {
+          const isActive = selectedSubcategory === value.toLowerCase();
+          const href = getCollectionUrl(collectionPageCategory, value).replace(/&/g, "&amp;");
+          const classes = isActive
+            ? "rounded-full px-4 py-2 text-xs font-bold bg-charcoal text-white transition"
+            : "rounded-full px-4 py-2 text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition";
+          return `<a href="${href}" class="${classes}"${isActive ? ' aria-current="page"' : ""}>${label}</a>`;
+        })
+        .join("");
+    }
+
     function getBadgeLabel(badge) {
       return currentLang === "vi" ? (badgeLabelsVi[badge] || badge) : badge;
     }
@@ -3445,6 +4283,9 @@
       const grid = document.getElementById("product-grid");
       const emptyState = document.getElementById("empty-search-state");
       const resultsCount = document.getElementById("results-count");
+      const activeFilterSummary = document.getElementById("active-filter-summary");
+      const activeFilterValues = document.getElementById("active-filter-values");
+      const loadMoreButton = document.getElementById("load-more-btn");
       if (!grid) return;
 
       let filtered = products.filter((p) => {
@@ -3459,11 +4300,6 @@
           const targetSub = q.slice(4).trim();
           const subMatch = (p.subCategory || "").toLowerCase() === targetSub;
           return matchesCat && subMatch;
-        }
-
-        // Hide sub-category-exclusive items unless their exact subCategory is selected
-        if (p.onlySubCategory) {
-          return false;
         }
 
         const matchesSearch =
@@ -3485,11 +4321,34 @@
         filtered.sort((a, b) => (b.isNew === a.isNew ? 0 : b.isNew ? 1 : -1));
       }
 
+      const visibleCount = Math.min(productDisplayLimit, filtered.length);
       if (resultsCount) {
-        resultsCount.textContent =
-          currentLang === "vi"
-            ? `Hiển thị ${filtered.length} sản phẩm`
-            : `Showing ${filtered.length} product${filtered.length === 1 ? "" : "s"}`;
+        resultsCount.textContent = t("showingProducts")
+          .replace("{shown}", String(visibleCount))
+          .replace("{total}", String(filtered.length));
+      }
+
+      const activeFilterLabels = [];
+      if (activeCategory !== "All" && activeCategory !== collectionPageCategory) {
+        activeFilterLabels.push(`${t("categoryFilterLabel")} ${getCategoryLabel(activeCategory)}`);
+      }
+      const normalizedQuery = searchQuery.trim();
+      if (normalizedQuery) {
+        activeFilterLabels.push(
+          normalizedQuery.toLowerCase().startsWith("sub:")
+            ? `${t("subcategoryFilterLabel")} ${getSubcategoryLabel(normalizedQuery.slice(4).trim())}`
+            : `${t("searchFilterLabel")} "${normalizedQuery}"`
+        );
+      }
+      if (activeFilterValues) {
+        activeFilterValues.textContent = activeFilterLabels.join(" · ");
+      }
+      if (activeFilterSummary) {
+        activeFilterSummary.classList.toggle("hidden", activeFilterLabels.length === 0);
+        activeFilterSummary.classList.toggle("flex", activeFilterLabels.length > 0);
+      }
+      if (loadMoreButton) {
+        loadMoreButton.classList.toggle("hidden", visibleCount >= filtered.length);
       }
 
       if (filtered.length === 0) {
@@ -3500,10 +4359,10 @@
 
       if (emptyState) emptyState.classList.add("hidden");
 
-      grid.innerHTML = filtered
+      grid.innerHTML = filtered.slice(0, productDisplayLimit)
         .map((product) => {
           const displayName = getProductName(product);
-          const displayCat = getCategoryLabel(product.category);
+          const displayCat = getSubcategoryLabel(product.subCategory || product.category);
           const displayGender = getCategoryLabel(product.gender);
           const displayBadge = product.badge ? getBadgeLabel(product.badge) : "";
           const firstColor = product.colors[0];
@@ -3602,22 +4461,81 @@
         .join("");
     }
 
+    function renderCollectionCard(product) {
+      const productName = getProductName(product);
+      return `
+        <article class="group bg-white rounded-2xl border border-neutral-200/80 hover:border-benchRed/40 overflow-hidden hover:shadow-lg transition-all duration-300">
+          <button type="button" onclick="openQuickView(${product.id})" class="block w-full text-left">
+            <div class="aspect-[4/5] bg-offwhite overflow-hidden">
+              <img
+                src="${product.image}"
+                onerror="this.onerror=null;this.src='${product.fallback}';"
+                alt="${productName}"
+                loading="lazy"
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div class="p-3 sm:p-4">
+              <h3 class="font-bold text-sm text-charcoal group-hover:text-benchRed transition line-clamp-2 min-h-[2.5rem]">${productName}</h3>
+              <p class="font-display font-extrabold text-sm text-charcoal mt-1">${formatVND(product.price)}</p>
+            </div>
+          </button>
+        </article>
+      `;
+    }
+
+    function renderHomeCollections() {
+      [
+        { category: "Men", gridId: "mens-collection-grid" },
+        { category: "Women", gridId: "womens-collection-grid" }
+      ].forEach(({ category, gridId }) => {
+        const grid = document.getElementById(gridId);
+        if (!grid) return;
+
+        const collectionProducts = products
+          .filter(
+            (product) =>
+              product.category === category ||
+              product.gender === category ||
+              product.gender === "Unisex"
+          )
+          .slice(0, 4);
+
+        grid.innerHTML = collectionProducts.map(renderCollectionCard).join("");
+      });
+    }
+
+    function renderFeaturedProducts() {
+      const grid = document.getElementById("home-latest-drops-grid");
+      if (!grid) return;
+
+      const featuredProducts = products.filter((product) => product.isNew).slice(0, 9);
+      grid.innerHTML = featuredProducts.map(renderCollectionCard).join("");
+    }
+
     // 4. CATEGORY & FILTER CONTROLS
+    function renderCategoryPills(category) {
+      document.querySelectorAll(".category-pill").forEach((btn) => {
+        const isMatch = btn.getAttribute("data-category") === category;
+        btn.className = isMatch
+          ? "category-pill active px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-charcoal text-white transition"
+          : "category-pill px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition";
+      });
+    }
+
     function filterCategory(category) {
       activeCategory = category;
+      productDisplayLimit = PRODUCTS_PER_PAGE;
       if (searchQuery.trim().toLowerCase().startsWith("sub:")) {
         searchQuery = "";
       }
-      document.querySelectorAll(".category-pill").forEach((btn) => {
-        const isMatch = btn.getAttribute("data-category") === category;
-        if (isMatch) {
-          btn.className =
-            "category-pill active px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-charcoal text-white transition";
-        } else {
-          btn.className =
-            "category-pill px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition";
-        }
-      });
+      renderCategoryPills(category);
+      renderCatalogTitle();
+      renderProducts();
+    }
+
+    function loadMoreProducts() {
+      productDisplayLimit += PRODUCTS_PER_PAGE;
       renderProducts();
     }
 
@@ -3637,14 +4555,16 @@
     }
 
     function resetFilters() {
-      activeCategory = "All";
+      activeCategory = collectionPageCategory || "All";
       searchQuery = "";
       sortOption = "featured";
+      productDisplayLimit = PRODUCTS_PER_PAGE;
       const searchInput = document.getElementById("search-input");
       const sortSelect = document.getElementById("sort-select");
       if (searchInput) searchInput.value = "";
       if (sortSelect) sortSelect.value = "featured";
-      filterCategory("All");
+      filterCategory(activeCategory);
+      renderCollectionSubcategoryButtons();
     }
 
     // 5. QUICK VIEW MODAL WITH GALLERY SLIDER & TOUCH SWIPE
@@ -3662,6 +4582,7 @@
       const availableSizes = product.sizes.filter(
         (s) => !(product.outOfStockSizes && product.outOfStockSizes.includes(s))
       );
+      const unavailableSizes = product.outOfStockSizes || [];
       qvSelectedSize = availableSizes[0] || product.sizes[0];
 
       qvGalleryItems =
@@ -3706,6 +4627,7 @@
                 type="button"
                 disabled
                 title="${t("soldOut")}"
+                aria-label="${t("sizePrefix")} ${size}, ${t("soldOut")}"
                 class="px-3.5 py-2 rounded-xl border border-neutral-200 bg-neutral-100 text-neutral-400 text-xs font-bold line-through cursor-not-allowed"
               >
                 ${size}
@@ -3717,6 +4639,8 @@
               type="button"
               onclick="selectQvSize('${size}')"
               data-qv-size="${size}"
+              aria-label="${t("sizePrefix")} ${size}"
+              aria-pressed="${isSelected}"
               class="qv-size-btn px-3.5 py-2 rounded-xl border text-xs font-bold transition ${
                 isSelected
                   ? "border-charcoal dark:border-benchRed bg-charcoal dark:bg-benchRed text-white"
@@ -3787,7 +4711,7 @@
           <div class="space-y-4">
             <div>
               <span class="text-[11px] font-extrabold uppercase tracking-widest text-benchRed">
-                ${getCategoryLabel(product.category)} • ${getCategoryLabel(product.gender)}
+                ${getCategoryLabel(product.gender)} • ${getSubcategoryLabel(product.subCategory || product.category)}
               </span>
               <h3 class="font-display font-extrabold text-2xl text-charcoal mt-1">${displayName}</h3>
               <p class="font-display font-extrabold text-xl text-charcoal mt-1">${formatVND(product.price)}</p>
@@ -3809,9 +4733,10 @@
             <div>
               <div class="flex items-center justify-between mb-2">
                 <p class="text-xs font-bold uppercase tracking-wider text-charcoal">${t("selectSizeLabel")}</p>
-                <span class="text-[11px] text-neutral-500">${t("fitNote")}</span>
+                <span class="text-[11px] text-neutral-500">${t("availableSizesCount").replace("{count}", String(availableSizes.length))}</span>
               </div>
               <div class="flex flex-wrap gap-2">${sizeButtons}</div>
+              ${unavailableSizes.length > 0 ? `<p class="text-[11px] text-neutral-500 mt-2">${t("unavailableSizesNote")}</p>` : ""}
             </div>
 
             ${
@@ -3899,8 +4824,10 @@
       qvSelectedSize = size;
       document.querySelectorAll(".qv-size-btn").forEach((btn) => {
         const bSize = btn.getAttribute("data-qv-size");
+        const isSelected = bSize === size;
+        btn.setAttribute("aria-pressed", String(isSelected));
         btn.className =
-          bSize === size
+          isSelected
             ? "qv-size-btn px-3.5 py-2 rounded-xl border text-xs font-bold transition border-charcoal dark:border-benchRed bg-charcoal dark:bg-benchRed text-white"
             : "qv-size-btn px-3.5 py-2 rounded-xl border text-xs font-bold transition border-neutral-300 text-charcoal hover:border-charcoal";
       });
@@ -4091,272 +5018,13 @@
 
       if (subtotalEl) subtotalEl.textContent = formatVND(subtotal);
       if (shippingEl) {
-        shippingEl.textContent = shippingFee === 0 ? t("freeText") : formatVND(shippingFee);
-        shippingEl.className =
-          shippingFee === 0 ? "font-semibold text-emerald-600 dark:text-emerald-400" : "font-semibold text-charcoal";
+        shippingEl.textContent = isFreeShipping ? t("freeText") : formatVND(shippingFee);
       }
       if (totalEl) totalEl.textContent = formatVND(grandTotal);
       if (checkoutTotalEl) checkoutTotalEl.textContent = formatVND(grandTotal);
     }
 
-    // 7. DRAWERS, MODALS & NOTIFICATIONS
-    function toggleStrengthCard(cardEl) {
-      cardEl.classList.toggle("ring-2");
-      cardEl.classList.toggle("ring-benchRed");
-      cardEl.classList.toggle("bg-rose-50/40");
-      cardEl.classList.toggle("dark:bg-rose-950/30");
-    }
-
-    function openInfoModal(type) {
-      const modal = document.getElementById("info-modal");
-      const content = document.getElementById("info-modal-content");
-      if (!modal || !content) return;
-
-      if (type === "vietnam") {
-        content.innerHTML = `
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-0.5 bg-neutral-200 dark:bg-neutral-800">
-            <div class="relative aspect-[16/10] overflow-hidden bg-neutral-900">
-              <img
-                src="https://images.unsplash.com/photo-1509030450996-dd1a26dda07a?auto=format&fit=crop&w=900&q=80"
-                onerror="this.onerror=null;this.src='https://placehold.co/700x440/141414/FFFFFF?text=HANOI+VIETNAM';"
-                alt="Hanoi Vietnam Landmark"
-                class="w-full h-full object-cover"
-              />
-              <span class="absolute bottom-2.5 left-2.5 bg-black/75 text-white text-[11px] font-bold px-2.5 py-1 rounded">Hanoi</span>
-            </div>
-            <div class="relative aspect-[16/10] overflow-hidden bg-neutral-900">
-              <img
-                src="https://images.unsplash.com/photo-1583417319070-4a69db38a482?auto=format&fit=crop&w=900&q=80"
-                onerror="this.onerror=null;this.src='https://placehold.co/700x440/141414/FFFFFF?text=HO+CHI+MINH+CITY+VIETNAM';"
-                alt="Ho Chi Minh City Vietnam Landmark"
-                class="w-full h-full object-cover"
-              />
-              <span class="absolute bottom-2.5 left-2.5 bg-black/75 text-white text-[11px] font-bold px-2.5 py-1 rounded">Ho Chi Minh City</span>
-            </div>
-          </div>
-
-          <div class="p-6 sm:p-8 space-y-6">
-            <div>
-              <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[10px] tracking-widest uppercase px-2.5 py-0.5 rounded-md">
-                VIETNAM MARKET OVERVIEW
-              </span>
-              <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal mt-2">Explore Vietnam</h3>
-              <p class="text-sm text-neutral-600 leading-relaxed mt-3">
-                Vietnam, officially the Socialist Republic of Vietnam, is a country in Southeast Asia. It shares land borders with China, Laos, and Cambodia. Its location along the eastern coast of mainland Southeast Asia provides access to important regional and international trade routes.
-              </p>
-            </div>
-
-            <!-- 2025 Key Metrics Grid -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-offwhite border border-neutral-200 p-4 rounded-2xl">
-              <div class="bg-white border border-neutral-200/80 rounded-xl p-3.5 shadow-2xs">
-                <div class="text-xl font-display font-extrabold text-benchRed">102.2M</div>
-                <div class="text-sm font-bold text-charcoal">Population</div>
-                <div class="text-xs text-neutral-500">Estimated population in 2025</div>
-              </div>
-              <div class="bg-white border border-neutral-200/80 rounded-xl p-3.5 shadow-2xs">
-                <div class="text-xl font-display font-extrabold text-benchRed">8.02%</div>
-                <div class="text-sm font-bold text-charcoal">GDP Growth</div>
-                <div class="text-xs text-neutral-500">Annual economic growth in 2025</div>
-              </div>
-              <div class="bg-white border border-neutral-200/80 rounded-xl p-3.5 shadow-2xs">
-                <div class="text-xl font-display font-extrabold text-benchRed">VND 7,008.9T</div>
-                <div class="text-sm font-bold text-charcoal">Retail Sales</div>
-                <div class="text-xs text-neutral-500">Consumer goods and services in 2025</div>
-              </div>
-              <div class="bg-white border border-neutral-200/80 rounded-xl p-3.5 shadow-2xs">
-                <div class="text-xl font-display font-extrabold text-benchRed">VND 830T</div>
-                <div class="text-sm font-bold text-charcoal">E-commerce Market</div>
-                <div class="text-xs text-neutral-500">Estimated online market value in 2025</div>
-              </div>
-            </div>
-
-            <!-- Country Facts -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="bg-offwhite rounded-2xl p-3.5 border border-neutral-200/80">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-neutral-400">Official Name</p>
-                <p class="font-bold text-sm text-charcoal mt-0.5">Socialist Republic of Vietnam</p>
-              </div>
-              <div class="bg-offwhite rounded-2xl p-3.5 border border-neutral-200/80">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-neutral-400">Capital City</p>
-                <p class="font-bold text-sm text-charcoal mt-0.5">Hanoi</p>
-              </div>
-              <div class="bg-offwhite rounded-2xl p-3.5 border border-neutral-200/80">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-neutral-400">Largest City</p>
-                <p class="font-bold text-sm text-charcoal mt-0.5">Ho Chi Minh City</p>
-              </div>
-              <div class="bg-offwhite rounded-2xl p-3.5 border border-neutral-200/80">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-neutral-400">Official Language</p>
-                <p class="font-bold text-sm text-charcoal mt-0.5">Vietnamese</p>
-              </div>
-              <div class="bg-offwhite rounded-2xl p-3.5 border border-neutral-200/80">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-neutral-400">Currency</p>
-                <p class="font-bold text-sm text-charcoal mt-0.5">Vietnamese Dong (VND)</p>
-              </div>
-              <div class="bg-offwhite rounded-2xl p-3.5 border border-neutral-200/80">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-neutral-400">Region</p>
-                <p class="font-bold text-sm text-charcoal mt-0.5">Southeast Asia</p>
-              </div>
-              <div class="sm:col-span-2 bg-offwhite rounded-2xl p-3.5 border border-neutral-200/80">
-                <p class="text-[11px] font-bold uppercase tracking-wider text-neutral-400">Land Area</p>
-                <p class="font-bold text-sm text-charcoal mt-0.5">Approximately 331,000 km²</p>
-              </div>
-            </div>
-
-            <!-- C. Who Are We Trying to Reach? -->
-            <div class="bg-offwhite rounded-2xl p-4 border border-neutral-200/80 space-y-2">
-              <h4 class="font-display font-extrabold text-base text-charcoal">C. Who Are We Trying to Reach?</h4>
-              <ul class="list-disc pl-5 space-y-1 text-sm text-neutral-700">
-                <li>Students and Young Adults</li>
-                <li>Young Professionals</li>
-                <li>Fashion-Conscious Consumers</li>
-              </ul>
-            </div>
-
-            <!-- Trade and Regional Connections -->
-            <div class="space-y-2.5 text-sm text-neutral-700 leading-relaxed">
-              <h4 class="font-display font-extrabold text-base text-charcoal">Trade and Regional Connections</h4>
-              <p>
-                Vietnam is a member of the Association of Southeast Asian Nations (ASEAN) and the Regional Comprehensive Economic Partnership (RCEP). These regional agreements connect Vietnam with other participating economies, including the Philippines.
-              </p>
-              <p class="font-bold text-charcoal pt-1">Why this matters to BENCH/:</p>
-              <ul class="list-disc pl-5 space-y-1">
-                <li>Provides regional trade connections between the Philippines and Vietnam.</li>
-                <li>May offer preferential tariff treatment for qualifying products.</li>
-                <li>Supports the consideration of cross-border sourcing and distribution.</li>
-                <li>Creates opportunities to explore regional business partnerships.</li>
-              </ul>
-            </div>
-
-            <!-- Fashion and Retail Industry -->
-            <div class="space-y-1.5 text-sm text-neutral-700 leading-relaxed border-t border-neutral-200 pt-4">
-              <h4 class="font-display font-extrabold text-base text-charcoal">Fashion and Retail Industry</h4>
-              <p>
-                Vietnam's retail market includes traditional markets, supermarkets, shopping centers, specialty stores, and online shopping platforms.
-              </p>
-            </div>
-          </div>
-        `;
-      } else {
-        content.innerHTML = `
-          <div class="relative w-full h-72 sm:h-80 bg-offwhite overflow-hidden">
-            <img
-              src="https://hayhuttfgywyasdoqkwu.supabase.co/storage/v1/object/public/post-media/1ea3f8105697a747.webp"
-              onerror="this.onerror=null;this.src='https://placehold.co/900x450/F7F7F5/141414?text=BENCH%2F+%26+BEN+CHAN';"
-              alt="BENCH/ Store and Founder Ben Chan"
-              class="w-full h-full object-cover object-top"
-            />
-          </div>
-
-          <div class="p-6 sm:p-8 space-y-6">
-            <div>
-              <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[10px] tracking-widest uppercase px-2.5 py-0.5 rounded-md">
-                OUR STORY
-              </span>
-              <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal mt-2">
-                A Filipino Brand. A Lifestyle Beyond Fashion.
-              </h3>
-              <p class="text-sm text-neutral-600 leading-relaxed mt-3">
-                BENCH/ is a Filipino fashion and lifestyle brand established in 1987 by Ben Chan, founder of Suyen Corporation. It began with men's T-shirts and gradually developed into a broader lifestyle brand offering clothing, underwear, accessories, fragrances, and personal-care products.
-              </p>
-              <p class="text-sm text-neutral-600 leading-relaxed mt-2.5">
-                Through its retail experience, product variety, and marketing activities, BENCH/ has established a strong presence in the Philippine fashion industry and developed international retail and franchise operations.
-              </p>
-            </div>
-
-            <!-- B. Company History Timeline -->
-            <div class="space-y-3 border-t border-neutral-200 pt-5">
-              <div class="flex items-center justify-between gap-2">
-                <h4 class="font-display font-extrabold text-lg text-charcoal">B. Company History</h4>
-                <span class="text-xs font-semibold text-neutral-500">Interactive Timeline</span>
-              </div>
-              <div class="space-y-2">
-                <div class="rounded-xl border border-neutral-200 bg-offwhite p-3.5">
-                  <div class="font-bold text-sm text-charcoal">1. 1987 – The Beginning</div>
-                  <p class="text-xs sm:text-sm text-neutral-600 mt-1">BENCH/ started as a small retail section in SM Department Store in Makati, initially selling men's T-shirts.</p>
-                </div>
-                <div class="rounded-xl border border-neutral-200 bg-offwhite p-3.5">
-                  <div class="font-bold text-sm text-charcoal">2. 1988 – Retail Expansion</div>
-                  <p class="text-xs sm:text-sm text-neutral-600 mt-1">The brand opened a boutique at Park Square in Makati, offering more apparel and merchandise.</p>
-                </div>
-                <div class="rounded-xl border border-neutral-200 bg-offwhite p-3.5">
-                  <div class="font-bold text-sm text-charcoal">3. 1989 – Wider Distribution</div>
-                  <p class="text-xs sm:text-sm text-neutral-600 mt-1">BENCH/ began reaching customers outside Metro Manila through wholesalers.</p>
-                </div>
-                <div class="rounded-xl border border-neutral-200 bg-offwhite p-3.5">
-                  <div class="font-bold text-sm text-charcoal">4. 1990 – Product Diversification</div>
-                  <p class="text-xs sm:text-sm text-neutral-600 mt-1">The company entered the cosmetics and personal-care market.</p>
-                </div>
-                <div class="rounded-xl border border-neutral-200 bg-offwhite p-3.5">
-                  <div class="font-bold text-sm text-charcoal">5. 1991 – Marketing Development</div>
-                  <p class="text-xs sm:text-sm text-neutral-600 mt-1">BENCH/ used celebrity endorsements in its advertising, helping increase brand recognition.</p>
-                </div>
-                <div class="rounded-xl border border-neutral-200 bg-offwhite p-3.5">
-                  <div class="font-bold text-sm text-charcoal">6. 1993 – HERBENCH</div>
-                  <p class="text-xs sm:text-sm text-neutral-600 mt-1">The brand introduced HERBENCH for young women and expanded through franchising.</p>
-                </div>
-                <div class="rounded-xl border border-neutral-200 bg-offwhite p-3.5">
-                  <div class="font-bold text-sm text-charcoal">7. International Growth</div>
-                  <p class="text-xs sm:text-sm text-neutral-600 mt-1">BENCH/ developed international retail and franchise operations in markets including the United States, China, and the Middle East.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- BENCH/'s Strengths: 5 Clickable Feature Cards -->
-            <div class="space-y-3 border-t border-neutral-200 pt-5">
-              <div>
-                <h4 class="font-display font-extrabold text-lg text-charcoal">What Makes BENCH/ a Potential Competitor?</h4>
-                <p class="text-xs text-neutral-500 mt-0.5">Click any card to highlight a key strength.</p>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <button type="button" onclick="toggleStrengthCard(this)" class="text-left rounded-2xl border border-neutral-200 bg-white hover:border-benchRed p-4 transition">
-                  <div class="text-xs font-extrabold uppercase tracking-wider text-benchRed mb-1">1. Established Filipino Brand</div>
-                  <p class="text-xs sm:text-sm text-neutral-700">BENCH/ has a long history in the Philippine fashion industry and an established brand identity.</p>
-                </button>
-                <button type="button" onclick="toggleStrengthCard(this)" class="text-left rounded-2xl border border-neutral-200 bg-white hover:border-benchRed p-4 transition">
-                  <div class="text-xs font-extrabold uppercase tracking-wider text-benchRed mb-1">2. Wide Product Selection</div>
-                  <p class="text-xs sm:text-sm text-neutral-700">Its different apparel and lifestyle categories allow it to serve customers with varying needs.</p>
-                </button>
-                <button type="button" onclick="toggleStrengthCard(this)" class="text-left rounded-2xl border border-neutral-200 bg-white hover:border-benchRed p-4 transition">
-                  <div class="text-xs font-extrabold uppercase tracking-wider text-benchRed mb-1">3. Marketing Experience</div>
-                  <p class="text-xs sm:text-sm text-neutral-700">The brand has experience with celebrity endorsements, advertising campaigns, collaborations, and social media.</p>
-                </button>
-                <button type="button" onclick="toggleStrengthCard(this)" class="text-left rounded-2xl border border-neutral-200 bg-white hover:border-benchRed p-4 transition">
-                  <div class="text-xs font-extrabold uppercase tracking-wider text-benchRed mb-1">4. Accessible Fashion Positioning</div>
-                  <p class="text-xs sm:text-sm text-neutral-700">BENCH/ can explore offering fashionable products at accessible prices, depending on Vietnamese purchasing power and operating costs.</p>
-                </button>
-                <button type="button" onclick="toggleStrengthCard(this)" class="sm:col-span-2 text-left rounded-2xl border border-neutral-200 bg-white hover:border-benchRed p-4 transition">
-                  <div class="text-xs font-extrabold uppercase tracking-wider text-benchRed mb-1">5. Partnership and Franchise Potential</div>
-                  <p class="text-xs sm:text-sm text-neutral-700">Its Philippine retail and franchise experience can support the exploration of partnerships with qualified Vietnamese businesses.</p>
-                </button>
-              </div>
-            </div>
-
-            <!-- E. Mission and Vision -->
-            <div class="space-y-3 border-t border-neutral-200 pt-5">
-              <h4 class="font-display font-extrabold text-lg text-charcoal">E. Mission and Vision</h4>
-              <div class="rounded-2xl bg-offwhite border border-neutral-200 p-5 space-y-4">
-                <div>
-                  <div class="text-xs font-extrabold uppercase tracking-widest text-benchRed mb-1">MISSION</div>
-                  <p class="text-sm sm:text-base italic font-medium text-charcoal">“When we create, we inspire. When we make, we innovate. When we lead, we serve.”</p>
-                </div>
-                <div class="border-t border-neutral-200 pt-3">
-                  <div class="text-xs font-extrabold uppercase tracking-widest text-benchRed mb-1">VISION</div>
-                  <p class="text-sm sm:text-base italic font-medium text-charcoal">“To be a recognized world brand among the best world brands.”</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      modal.classList.remove("hidden");
-    }
-
-    function closeInfoModal() {
-      const modal = document.getElementById("info-modal");
-      if (modal) modal.classList.add("hidden");
-    }
-
+    // 7. DRAWER, CHECKOUT, SEARCH & INFO MODAL CONTROLLERS
     function openCartDrawer() {
       const backdrop = document.getElementById("cart-backdrop");
       const drawer = document.getElementById("cart-drawer");
@@ -4367,28 +5035,22 @@
     function closeCartDrawer() {
       const backdrop = document.getElementById("cart-backdrop");
       const drawer = document.getElementById("cart-drawer");
-      if (drawer) drawer.classList.add("translate-x-full");
       if (backdrop) backdrop.classList.add("hidden");
-    }
-
-    function closeMobileMenu() {
-      const nav = document.getElementById("mobile-nav-drawer");
-      if (nav) nav.classList.add("hidden");
+      if (drawer) drawer.classList.add("translate-x-full");
     }
 
     function openCheckoutModal() {
+      if (cart.length === 0) return;
       closeCartDrawer();
       const formView = document.getElementById("checkout-form-view");
       const successView = document.getElementById("checkout-success-view");
-      const modal = document.getElementById("checkout-modal");
       if (formView) formView.classList.remove("hidden");
       if (successView) successView.classList.add("hidden");
-      if (modal) modal.classList.remove("hidden");
+      document.getElementById("checkout-modal").classList.remove("hidden");
     }
 
     function closeCheckoutModal() {
-      const modal = document.getElementById("checkout-modal");
-      if (modal) modal.classList.add("hidden");
+      document.getElementById("checkout-modal").classList.add("hidden");
     }
 
     function finishOrderAndReset() {
@@ -4397,15 +5059,465 @@
       closeCheckoutModal();
     }
 
+    function closeMobileMenu() {
+      const drawer = document.getElementById("mobile-nav-drawer");
+      if (drawer) drawer.classList.add("hidden");
+    }
+
     function handleNewsletterSubmit(e) {
       e.preventDefault();
       const input = document.getElementById("newsletter-email");
       if (input) input.value = "";
       showToast(
         currentLang === "vi"
-          ? "Chào mừng đến với BENCH/ Việt Nam! Mã giảm 10%: BENCHVN10"
-          : "Welcome to BENCH/ Vietnam! Your 10% code: BENCHVN10"
+          ? "Chào mừng đến với BENCH/ Vietnam Insider! Mã ưu đãi 10% đã được gửi."
+          : "Welcome to BENCH/ Vietnam Insider! Your 10% welcome code has been sent."
       );
+    }
+
+    function openInfoModal(type) {
+      const modal = document.getElementById("info-modal");
+      const content = document.getElementById("info-modal-content");
+      if (!modal || !content) return;
+
+      if (type === "vietnam") {
+        content.innerHTML =
+          currentLang === "vi"
+            ? `
+          <div class="p-6 sm:p-8 space-y-7">
+            <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
+              KHÁM PHÁ VIỆT NAM
+            </span>
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">A. Tổng Quan Về Việt Nam</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Việt Nam, tên chính thức là Cộng hòa Xã hội Chủ nghĩa Việt Nam, là quốc gia ở Đông Nam Á. Việt Nam có chung đường biên giới trên đất liền với Trung Quốc, Lào và Campuchia. Vị trí dọc bờ biển phía đông của lục địa Đông Nam Á giúp Việt Nam tiếp cận các tuyến thương mại khu vực và quốc tế quan trọng.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Tên chính thức</p>
+                  <p class="font-extrabold text-charcoal mt-1">Cộng hòa Xã hội Chủ nghĩa Việt Nam</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Thủ đô</p>
+                  <p class="font-extrabold text-charcoal mt-1">Hà Nội</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Thành phố lớn nhất</p>
+                  <p class="font-extrabold text-charcoal mt-1">Thành phố Hồ Chí Minh</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Ngôn ngữ chính thức</p>
+                  <p class="font-extrabold text-charcoal mt-1">Tiếng Việt</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Tiền tệ</p>
+                  <p class="font-extrabold text-charcoal mt-1">Đồng Việt Nam (VND)</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Khu vực</p>
+                  <p class="font-extrabold text-charcoal mt-1">Đông Nam Á</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200 sm:col-span-2">
+                  <p class="text-neutral-500">Diện tích đất liền</p>
+                  <p class="font-extrabold text-charcoal mt-1">Khoảng 331.000 km²</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">B. Tổng Quan Thị Trường Việt Nam</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">102,2 triệu</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">Dân số</p>
+                  <p class="text-xs text-neutral-500 mt-1">Ước tính dân số năm 2025</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">8,02%</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">Tăng trưởng GDP</p>
+                  <p class="text-xs text-neutral-500 mt-1">Tăng trưởng kinh tế hàng năm năm 2025</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">VND 7.008,9T</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">Doanh số bán lẻ</p>
+                  <p class="text-xs text-neutral-500 mt-1">Hàng hóa và dịch vụ tiêu dùng năm 2025</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">VND 830T</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">Thị trường thương mại điện tử</p>
+                  <p class="text-xs text-neutral-500 mt-1">Giá trị ước tính của thị trường trực tuyến năm 2025</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">C. Đối Tượng Khách Hàng</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-3 gap-x-0 gap-y-2 text-sm text-neutral-600">
+                <li class="p-3 rounded-xl bg-offwhite border border-neutral-200">Học sinh, sinh viên và người trẻ</li>
+                <li class="p-3 rounded-xl bg-offwhite border border-neutral-200">Người đi làm trẻ</li>
+                <li class="p-3 rounded-xl bg-offwhite border border-neutral-200">Người tiêu dùng quan tâm đến thời trang</li>
+              </ul>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">Thương Mại Và Kết Nối Khu Vực</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Việt Nam là thành viên của Hiệp hội các quốc gia Đông Nam Á (ASEAN) và Hiệp định Đối tác Kinh tế Toàn diện Khu vực (RCEP). Các hiệp định này kết nối Việt Nam với những nền kinh tế thành viên khác, trong đó có Philippines.
+              </p>
+              <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                <p class="text-sm font-extrabold text-charcoal">Ý nghĩa đối với BENCH/</p>
+                <ul class="mt-2 space-y-1.5 text-sm text-neutral-600 list-disc pl-5">
+                  <li>Tạo kết nối thương mại khu vực giữa Philippines và Việt Nam.</li>
+                  <li>Có thể mang lại ưu đãi thuế quan cho các sản phẩm đủ điều kiện.</li>
+                  <li>Hỗ trợ xem xét hoạt động tìm nguồn cung ứng và phân phối xuyên biên giới.</li>
+                  <li>Mở ra cơ hội tìm hiểu các quan hệ đối tác kinh doanh trong khu vực.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">Ngành Thời Trang Và Bán Lẻ</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Thị trường bán lẻ Việt Nam bao gồm chợ truyền thống, siêu thị, trung tâm thương mại, cửa hàng chuyên doanh và các nền tảng mua sắm trực tuyến.
+              </p>
+            </section>
+          </div>`
+            : `
+          <div class="p-6 sm:p-8 space-y-7">
+            <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
+              EXPLORE VIETNAM
+            </span>
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">Vietnam at a Glance</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Vietnam, officially the Socialist Republic of Vietnam, is a country in Southeast Asia. It shares land borders with China, Laos, and Cambodia. Its location along the eastern coast of mainland Southeast Asia provides access to important regional and international trade routes.
+              </p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Official Name</p>
+                  <p class="font-extrabold text-charcoal mt-1">Socialist Republic of Vietnam</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Capital City</p>
+                  <p class="font-extrabold text-charcoal mt-1">Hanoi</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Largest City</p>
+                  <p class="font-extrabold text-charcoal mt-1">Ho Chi Minh City</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Official Language</p>
+                  <p class="font-extrabold text-charcoal mt-1">Vietnamese</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Currency</p>
+                  <p class="font-extrabold text-charcoal mt-1">Vietnamese Dong (VND)</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="text-neutral-500">Region</p>
+                  <p class="font-extrabold text-charcoal mt-1">Southeast Asia</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200 sm:col-span-2">
+                  <p class="text-neutral-500">Land Area</p>
+                  <p class="font-extrabold text-charcoal mt-1">Approximately 331,000 km²</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">Vietnam Market Overview</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">102.2M</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">Population</p>
+                  <p class="text-xs text-neutral-500 mt-1">Estimated population in 2025</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">8.02%</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">GDP Growth</p>
+                  <p class="text-xs text-neutral-500 mt-1">Annual economic growth in 2025</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">VND 7,008.9T</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">Retail Sales</p>
+                  <p class="text-xs text-neutral-500 mt-1">Consumer goods and services in 2025</p>
+                </div>
+                <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                  <p class="font-display font-extrabold text-2xl text-benchRed">VND 830T</p>
+                  <p class="text-sm font-bold text-charcoal mt-1">E-commerce Market</p>
+                  <p class="text-xs text-neutral-500 mt-1">Estimated online market value in 2025</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">Who Are We Trying to Reach?</h3>
+              <ul class="grid grid-cols-1 sm:grid-cols-3 gap-x-0 gap-y-2 text-sm text-neutral-600">
+                <li class="p-3 rounded-xl bg-offwhite border border-neutral-200">Students and Young Adults</li>
+                <li class="p-3 rounded-xl bg-offwhite border border-neutral-200">Young Professionals</li>
+                <li class="p-3 rounded-xl bg-offwhite border border-neutral-200">Fashion-Conscious Consumers</li>
+              </ul>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">Trade and Regional Connections</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Vietnam is a member of the Association of Southeast Asian Nations (ASEAN) and the Regional Comprehensive Economic Partnership (RCEP). These regional agreements connect Vietnam with other participating economies, including the Philippines.
+              </p>
+              <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                <p class="text-sm font-extrabold text-charcoal">Why this matters to BENCH/</p>
+                <ul class="mt-2 space-y-1.5 text-sm text-neutral-600 list-disc pl-5">
+                  <li>Provides regional trade connections between the Philippines and Vietnam.</li>
+                  <li>May offer preferential tariff treatment for qualifying products.</li>
+                  <li>Supports the consideration of cross-border sourcing and distribution.</li>
+                  <li>Creates opportunities to explore regional business partnerships.</li>
+                </ul>
+              </div>
+            </section>
+
+            <section class="space-y-3">
+              <h3 class="font-display font-extrabold text-xl sm:text-2xl text-charcoal">Fashion and Retail Industry</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Vietnam's retail market includes traditional markets, supermarkets, shopping centers, specialty stores, and online shopping platforms.
+              </p>
+            </section>
+          </div>`;
+      } else {
+        content.innerHTML =
+          currentLang === "vi"
+            ? `
+          <div class="p-6 sm:p-8 space-y-7">
+            <div class="space-y-2 pr-8">
+              <div class="space-y-2">
+                <span class="inline-block bg-charcoal text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
+                  VỀ BENCH/ (SUYEN CORPORATION)
+                </span>
+                <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">
+                  Thương Hiệu Philippines. Phong Cách Sống Vượt Trên Thời Trang.
+                </h3>
+              </div>
+            </div>
+
+            <section class="space-y-3">
+              <h4 class="font-display font-extrabold text-xl text-charcoal">Giới Thiệu Công Ty</h4>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                BENCH/ là thương hiệu thời trang và phong cách sống của Philippines, được thành lập năm 1987 bởi Ben Chan, nhà sáng lập Suyen Corporation. Thương hiệu khởi đầu với áo thun nam và dần phát triển thành thương hiệu phong cách sống đa dạng, cung cấp quần áo, đồ lót, phụ kiện, nước hoa và các sản phẩm chăm sóc cá nhân.
+              </p>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Thông qua trải nghiệm bán lẻ, sự đa dạng sản phẩm và các hoạt động tiếp thị, BENCH/ đã xây dựng vị thế vững chắc trong ngành thời trang Philippines và phát triển hoạt động bán lẻ, nhượng quyền quốc tế.
+              </p>
+            </section>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                <p class="text-[11px] font-extrabold uppercase tracking-wider text-benchRed">Sứ Mệnh</p>
+                <p class="mt-2 text-sm font-semibold italic text-charcoal">“Khi sáng tạo, chúng tôi truyền cảm hứng. Khi tạo ra sản phẩm, chúng tôi đổi mới. Khi dẫn đầu, chúng tôi phục vụ.”</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                <p class="text-[11px] font-extrabold uppercase tracking-wider text-benchRed">Tầm Nhìn</p>
+                <p class="mt-2 text-sm font-semibold italic text-charcoal">“Trở thành thương hiệu toàn cầu được công nhận, nằm trong số những thương hiệu hàng đầu thế giới.”</p>
+              </div>
+            </div>
+
+            <section class="space-y-3">
+              <div>
+                <h4 class="font-display font-extrabold text-xl text-charcoal">B. Lịch Sử Công Ty</h4>
+              </div>
+              <ol class="space-y-3 border-l-2 border-neutral-200 ml-2 pl-4">
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1987</span> — Khởi Đầu</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ bắt đầu từ một khu bán lẻ nhỏ tại SM Department Store ở Makati, ban đầu kinh doanh áo thun nam.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1988</span> — Mở Rộng Bán Lẻ</h5>
+                    <p class="mt-1 text-sm text-neutral-600">Thương hiệu mở một cửa hàng tại Park Square ở Makati, cung cấp thêm quần áo và hàng hóa.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1989</span> — Mở Rộng Phân Phối</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ bắt đầu tiếp cận khách hàng ngoài Metro Manila thông qua các nhà bán sỉ.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1990</span> — Đa Dạng Hóa Sản Phẩm</h5>
+                    <p class="mt-1 text-sm text-neutral-600">Công ty tham gia vào thị trường mỹ phẩm và sản phẩm chăm sóc cá nhân.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1991</span> — Phát Triển Tiếp Thị</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ sử dụng người nổi tiếng trong các chiến dịch quảng cáo, góp phần nâng cao nhận diện thương hiệu.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1993</span> — HERBENCH</h5>
+                    <p class="mt-1 text-sm text-neutral-600">Thương hiệu ra mắt HERBENCH dành cho phụ nữ trẻ và mở rộng thông qua hình thức nhượng quyền.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal">Phát Triển Quốc Tế</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ phát triển hoạt động bán lẻ và nhượng quyền quốc tế tại các thị trường như Hoa Kỳ, Trung Quốc và Trung Đông.</p>
+                  </div>
+                </li>
+              </ol>
+            </section>
+
+            <section class="space-y-3">
+              <div>
+                <h4 class="font-display font-extrabold text-xl text-charcoal">Điều Gì Khiến BENCH/ Có Tiềm Năng Cạnh Tranh?</h4>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">01</span>Thương Hiệu Philippines Lâu Đời</h5>
+                  <p class="mt-2 text-sm text-neutral-600">BENCH/ có lịch sử lâu dài trong ngành thời trang Philippines và bản sắc thương hiệu đã được định hình.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">02</span>Danh Mục Sản Phẩm Đa Dạng</h5>
+                  <p class="mt-2 text-sm text-neutral-600">Các danh mục thời trang và phong cách sống khác nhau giúp thương hiệu phục vụ khách hàng với nhiều nhu cầu.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">03</span>Kinh Nghiệm Tiếp Thị</h5>
+                  <p class="mt-2 text-sm text-neutral-600">Thương hiệu có kinh nghiệm với đại sứ người nổi tiếng, chiến dịch quảng cáo, hợp tác thương hiệu và mạng xã hội.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">04</span>Định Vị Thời Trang Dễ Tiếp Cận</h5>
+                  <p class="mt-2 text-sm text-neutral-600">BENCH/ có thể xem xét cung cấp sản phẩm thời trang với mức giá dễ tiếp cận, tùy thuộc vào sức mua tại Việt Nam và chi phí vận hành.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4 sm:col-span-2">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">05</span>Tiềm Năng Hợp Tác Và Nhượng Quyền</h5>
+                  <p class="mt-2 text-sm text-neutral-600">Kinh nghiệm bán lẻ và nhượng quyền tại Philippines có thể hỗ trợ việc tìm hiểu cơ hội hợp tác với các doanh nghiệp Việt Nam đủ điều kiện.</p>
+                </article>
+              </div>
+            </section>
+          </div>`
+            : `
+          <div class="p-6 sm:p-8 space-y-7">
+            <div class="space-y-2 pr-8">
+              <div class="space-y-2">
+                <span class="inline-block bg-charcoal text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
+                  ABOUT BENCH/ (SUYEN CORPORATION)
+                </span>
+                <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">
+                  A Filipino Brand. A Lifestyle Beyond Fashion.
+                </h3>
+              </div>
+            </div>
+
+            <section class="space-y-3">
+              <h4 class="font-display font-extrabold text-xl text-charcoal">Company Introduction</h4>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                BENCH/ is a Filipino fashion and lifestyle brand established in 1987 by Ben Chan, founder of Suyen Corporation. It began with men's T-shirts and gradually developed into a broader lifestyle brand offering clothing, underwear, accessories, fragrances, and personal-care products.
+              </p>
+              <p class="text-sm text-neutral-600 leading-relaxed">
+                Through its retail experience, product variety, and marketing activities, BENCH/ has established a strong presence in the Philippine fashion industry and developed international retail and franchise operations.
+              </p>
+            </section>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                <p class="text-[11px] font-extrabold uppercase tracking-wider text-benchRed">Mission</p>
+                <p class="mt-2 text-sm font-semibold italic text-charcoal">“When we create, we inspire. When we make, we innovate. When we lead, we serve.”</p>
+              </div>
+              <div class="p-4 rounded-2xl bg-offwhite border border-neutral-200">
+                <p class="text-[11px] font-extrabold uppercase tracking-wider text-benchRed">Vision</p>
+                <p class="mt-2 text-sm font-semibold italic text-charcoal">“To be a recognized world brand among the best world brands.”</p>
+              </div>
+            </div>
+
+            <section class="space-y-3">
+              <div>
+                <h4 class="font-display font-extrabold text-xl text-charcoal">Company History</h4>
+              </div>
+              <ol class="space-y-3 border-l-2 border-neutral-200 ml-2 pl-4">
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1987</span> — The Beginning</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ started as a small retail section in SM Department Store in Makati, initially selling men's T-shirts.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1988</span> — Retail Expansion</h5>
+                    <p class="mt-1 text-sm text-neutral-600">The brand opened a boutique at Park Square in Makati, offering more apparel and merchandise.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1989</span> — Wider Distribution</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ began reaching customers outside Metro Manila through wholesalers.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1990</span> — Product Diversification</h5>
+                    <p class="mt-1 text-sm text-neutral-600">The company entered the cosmetics and personal-care market.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1991</span> — Marketing Development</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ used celebrity endorsements in its advertising, helping increase brand recognition.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed">1993</span> — HERBENCH</h5>
+                    <p class="mt-1 text-sm text-neutral-600">The brand introduced HERBENCH for young women and expanded through franchising.</p>
+                  </div>
+                </li>
+                <li>
+                  <div class="rounded-xl bg-offwhite border border-neutral-200 p-3">
+                    <h5 class="text-sm font-bold text-charcoal">International Growth</h5>
+                    <p class="mt-1 text-sm text-neutral-600">BENCH/ developed international retail and franchise operations in markets including the United States, China, and the Middle East.</p>
+                  </div>
+                </li>
+              </ol>
+            </section>
+
+            <section class="space-y-3">
+              <div>
+                <h4 class="font-display font-extrabold text-xl text-charcoal">What Makes BENCH/ a Potential Competitor?</h4>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">01</span>Established Filipino Brand</h5>
+                  <p class="mt-2 text-sm text-neutral-600">BENCH/ has a long history in the Philippine fashion industry and an established brand identity.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">02</span>Wide Product Selection</h5>
+                  <p class="mt-2 text-sm text-neutral-600">Its different apparel and lifestyle categories allow it to serve customers with varying needs.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">03</span>Marketing Experience</h5>
+                  <p class="mt-2 text-sm text-neutral-600">The brand has experience with celebrity endorsements, advertising campaigns, collaborations, and social media.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">04</span>Accessible Fashion Positioning</h5>
+                  <p class="mt-2 text-sm text-neutral-600">BENCH/ can explore offering fashionable products at accessible prices, depending on Vietnamese purchasing power and operating costs.</p>
+                </article>
+                <article class="rounded-2xl bg-offwhite border border-neutral-200 p-4 sm:col-span-2">
+                  <h5 class="text-sm font-bold text-charcoal"><span class="text-benchRed mr-2">05</span>Partnership and Franchise Potential</h5>
+                  <p class="mt-2 text-sm text-neutral-600">Its Philippine retail and franchise experience can support the exploration of partnerships with qualified Vietnamese businesses.</p>
+                </article>
+              </div>
+            </section>
+          </div>`;
+      }
+
+      modal.classList.remove("hidden");
+    }
+
+    function closeInfoModal() {
+      const modal = document.getElementById("info-modal");
+      if (modal) modal.classList.add("hidden");
     }
 
     function showToast(message) {
@@ -4413,555 +5525,311 @@
       if (!container) return;
       const toast = document.createElement("div");
       toast.className =
-        "panel-reveal bg-charcoal dark:bg-neutral-900 text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-lg flex items-center gap-2.5 border border-neutral-700 transition-all duration-300";
+        "panel-reveal pointer-events-auto bg-charcoal text-white text-xs font-semibold px-4 py-3 rounded-xl shadow-lg border border-white/10 flex items-center gap-2";
       toast.innerHTML = `<span class="w-2 h-2 rounded-full bg-benchRed shrink-0"></span><span>${message}</span>`;
       container.appendChild(toast);
       setTimeout(() => {
-        toast.classList.add("opacity-0", "translate-y-2");
-        setTimeout(() => toast.remove(), 300);
+        toast.style.opacity = "0";
+        toast.style.transition = "opacity 0.25s ease";
+        setTimeout(() => toast.remove(), 260);
       }, 2800);
     }
 
-    // 8. INITIALIZE STOREFRONT EVENT LISTENERS
-    function initStorefront() {
-      syncThemeIcons();
+    // 8. INTERACTIVE OUTFIT VISUAL STUDIO
+    const studioImageOverrides = new Map([
+      [26, "https://shop.bench.com.ph/cdn/shop/files/YTF2466BU2_FL_F_ZA.jpg?v=1753673487&width=640"],
+      [28, "https://shop.bench.com.ph/cdn/shop/files/YOF0066WH3_FL_F_ZA.jpg?v=1753673532&width=640"],
+      [31, "https://shop.bench.com.ph/cdn/shop/files/YTN0971CR2_FL_F_ZA.jpg?v=1753673357&width=640"],
+      [32, "https://shop.bench.com.ph/cdn/shop/files/YTN0969BU4_FL_F_ZA.jpg?v=1753673462&width=640"],
+      [34, "https://shop.bench.com.ph/cdn/shop/files/YSR0664GY3_FL_F_ZA.jpg?v=1753673401&width=640"],
+      [35, "https://shop.bench.com.ph/cdn/shop/files/YCK0054PI2_FL_F_ZA.jpg?v=1781680551&width=640"],
+      [36, "https://shop.bench.com.ph/cdn/shop/files/YLR0625BU3_FL_F_ZA.jpg?v=1781751248&width=640"],
+      [37, "https://shop.bench.com.ph/cdn/shop/files/YSR0653BK3_FL_F_ZA.jpg?v=1753673514&width=640"],
+      [38, "https://shop.bench.com.ph/cdn/shop/files/YWK0015BK3_FL_F_ZA_474ca3dc-33be-40e8-9b4b-e9e9073fd1d5.jpg?v=1753673390&width=640"],
+      [41, "https://shop.bench.com.ph/cdn/shop/files/YJL0053DB3_FL_F_ZA.jpg?v=1753671709&width=640"]
+    ]);
 
-      document.querySelectorAll("[data-mega-root]").forEach((rootEl) => {
-        const menuKey = rootEl.getAttribute("data-mega-root");
-        if (!menuKey) return;
-        rootEl.addEventListener("mouseenter", () => openMegaPanelOnHover(menuKey));
-        rootEl.addEventListener("mouseleave", () => scheduleCloseMegaPanel(menuKey));
-      });
+    function getStudioProductImage(product) {
+      const override = studioImageOverrides.get(product.id);
+      if (override) return override;
 
-      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-      if (mobileMenuBtn) {
-        mobileMenuBtn.addEventListener("click", () => {
-          const drawer = document.getElementById("mobile-nav-drawer");
-          if (drawer) drawer.classList.toggle("hidden");
-        });
-      }
-
-      const searchToggleBtn = document.getElementById("search-toggle-btn");
-      if (searchToggleBtn) {
-        searchToggleBtn.addEventListener("click", () => {
-          const drawer = document.getElementById("search-bar-drawer");
-          const input = document.getElementById("search-input");
-          if (drawer) {
-            drawer.classList.toggle("hidden");
-            if (!drawer.classList.contains("hidden") && input) {
-              input.focus();
-            }
-          }
-        });
-      }
-
-      const searchInput = document.getElementById("search-input");
-      if (searchInput) {
-        searchInput.addEventListener("input", (e) => {
-          searchQuery = e.target.value;
-          renderProducts();
-        });
-      }
-
-      const sortSelect = document.getElementById("sort-select");
-      if (sortSelect) {
-        sortSelect.addEventListener("change", (e) => {
-          sortOption = e.target.value;
-          renderProducts();
-        });
-      }
-
-      const cartOpenBtn = document.getElementById("cart-open-btn");
-      if (cartOpenBtn) cartOpenBtn.addEventListener("click", openCartDrawer);
-
-      const cartCloseBtn = document.getElementById("cart-close-btn");
-      if (cartCloseBtn) cartCloseBtn.addEventListener("click", closeCartDrawer);
-
-      const cartBackdrop = document.getElementById("cart-backdrop");
-      if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartDrawer);
-
-      const qvModal = document.getElementById("quick-view-modal");
-      if (qvModal) {
-        qvModal.addEventListener("click", (e) => {
-          if (e.target === qvModal) closeQuickView();
-        });
-      }
-
-      const infoModal = document.getElementById("info-modal");
-      if (infoModal) {
-        infoModal.addEventListener("click", (e) => {
-          if (e.target === infoModal) closeInfoModal();
-        });
-      }
-
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-          closeAllMegaPanels();
-          closeQuickView();
-          closeInfoModal();
-          closeCartDrawer();
-          closeCheckoutModal();
-        }
-      });
-
-      const checkoutForm = document.getElementById("checkout-form");
-      if (checkoutForm) {
-        checkoutForm.addEventListener("submit", (e) => {
-          e.preventDefault();
-          const formView = document.getElementById("checkout-form-view");
-          const successView = document.getElementById("checkout-success-view");
-          if (formView) formView.classList.add("hidden");
-          if (successView) successView.classList.remove("hidden");
-        });
-      }
-
-      renderProducts();
-      renderCart();
-      renderMegaMenus();
-      renderMobileMegaMenu();
-      renderOutfitStudio();
-      renderSavedOutfits();
+      const flatLay = (product.gallery || []).find((image) => /flat.?lay/i.test(image.label));
+      return flatLay ? flatLay.src : product.image;
     }
 
-    // 9. INTERACTIVE OUTFIT VISUAL STUDIO DATA & LOGIC
-    const studioCatalog = {
-      tops: [
-        {
-          id: "top-graphic-black",
-          name: "Men's Bench/ Graphic Tee (BOT3202)",
-          nameVi: "Áo Thun In Hình Nam Bench/ (BOT3202)",
-          price: 349000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Jet Black",
-              nameVi: "Đen Tuyền",
-              hex: "#141414",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BOT3202BK3_FL_F_ZA.jpg?v=1789625745&width=640"
-            }
-          ]
-        },
-        {
-          id: "top-navy-polo",
-          name: "Men's Bench/ Long Sleeve Polo",
-          nameVi: "Áo Polo Nam Bench/",
-          price: 499000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Midnight Navy",
-              nameVi: "Xanh Navy",
-              hex: "#1E293B",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BIL1874BK3_FL_F_ZA.jpg?v=1753673327&width=640"
-            }
-          ]
-        },
-        {
-          id: "top-paradise-tee",
-          name: "Men's Bench 1987 Paradise Tee",
-          nameVi: "Áo Thun Bench 1987 Paradise",
-          price: 349000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Pastel Yellow",
-              nameVi: "Vàng Pastel",
-              hex: "#F7F1B2",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BOT3027YE3_FL_F_ZA.jpg?v=1753673252"
-            }
-          ]
-        },
-        {
-          id: "top-tank-pack",
-          name: "Men's 3-in-1 Pack Tank Top",
-          nameVi: "Combo 3 Áo Ba Lỗ Nam",
-          price: 225000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Assorted Essentials",
-              nameVi: "Bộ 3 Màu Cơ Bản",
-              hex: "#E5E5E5",
-              img: "https://shop.bench.com.ph/cdn/shop/files/TUT0002F_FL_F_ZA.jpg?v=1753671794&width=640"
-            }
-          ]
-        }
-      ],
-      bottoms: [
-        {
-          id: "bot-chris-nick-blue",
-          name: "Bench x Chris Nick Men's Denim Pants",
-          nameVi: "Quần Jeans Nam Bench x Chris Nick (Xanh Đậm)",
-          price: 729000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Dark Blue Denim",
-              nameVi: "Xanh Denim Đậm",
-              hex: "#1E293B",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BPD0950DB2_FL_F_ZA.jpg?v=1790302356&width=640"
-            },
-            {
-              name: "Black Denim",
-              nameVi: "Đen Denim",
-              hex: "#141414",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BPD0951BD3_FL_F_ZA.jpg?v=1790303780&width=640"
-            }
-          ]
-        },
-        {
-          id: "bot-chris-nick-black",
-          name: "Bench x Chris Nick Men's Denim Pants (Black)",
-          nameVi: "Quần Jeans Nam Bench x Chris Nick (Đen)",
-          price: 729000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Black Denim",
-              nameVi: "Đen Denim",
-              hex: "#141414",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BPD0951BD3_FL_F_ZA.jpg?v=1790303780&width=640"
-            }
-          ]
-        },
-        {
-          id: "bot-woven-pants",
-          name: "Men's Woven Pants",
-          nameVi: "Quần Dài Vải Dệt Nam Bench/",
-          price: 499000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Moss Green",
-              nameVi: "Xanh Rêu",
-              hex: "#4A5240",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BPS0403MG3_FL_F_ZA.jpg?v=1791159867&width=640"
-            }
-          ]
-        },
-        {
-          id: "bot-basic-chinos",
-          name: "Men's Basic Chinos Pants",
-          nameVi: "Quần Chinos Cơ Bản Nam Bench/",
-          price: 499000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Off-White",
-              nameVi: "Trắng Ngà",
-              hex: "#F3F2EE",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BPS0389WH3_FL_F_ZA.jpg?v=1791162231&width=640"
-            }
-          ]
-        },
-        {
-          id: "bot-walking-denim-blue",
-          name: "Men's Walking Shorts (Denim & Blue)",
-          nameVi: "Quần Short Nam Bench/ (Denim & Xanh)",
-          price: 359000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Denim & Blue",
-              nameVi: "Denim & Xanh",
-              hex: "#2B3A4A",
-              img: "https://shop.bench.com.ph/cdn/shop/files/ISW1650DB4_FL_F_ZA.jpg?v=1790734414&width=640"
-            }
-          ]
-        },
-        {
-          id: "bot-walking-blue-gray",
-          name: "Men's Walking Shorts (Blue & Gray)",
-          nameVi: "Quần Short Nam Bench/ (Xanh & Xám)",
-          price: 359000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Blue & Gray",
-              nameVi: "Xanh & Xám",
-              hex: "#475569",
-              img: "https://shop.bench.com.ph/cdn/shop/files/ISW1661BU3_FL_F_ZA.jpg?v=1790732294&width=640"
-            }
-          ]
-        },
-        {
-          id: "bot-woven-boxer-shorts",
-          name: "Men's Woven Boxer Shorts With Comfort Waistband",
-          nameVi: "Quần Boxer Vải Dệt Nam Cạp Thoải Mái",
-          price: 119000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Classic Assorted",
-              nameVi: "Màu Cơ Bản",
-              hex: "#334155",
-              img: "https://shop.bench.com.ph/cdn/shop/files/BSX0916A_FL_F_ZA.jpg?v=1790328401&width=640"
-            }
-          ]
-        },
-        {
-          id: "bot-walking-black-green",
-          name: "Men's Walking Shorts (Black & Green)",
-          nameVi: "Quần Short Nam Bench/ (Đen & Xanh)",
-          price: 399000,
-          defaultColorIdx: 0,
-          colors: [
-            {
-              name: "Black & Green",
-              nameVi: "Đen & Xanh",
-              hex: "#1F2924",
-              img: "https://shop.bench.com.ph/cdn/shop/files/ISW1620BK3_FL_F_ZA.jpg?v=1753672848&width=640"
-            }
-          ]
-        }
-      ]
+    const studioTopItems = [
+      products.find((p) => p.id === 49),
+      products.find((p) => p.id === 50),
+      products.find((p) => p.id === 51),
+      products.find((p) => p.id === 52),
+      products.find((p) => p.id === 53),
+      products.find((p) => p.id === 54),
+      products.find((p) => p.id === 10),
+      products.find((p) => p.id === 9),
+      products.find((p) => p.id === 11),
+      products.find((p) => p.id === 13),
+      products.find((p) => p.id === 28),
+      products.find((p) => p.id === 27),
+      products.find((p) => p.id === 26),
+      products.find((p) => p.id === 25),
+      products.find((p) => p.id === 29),
+      products.find((p) => p.id === 30),
+      products.find((p) => p.id === 31),
+      products.find((p) => p.id === 32),
+      products.find((p) => p.id === 34),
+      products.find((p) => p.id === 35),
+      products.find((p) => p.id === 36),
+      products.find((p) => p.id === 37),
+      products.find((p) => p.id === 38),
+      products.find((p) => p.id === 39),
+      products.find((p) => p.id === 40),
+      products.find((p) => p.id === 41)
+    ].filter(Boolean);
+
+    const studioBottomItems = [
+      products.find((p) => p.id === 17),
+      products.find((p) => p.id === 18),
+      products.find((p) => p.id === 19),
+      products.find((p) => p.id === 16),
+      products.find((p) => p.id === 20),
+      products.find((p) => p.id === 24),
+      products.find((p) => p.id === 23),
+      products.find((p) => p.id === 21),
+      products.find((p) => p.id === 43),
+      products.find((p) => p.id === 59),
+      products.find((p) => p.id === 58),
+      products.find((p) => p.id === 57),
+      products.find((p) => p.id === 46),
+      products.find((p) => p.id === 56),
+      products.find((p) => p.id === 55)
+    ].filter(Boolean);
+
+    const studioItemsByGender = {
+      Men: {
+        tops: studioTopItems.filter((product) => product.gender === "Men"),
+        bottoms: studioBottomItems.filter((product) => product.gender === "Men")
+      },
+      Women: {
+        tops: studioTopItems.filter((product) => product.gender === "Women"),
+        bottoms: studioBottomItems.filter((product) => product.gender === "Women")
+      }
     };
 
+    let studioActiveGender = "Men";
     let studioActiveTab = "tops";
-    let studioSelectedIdx = { tops: 0, bottoms: 0 };
-    let studioSelectedColorIdx = { tops: 0, bottoms: 0 };
-    let studioOutfit = {
-      topIdx: 0,
-      topColorIdx: 0,
-      bottomIdx: 1,
-      bottomColorIdx: 0
-    };
-    let showAllSavedOutfits = false;
+    let studioSelectedTopId = studioItemsByGender.Men.tops[0].id;
+    let studioSelectedBottomId = studioItemsByGender.Men.bottoms[0].id;
+    let studioShowAllSaved = false;
 
     let savedOutfits = [
       {
-        id: "look-casual",
-        title: "Casual Look ♡",
-        titleVi: "Phong Cách Thường Ngày ♡",
-        topIdx: 0,
-        topColorIdx: 0,
-        bottomIdx: 0,
-        bottomColorIdx: 0,
-        extraBottomImg: "https://shop.bench.com.ph/cdn/shop/files/BPD0951BD3_FL_F_ZA.jpg?v=1790303780&width=640"
+        id: "look-saigon-monochrome",
+        title: "Saigon Monochrome",
+        titleVi: "Đơn Sắc Sài Gòn",
+        topId: 10,
+        bottomId: 17
       },
       {
-        id: "look-simple",
-        title: "Simple Fit ♡",
-        titleVi: "Tối Giản Thanh Lịch ♡",
-        topIdx: 1,
-        topColorIdx: 0,
-        bottomIdx: 3,
-        bottomColorIdx: 0
+        id: "look-hanoi-layered",
+        title: "Hanoi Layered Street",
+        titleVi: "Phố Cổ Hà Nội",
+        topId: 52,
+        bottomId: 19
       },
       {
-        id: "look-street",
-        title: "Street Style ♡",
-        titleVi: "Thời Trang Đường Phố ♡",
-        topIdx: 2,
-        topColorIdx: 0,
-        bottomIdx: 2,
-        bottomColorIdx: 0
+        id: "look-saigon-chic",
+        title: "Saigon Weekend Chic",
+        titleVi: "Dạo Phố Cuối Tuần",
+        topId: 28,
+        bottomId: 43
       }
     ];
 
+    function getStudioProductById(id) {
+      return products.find((p) => p.id === id) || products[0];
+    }
+
+    function switchStudioGender(gender) {
+      studioActiveGender = gender === "Women" ? "Women" : "Men";
+      studioSelectedTopId = studioItemsByGender[studioActiveGender].tops[0].id;
+      studioSelectedBottomId = studioItemsByGender[studioActiveGender].bottoms[0].id;
+      renderOutfitStudio();
+    }
+
     function switchStudioTab(tab) {
-      studioActiveTab = tab;
+      studioActiveTab = tab === "bottoms" ? "bottoms" : "tops";
       const topsBtn = document.getElementById("studio-tab-tops");
       const bottomsBtn = document.getElementById("studio-tab-bottoms");
       if (topsBtn && bottomsBtn) {
-        if (tab === "tops") {
-          topsBtn.className = "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#8B1A2B] text-white shadow-xs transition";
-          bottomsBtn.className = "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition";
+        if (studioActiveTab === "tops") {
+          topsBtn.className =
+            "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#8B1A2B] text-white shadow-xs transition";
+          bottomsBtn.className =
+            "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition";
         } else {
-          bottomsBtn.className = "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#8B1A2B] text-white shadow-xs transition";
-          topsBtn.className = "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition";
+          bottomsBtn.className =
+            "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#8B1A2B] text-white shadow-xs transition";
+          topsBtn.className =
+            "py-3 px-5 rounded-2xl font-display font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition";
         }
       }
       renderOutfitStudio();
     }
 
-    function selectStudioItem(idx) {
-      studioSelectedIdx[studioActiveTab] = idx;
-      studioSelectedColorIdx[studioActiveTab] = 0;
-      renderOutfitStudio();
-    }
-
-    function selectStudioColor(cIdx) {
-      studioSelectedColorIdx[studioActiveTab] = cIdx;
-      renderOutfitStudio();
-    }
-
-    function applySelectionToOutfit() {
+    function selectStudioItem(id) {
       if (studioActiveTab === "tops") {
-        studioOutfit.topIdx = studioSelectedIdx.tops;
-        studioOutfit.topColorIdx = studioSelectedColorIdx.tops;
+        studioSelectedTopId = id;
       } else {
-        studioOutfit.bottomIdx = studioSelectedIdx.bottoms;
-        studioOutfit.bottomColorIdx = studioSelectedColorIdx.bottoms;
+        studioSelectedBottomId = id;
       }
-      updateOutfitStage();
-      showToast(
-        currentLang === "vi"
-          ? "Đã cập nhật trang phục trên khung phối đồ!"
-          : "Updated your visual outfit preview!"
-      );
-    }
-
-    function updateOutfitStage() {
-      const topItem = studioCatalog.tops[studioOutfit.topIdx] || studioCatalog.tops[0];
-      const topColor = topItem.colors[studioOutfit.topColorIdx] || topItem.colors[0];
-      const botItem = studioCatalog.bottoms[studioOutfit.bottomIdx] || studioCatalog.bottoms[0];
-      const botColor = botItem.colors[studioOutfit.bottomColorIdx] || botItem.colors[0];
-
-      const topImgEl = document.getElementById("studio-stage-top-img");
-      const topLabelEl = document.getElementById("studio-stage-top-label");
-      const botImgEl = document.getElementById("studio-stage-bottom-img");
-      const botLabelEl = document.getElementById("studio-stage-bottom-label");
-      const totalEl = document.getElementById("studio-combo-total");
-
-      if (topImgEl) topImgEl.src = topColor.img;
-      if (topLabelEl) {
-        topLabelEl.textContent = currentLang === "vi" ? topItem.nameVi : topItem.name;
-      }
-      if (botImgEl) botImgEl.src = botColor.img;
-      if (botLabelEl) {
-        botLabelEl.textContent = currentLang === "vi" ? botItem.nameVi : botItem.name;
-      }
-      if (totalEl) {
-        totalEl.textContent = formatVND(topItem.price + botItem.price);
-      }
+      renderOutfitStudio();
     }
 
     function renderOutfitStudio() {
       const grid = document.getElementById("studio-items-grid");
-      const nameEl = document.getElementById("studio-active-name");
-      const tagEl = document.getElementById("studio-active-tag");
-      const priceEl = document.getElementById("studio-active-price");
-      const swatchesEl = document.getElementById("studio-color-swatches");
-      if (!grid) return;
+      const list = studioItemsByGender[studioActiveGender][studioActiveTab];
+      const activeId = studioActiveTab === "tops" ? studioSelectedTopId : studioSelectedBottomId;
+      const genderGroup = document.getElementById("studio-gender-group");
+      const menButton = document.getElementById("studio-gender-men");
+      const womenButton = document.getElementById("studio-gender-women");
 
-      const list = studioCatalog[studioActiveTab] || [];
-      const activeIdx = studioSelectedIdx[studioActiveTab] || 0;
-      const activeColorIdx = studioSelectedColorIdx[studioActiveTab] || 0;
-
-      grid.innerHTML = list
-        .map((item, idx) => {
-          const isSelected = idx === activeIdx;
-          const displayColor = isSelected
-            ? item.colors[activeColorIdx] || item.colors[0]
-            : item.colors[0];
-          const itemLabel = currentLang === "vi" ? item.nameVi : item.name;
-          return `
-            <button
-              type="button"
-              onclick="selectStudioItem(${idx})"
-              title="${itemLabel}"
-              class="relative aspect-square rounded-2xl bg-[#F7F5F5] p-2 flex items-center justify-center transition ${
-                isSelected
-                  ? "ring-2 ring-[#C8102E] bg-white shadow-xs"
-                  : "border border-transparent hover:border-neutral-300"
-              }"
-            >
-              <img src="${displayColor.img}" alt="${itemLabel}" class="max-h-full max-w-full object-contain mix-blend-multiply brightness-[1.09] contrast-[1.08] rounded-lg" />
-              ${
-                isSelected
-                  ? `<span class="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-[#C8102E] text-white flex items-center justify-center shadow-xs">
-                      <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                      </svg>
-                    </span>`
-                  : ""
-              }
-            </button>
-          `;
-        })
-        .join("");
-
-      const activeItem = list[activeIdx] || list[0];
-      if (activeItem) {
-        if (nameEl) {
-          nameEl.textContent = currentLang === "vi" ? activeItem.nameVi : activeItem.name;
-        }
-        if (tagEl) {
-          tagEl.textContent =
-            studioActiveTab === "tops"
-              ? currentLang === "vi"
-                ? "ÁO"
-                : "TOP"
-              : currentLang === "vi"
-              ? "QUẦN"
-              : "BOTTOM";
-        }
-        if (priceEl) {
-          priceEl.textContent = formatVND(activeItem.price);
-        }
-        if (swatchesEl) {
-          swatchesEl.innerHTML = activeItem.colors
-            .map((c, cIdx) => {
-              const isCSelected = cIdx === activeColorIdx;
-              const cName = currentLang === "vi" ? c.nameVi : c.name;
-              return `
-                <button
-                  type="button"
-                  onclick="selectStudioColor(${cIdx})"
-                  title="${cName}"
-                  class="w-8 h-8 rounded-full border transition ${
-                    isCSelected
-                      ? "ring-2 ring-offset-2 ring-[#8B1A2B] dark:ring-offset-neutral-900 border-neutral-400 scale-105"
-                      : "border-neutral-300 hover:scale-105"
-                  }"
-                  style="background-color: ${c.hex};"
-                ></button>
-              `;
-            })
-            .join("");
-        }
+      if (genderGroup) {
+        genderGroup.setAttribute("aria-label", currentLang === "vi" ? "Chọn giới tính" : "Choose gender");
       }
 
-      updateOutfitStage();
+      if (menButton && womenButton) {
+        const activeClasses =
+          "py-2.5 px-4 rounded-xl font-bold text-sm bg-[#8B1A2B] text-white transition";
+        const inactiveClasses =
+          "py-2.5 px-4 rounded-xl font-bold text-sm bg-[#EFEFEF] text-neutral-700 hover:bg-neutral-200 transition";
+        menButton.className = studioActiveGender === "Men" ? activeClasses : inactiveClasses;
+        womenButton.className = studioActiveGender === "Women" ? activeClasses : inactiveClasses;
+        menButton.setAttribute("aria-pressed", String(studioActiveGender === "Men"));
+        womenButton.setAttribute("aria-pressed", String(studioActiveGender === "Women"));
+      }
+
+      if (grid) {
+        grid.innerHTML = list
+          .map((item) => {
+            const isSelected = item.id === activeId;
+            const itemName = getProductName(item);
+            return `
+              <button
+                type="button"
+                onclick="selectStudioItem(${item.id})"
+                title="${itemName}"
+                class="group bg-[#F5F1F1] rounded-2xl p-2.5 aspect-square flex items-center justify-center border-2 transition ${
+                  isSelected
+                    ? "border-[#8B1A2B] bg-white shadow-xs"
+                    : "border-transparent hover:border-neutral-300"
+                }"
+              >
+                <img
+                  src="${getStudioProductImage(item)}"
+                  onerror="this.onerror=null;this.src='${item.fallback}';"
+                  alt="${itemName}"
+                  class="w-full h-full object-contain rounded-lg group-hover:scale-105 transition-transform duration-200"
+                />
+              </button>
+            `;
+          })
+          .join("");
+      }
+
+      const activeProduct = getStudioProductById(activeId);
+      const nameEl = document.getElementById("studio-active-name");
+      const priceEl = document.getElementById("studio-active-price");
+      const tagEl = document.getElementById("studio-active-tag");
+      const swatchesEl = document.getElementById("studio-color-swatches");
+
+      if (nameEl) nameEl.textContent = getProductName(activeProduct);
+      if (priceEl) priceEl.textContent = formatVND(activeProduct.price);
+      if (tagEl) {
+        tagEl.textContent =
+          studioActiveTab === "tops"
+            ? currentLang === "vi"
+              ? "ÁO"
+              : "TOP"
+            : currentLang === "vi"
+            ? "QUẦN"
+            : "BOTTOM";
+      }
+      if (swatchesEl) {
+        swatchesEl.innerHTML = activeProduct.colors
+          .map((c, idx) => {
+            const cName = currentLang === "vi" && c.nameVi ? c.nameVi : c.name;
+            return `
+              <span class="inline-flex items-center gap-2 text-xs font-semibold text-neutral-600">
+                <span class="w-5 h-5 rounded-full border ${
+                  idx === 0 ? "ring-2 ring-offset-1 ring-[#8B1A2B] border-neutral-400" : "border-neutral-300"
+                }" style="background-color:${c.hex};"></span>
+                <span>${cName}</span>
+              </span>
+            `;
+          })
+          .join("");
+      }
+
+      const topProd = getStudioProductById(studioSelectedTopId);
+      const bottomProd = getStudioProductById(studioSelectedBottomId);
+
+      const stageTopImg = document.getElementById("studio-stage-top-img");
+      const stageTopLabel = document.getElementById("studio-stage-top-label");
+      const stageBottomImg = document.getElementById("studio-stage-bottom-img");
+      const stageBottomLabel = document.getElementById("studio-stage-bottom-label");
+      const comboTotalEl = document.getElementById("studio-combo-total");
+
+      if (stageTopImg) {
+        stageTopImg.src = getStudioProductImage(topProd);
+        stageTopImg.onerror = function () {
+          this.onerror = null;
+          this.src = topProd.fallback;
+        };
+      }
+      if (stageTopLabel) stageTopLabel.textContent = getProductName(topProd);
+
+      if (stageBottomImg) {
+        stageBottomImg.src = getStudioProductImage(bottomProd);
+        stageBottomImg.onerror = function () {
+          this.onerror = null;
+          this.src = bottomProd.fallback;
+        };
+      }
+      if (stageBottomLabel) stageBottomLabel.textContent = getProductName(bottomProd);
+
+      if (comboTotalEl) {
+        comboTotalEl.textContent = formatVND(topProd.price + bottomProd.price);
+      }
     }
 
     function saveCurrentOutfit() {
       const input = document.getElementById("studio-outfit-name-input");
-      const rawName = input ? input.value.trim() : "";
-      const defaultTitle =
-        currentLang === "vi"
-          ? `Set Đồ #${savedOutfits.length + 1} ♡`
-          : `Custom Look #${savedOutfits.length + 1} ♡`;
-      const finalTitle = rawName ? `${rawName} ♡` : defaultTitle;
-
+      const customName = input ? input.value.trim() : "";
+      const fallbackIdx = savedOutfits.length + 1;
       savedOutfits.unshift({
         id: "look-" + Date.now(),
-        title: finalTitle,
-        titleVi: finalTitle,
-        topIdx: studioOutfit.topIdx,
-        topColorIdx: studioOutfit.topColorIdx,
-        bottomIdx: studioOutfit.bottomIdx,
-        bottomColorIdx: studioOutfit.bottomColorIdx
+        title: customName || `Saigon Look #${fallbackIdx}`,
+        titleVi: customName || `Set Đồ Sài Gòn #${fallbackIdx}`,
+        topId: studioSelectedTopId,
+        bottomId: studioSelectedBottomId
       });
-
       if (input) input.value = "";
       renderSavedOutfits();
       showToast(
-        currentLang === "vi"
-          ? `Đã lưu "${finalTitle}" vào Bộ Đồ Đã Lưu`
-          : `Saved "${finalTitle}" to Saved Outfits`
+        currentLang === "vi" ? "Đã lưu bộ trang phục của bạn!" : "Saved look to Saved Outfits!"
       );
     }
 
     function loadSavedOutfit(outfitId) {
       const found = savedOutfits.find((o) => o.id === outfitId);
       if (!found) return;
-      studioOutfit = {
-        topIdx: found.topIdx,
-        topColorIdx: found.topColorIdx,
-        bottomIdx: found.bottomIdx,
-        bottomColorIdx: found.bottomColorIdx
-      };
-      studioSelectedIdx.tops = found.topIdx;
-      studioSelectedColorIdx.tops = found.topColorIdx;
-      studioSelectedIdx.bottoms = found.bottomIdx;
-      studioSelectedColorIdx.bottoms = found.bottomColorIdx;
+      studioActiveGender = getStudioProductById(found.topId).gender === "Women" ? "Women" : "Men";
+      studioSelectedTopId = found.topId;
+      studioSelectedBottomId = found.bottomId;
       renderOutfitStudio();
+      const label = currentLang === "vi" && found.titleVi ? found.titleVi : found.title;
       showToast(
-        currentLang === "vi"
-          ? `Đang xem "${found.titleVi || found.title}"`
-          : `Loaded "${found.title}" onto canvas`
+        currentLang === "vi" ? `Đã tải set "${label}"` : `Loaded "${label}" into Studio`
       );
     }
 
@@ -4971,112 +5839,212 @@
     }
 
     function toggleShowAllSavedOutfits() {
-      showAllSavedOutfits = !showAllSavedOutfits;
-      const btn = document.getElementById("studio-see-all-btn");
-      if (btn) {
-        btn.innerHTML = showAllSavedOutfits
-          ? `${t("studioShowLess")} &gt;`
-          : `${t("studioSeeAll")} &gt;`;
-      }
+      studioShowAllSaved = !studioShowAllSaved;
       renderSavedOutfits();
     }
 
     function addCurrentOutfitToBag() {
-      const topItem = studioCatalog.tops[studioOutfit.topIdx] || studioCatalog.tops[0];
-      const topColor = topItem.colors[studioOutfit.topColorIdx] || topItem.colors[0];
-      const botItem = studioCatalog.bottoms[studioOutfit.bottomIdx] || studioCatalog.bottoms[0];
-      const botColor = botItem.colors[studioOutfit.bottomColorIdx] || botItem.colors[0];
-
-      [
-        { item: topItem, color: topColor, size: "L" },
-        { item: botItem, color: botColor, size: "32" }
-      ].forEach(({ item, color, size }) => {
-        const existing = cart.find(
-          (c) => c.name === item.name && c.color === color.name && c.size === size
-        );
-        if (existing) {
-          existing.qty += 1;
-        } else {
-          cart.push({
-            id: item.id,
-            name: item.name,
-            nameVi: item.nameVi,
-            price: item.price,
-            color: color.name,
-            colorVi: color.nameVi,
-            size: size,
-            qty: 1,
-            image: color.img
-          });
-        }
-      });
-
-      renderCart();
-      openCartDrawer();
-      showToast(
-        currentLang === "vi"
-          ? "Đã thêm cả bộ trang phục vào giỏ hàng!"
-          : "Added complete outfit (Top + Bottom) to bag!"
-      );
+      const topProd = getStudioProductById(studioSelectedTopId);
+      const bottomProd = getStudioProductById(studioSelectedBottomId);
+      addItemToCart(topProd, topProd.colors[0], topProd.sizes[0]);
+      addItemToCart(bottomProd, bottomProd.colors[0], bottomProd.sizes[0]);
     }
 
     function renderSavedOutfits() {
-      const listEl = document.getElementById("studio-saved-list");
-      if (!listEl) return;
+      const container = document.getElementById("studio-saved-list");
+      const seeAllBtn = document.getElementById("studio-see-all-btn");
+      if (!container) return;
 
-      const visibleOutfits = showAllSavedOutfits ? savedOutfits : savedOutfits.slice(0, 3);
+      if (seeAllBtn) {
+        seeAllBtn.innerHTML = studioShowAllSaved
+          ? `<span data-i18n="studioShowLess">${t("studioShowLess")}</span>`
+          : `<span data-i18n="studioSeeAll">${t("studioSeeAll")}</span> &gt;`;
+      }
 
-      listEl.innerHTML = visibleOutfits
-        .map((look) => {
-          const topItem = studioCatalog.tops[look.topIdx] || studioCatalog.tops[0];
-          const topColor = topItem.colors[look.topColorIdx] || topItem.colors[0];
-          const botItem = studioCatalog.bottoms[look.bottomIdx] || studioCatalog.bottoms[0];
-          const botColor = botItem.colors[look.bottomColorIdx] || botItem.colors[0];
-          const lookTitle = currentLang === "vi" && look.titleVi ? look.titleVi : look.title;
+      const visibleOutfits = studioShowAllSaved ? savedOutfits : savedOutfits.slice(0, 2);
+
+      if (visibleOutfits.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white/10 rounded-2xl p-4 text-xs text-white/85 text-center">
+            ${
+              currentLang === "vi"
+                ? "Chưa có bộ đồ nào được lưu. Hãy phối đồ và nhấn Lưu!"
+                : "No saved outfits yet. Mix & match and click Save!"
+            }
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = visibleOutfits
+        .map((outfit) => {
+          const topProd = getStudioProductById(outfit.topId);
+          const bottomProd = getStudioProductById(outfit.bottomId);
+          const title = currentLang === "vi" && outfit.titleVi ? outfit.titleVi : outfit.title;
+          const total = topProd.price + bottomProd.price;
 
           return `
-            <div
-              onclick="loadSavedOutfit('${look.id}')"
-              class="group relative bg-[#F5F1F1] hover:bg-white text-charcoal rounded-2xl p-4 cursor-pointer transition shadow-xs"
-            >
-              <button
-                type="button"
-                onclick="event.stopPropagation(); deleteSavedOutfit('${look.id}')"
-                aria-label="Delete outfit"
-                class="absolute top-3.5 right-3.5 z-20 text-neutral-700 hover:text-benchRed transition p-1"
-              >
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-
-              <div class="flex flex-col items-center justify-center gap-1.5 pt-1 pb-2 min-h-[136px]">
-                ${
-                  look.extraBottomImg
-                    ? `<div class="flex items-center justify-center gap-2">
-                        <div class="flex flex-col items-center gap-1">
-                          <img src="${topColor.img}" alt="${topItem.name}" class="w-16 h-16 object-contain rounded-md bg-white/90 p-0.5" />
-                          <img src="${botColor.img}" alt="${botItem.name}" class="w-16 h-16 object-contain rounded-md bg-white/90 p-0.5" />
-                        </div>
-                        <img src="${look.extraBottomImg}" alt="${botItem.name}" class="w-16 h-24 object-contain rounded-md bg-white/90 p-0.5" />
-                      </div>`
-                    : `<img src="${topColor.img}" alt="${topItem.name}" class="w-16 h-16 object-contain rounded-md bg-white/90 p-0.5" />
-                       <img src="${botColor.img}" alt="${botItem.name}" class="w-16 h-20 object-contain rounded-md bg-white/90 p-0.5" />`
-                }
+            <div class="bg-white text-charcoal rounded-2xl p-3.5 shadow-sm space-y-2.5">
+              <div class="flex items-center justify-between gap-2">
+                <p class="font-display font-extrabold text-xs text-charcoal truncate">${title}</p>
+                <button
+                  type="button"
+                  onclick="deleteSavedOutfit('${outfit.id}')"
+                  aria-label="Remove saved outfit"
+                  class="text-neutral-400 hover:text-benchRed transition text-xs font-bold px-1"
+                >
+                  ✕
+                </button>
               </div>
-
-              <p class="font-display font-bold text-xs text-charcoal pt-1">${lookTitle}</p>
+              <div
+                onclick="loadSavedOutfit('${outfit.id}')"
+                class="cursor-pointer grid grid-cols-2 gap-2 bg-[#F7F5F5] rounded-xl p-2 hover:ring-1 hover:ring-[#8B1A2B] transition"
+              >
+                <img src="${getStudioProductImage(topProd)}" onerror="this.onerror=null;this.src='${topProd.fallback}';" alt="${getProductName(topProd)}" class="h-20 w-full object-contain bg-white rounded-lg p-1" />
+                <img src="${getStudioProductImage(bottomProd)}" onerror="this.onerror=null;this.src='${bottomProd.fallback}';" alt="${getProductName(bottomProd)}" class="h-20 w-full object-contain bg-white rounded-lg p-1" />
+              </div>
+              <div class="flex items-center justify-between pt-0.5">
+                <span class="font-display font-extrabold text-xs text-[#C8102E] dark:text-rose-400">${formatVND(total)}</span>
+                <button
+                  type="button"
+                  onclick="loadSavedOutfit('${outfit.id}')"
+                  class="text-[11px] font-bold text-charcoal hover:text-[#8B1A2B] underline"
+                >
+                  ${currentLang === "vi" ? "Mặc thử" : "Load Look"}
+                </button>
+              </div>
             </div>
           `;
         })
         .join("");
     }
 
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", initStorefront);
-    } else {
-      initStorefront();
-    }
+    // 9. EVENT LISTENERS & INITIALIZATION
+    document.addEventListener("DOMContentLoaded", () => {
+      syncThemeIcons();
+      renderCatalogTitle();
+      renderCollectionNavigation();
+      renderCollectionSubcategoryButtons();
+      renderProducts();
+      renderHomeCollections();
+      renderFeaturedProducts();
+      renderCart();
+      renderMegaMenus();
+      renderMobileMegaMenu();
+      renderOutfitStudio();
+      renderSavedOutfits();
+
+      // Desktop Mega Menu Hover Handlers
+      document.querySelectorAll("[data-mega-root]").forEach((root) => {
+        const key = root.getAttribute("data-mega-root");
+        root.addEventListener("mouseenter", () => openMegaPanelOnHover(key));
+        root.addEventListener("mouseleave", () => scheduleCloseMegaPanel(key));
+      });
+
+      // Mobile Nav Drawer Toggle
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileNavDrawer = document.getElementById("mobile-nav-drawer");
+      if (mobileMenuBtn && mobileNavDrawer) {
+        mobileMenuBtn.addEventListener("click", () => {
+          mobileNavDrawer.classList.toggle("hidden");
+        });
+      }
+
+      // Search Bar Toggle & Live Filtering
+      const searchToggleBtn = document.getElementById("search-toggle-btn");
+      const searchBarDrawer = document.getElementById("search-bar-drawer");
+      const searchInput = document.getElementById("search-input");
+      if (searchToggleBtn && searchBarDrawer) {
+        searchToggleBtn.addEventListener("click", () => {
+          searchBarDrawer.classList.toggle("hidden");
+          if (!searchBarDrawer.classList.contains("hidden") && searchInput) {
+            searchInput.focus();
+          }
+        });
+      }
+      if (searchInput) {
+        searchInput.addEventListener("input", (e) => {
+          searchQuery = e.target.value;
+          productDisplayLimit = PRODUCTS_PER_PAGE;
+          renderProducts();
+          if (collectionPageCategory) {
+            renderCollectionSubcategoryButtons();
+          }
+          if (!collectionPageCategory && searchQuery.trim()) {
+            const matches = products.filter((p) => {
+              const q = searchQuery.trim().toLowerCase();
+              return (
+                p.name.toLowerCase().includes(q) ||
+                (p.nameVi && p.nameVi.toLowerCase().includes(q)) ||
+                p.category.toLowerCase().includes(q) ||
+                (p.subCategory && p.subCategory.toLowerCase().includes(q)) ||
+                p.description.toLowerCase().includes(q)
+              );
+            });
+            if (matches.length > 0) {
+              openQuickView(matches[0].id);
+            }
+          }
+        });
+      }
+
+      // Sort Dropdown
+      const sortSelect = document.getElementById("sort-select");
+      if (sortSelect) {
+        sortSelect.addEventListener("change", (e) => {
+          sortOption = e.target.value;
+          productDisplayLimit = PRODUCTS_PER_PAGE;
+          renderProducts();
+        });
+      }
+
+      // Shopping Bag Open / Close
+      const cartOpenBtn = document.getElementById("cart-open-btn");
+      const cartCloseBtn = document.getElementById("cart-close-btn");
+      const cartBackdrop = document.getElementById("cart-backdrop");
+      if (cartOpenBtn) cartOpenBtn.addEventListener("click", openCartDrawer);
+      if (cartCloseBtn) cartCloseBtn.addEventListener("click", closeCartDrawer);
+      if (cartBackdrop) cartBackdrop.addEventListener("click", closeCartDrawer);
+
+      // Checkout Form Submit
+      const checkoutForm = document.getElementById("checkout-form");
+      if (checkoutForm) {
+        checkoutForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          document.getElementById("checkout-form-view").classList.add("hidden");
+          document.getElementById("checkout-success-view").classList.remove("hidden");
+        });
+      }
+
+      // Close Modals on Backdrop Click & Escape Key
+      const qvModal = document.getElementById("quick-view-modal");
+      if (qvModal) {
+        qvModal.addEventListener("click", (e) => {
+          if (e.target === qvModal) closeQuickView();
+        });
+      }
+      const infoModal = document.getElementById("info-modal");
+      if (infoModal) {
+        infoModal.addEventListener("click", (e) => {
+          if (e.target === infoModal) closeInfoModal();
+        });
+      }
+      const checkoutModal = document.getElementById("checkout-modal");
+      if (checkoutModal) {
+        checkoutModal.addEventListener("click", (e) => {
+          if (e.target === checkoutModal) closeCheckoutModal();
+        });
+      }
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          closeQuickView();
+          closeInfoModal();
+          closeCheckoutModal();
+          closeCartDrawer();
+          closeAllMegaPanels();
+        }
+      });
+    });
   </script>
 </body>
 </html>
