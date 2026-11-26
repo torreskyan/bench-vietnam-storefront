@@ -131,6 +131,71 @@
       outline: 2px solid #E31837;
       outline-offset: 2px;
     }
+    body.qv-open {
+      overflow: hidden;
+    }
+    .qv-size-btn {
+      display: inline-flex;
+      min-width: 48px;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      padding: 0.625rem 0.875rem;
+      border: 1px solid #D4D4D8;
+      border-radius: 0.75rem;
+      background-color: transparent;
+      color: #141414;
+      font-size: 0.75rem;
+      font-weight: 700;
+      line-height: 1rem;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .qv-size-btn[aria-pressed="true"] {
+      border-color: #141414;
+      background-color: #141414;
+      color: #FFFFFF;
+    }
+    .qv-size-btn:disabled {
+      border-color: #E5E5E5;
+      background-color: #F5F5F5;
+      color: #A3A3A3;
+      text-decoration: line-through;
+      cursor: not-allowed;
+    }
+    html.dark .qv-size-btn {
+      border-color: #32323B;
+      color: #F4F4F6;
+    }
+    html.dark .qv-size-btn[aria-pressed="true"] {
+      border-color: #E31837;
+      background-color: #E31837;
+      color: #FFFFFF;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .qv-size-btn:not(:disabled):not([aria-pressed="true"]):hover {
+        border-color: #141414;
+      }
+      html.dark .qv-size-btn:not(:disabled):not([aria-pressed="true"]):hover {
+        border-color: #F4F4F6;
+      }
+    }
+    @media (max-width: 767px) {
+      #quick-view-modal {
+        padding: 0.5rem;
+        overscroll-behavior: contain;
+      }
+      #quick-view-modal > div {
+        max-height: calc(100vh - 1rem);
+        max-height: calc(100dvh - 1rem);
+        overscroll-behavior: contain;
+      }
+      #qv-image-stage {
+        height: min(30vh, 220px);
+        min-height: 160px;
+        aspect-ratio: auto;
+      }
+    }
     #category-tabs .category-pill {
       position: relative;
     }
@@ -4882,7 +4947,7 @@
                 disabled
                 title="${t("soldOut")}"
                 aria-label="${t("sizePrefix")} ${size}, ${t("soldOut")}"
-                class="px-3.5 py-2 rounded-xl border border-neutral-200 bg-neutral-100 text-neutral-400 text-xs font-bold line-through cursor-not-allowed"
+                class="qv-size-btn"
               >
                 ${size}
               </button>
@@ -4895,11 +4960,7 @@
               data-qv-size="${size}"
               aria-label="${t("sizePrefix")} ${size}"
               aria-pressed="${isSelected}"
-              class="qv-size-btn px-3.5 py-2 rounded-xl border text-xs font-bold transition ${
-                isSelected
-                  ? "border-charcoal dark:border-benchRed bg-charcoal dark:bg-benchRed text-white"
-                  : "border-neutral-300 text-charcoal hover:border-charcoal"
-              }"
+              class="qv-size-btn"
             >
               ${size}
             </button>
@@ -4961,7 +5022,7 @@
           ${sliderControls}
         </div>
 
-        <div class="p-6 sm:p-8 flex flex-col justify-between space-y-5">
+        <div class="qv-details p-4 sm:p-8 flex flex-col justify-between space-y-4 sm:space-y-5">
           <div class="space-y-4">
             <div>
               <span class="text-[11px] font-extrabold uppercase tracking-widest text-benchRed">
@@ -5037,7 +5098,13 @@
         );
       }
 
-      document.getElementById("quick-view-modal").classList.remove("hidden");
+      const modal = document.getElementById("quick-view-modal");
+      if (modal) {
+        const panel = modal.firstElementChild;
+        modal.classList.remove("hidden");
+        if (panel) panel.scrollTop = 0;
+      }
+      document.body.classList.add("qv-open");
     }
 
     function stepQvSlide(dir) {
@@ -5080,16 +5147,13 @@
         const bSize = btn.getAttribute("data-qv-size");
         const isSelected = bSize === size;
         btn.setAttribute("aria-pressed", String(isSelected));
-        btn.className =
-          isSelected
-            ? "qv-size-btn px-3.5 py-2 rounded-xl border text-xs font-bold transition border-charcoal dark:border-benchRed bg-charcoal dark:bg-benchRed text-white"
-            : "qv-size-btn px-3.5 py-2 rounded-xl border text-xs font-bold transition border-neutral-300 text-charcoal hover:border-charcoal";
       });
     }
 
     function closeQuickView() {
       const modal = document.getElementById("quick-view-modal");
       if (modal) modal.classList.add("hidden");
+      document.body.classList.remove("qv-open");
     }
 
     // 6. SHOPPING BAG OPERATIONS
