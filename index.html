@@ -5198,12 +5198,6 @@
       persistCart();
       renderCart();
       openCartDrawer();
-      const itemLabel = currentLang === "vi" ? product.nameVi || product.name : product.name;
-      showToast(
-        currentLang === "vi"
-          ? `Đã thêm ${itemLabel} (${t("sizePrefix")} ${size}) vào giỏ`
-          : `Added ${itemLabel} (${size}) to bag`
-      );
     }
 
     function updateCartQty(index, delta) {
