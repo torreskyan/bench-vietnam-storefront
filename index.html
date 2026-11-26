@@ -22,7 +22,7 @@
       }
       try {
         var saved = localStorage.getItem('bench-vn-theme');
-        if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        if (saved === 'dark') {
           document.documentElement.classList.add('dark');
         }
       } catch (e) {}
@@ -131,6 +131,22 @@
       outline: 2px solid #E31837;
       outline-offset: 2px;
     }
+    #category-tabs .category-pill {
+      position: relative;
+    }
+    #category-tabs .category-pill::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: transparent;
+      transition: background-color 0.18s ease;
+    }
+    #category-tabs .category-pill.active::after {
+      background: #E31837;
+    }
 
     /* Smooth Dark Mode Surface & Typography Tokens */
     html.dark body {
@@ -218,12 +234,11 @@
     }
   </style>
 </head>
-<body class="bg-white text-charcoal font-sans antialiased selection:bg-benchRed selection:text-white transition-colors duration-200">
+<body class="bg-[#FAF9F6] text-charcoal font-sans antialiased selection:bg-benchRed selection:text-white transition-colors duration-200">
 
   <!-- 1. TOP ANNOUNCEMENT BAR -->
-  <div class="bg-charcoal text-white text-[11px] sm:text-xs font-semibold tracking-widest uppercase py-2.5 px-4 text-center border-b border-white/10">
-    <div class="max-w-7xl mx-auto flex items-center justify-center gap-2.5">
-      <span class="inline-block w-2 h-2 rounded-full bg-benchRed animate-pulse shrink-0"></span>
+  <div class="bg-charcoal text-white text-[10px] sm:text-[11px] font-medium tracking-[0.16em] uppercase py-2 px-4 text-center border-b border-white/10">
+    <div class="max-w-7xl mx-auto flex items-center justify-center">
       <span data-i18n="announcement" class="truncate">FREE SHIPPING ACROSS VIETNAM ON ORDERS OVER 650.000₫ &nbsp;|&nbsp; BENCH/ VIETNAM LAUNCH ’26</span>
     </div>
   </div>
@@ -234,25 +249,25 @@
       <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
 
         <!-- Left: Mobile Menu Button + Iconic BENCH/ Wordmark -->
-        <div class="flex items-center gap-3">
-          <button id="mobile-menu-btn" type="button" aria-label="Toggle Menu" class="lg:hidden p-2.5 rounded-xl border border-neutral-200 text-charcoal hover:border-benchRed hover:text-benchRed transition">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <button id="mobile-menu-btn" type="button" aria-label="Toggle Menu" class="lg:hidden p-2 text-charcoal hover:text-benchRed transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
 
-          <a href="index.html" class="group inline-flex items-center gap-2 focus:outline-none">
-            <span class="bg-benchRed text-white font-display font-extrabold text-xl sm:text-2xl tracking-tighter px-3 py-1 rounded-md shadow-xs group-hover:bg-charcoal transition-colors duration-200">
-              BENCH/
+          <a href="index.html" class="group inline-flex items-baseline gap-1.5 focus:outline-none">
+            <span class="font-display font-extrabold text-xl sm:text-2xl tracking-[-0.08em] text-charcoal">
+              BENCH<span class="text-benchRed">/</span>
             </span>
-            <span class="text-[11px] font-extrabold tracking-widest uppercase text-neutral-600 bg-offwhite border border-neutral-200 px-2 py-0.5 rounded-md">
-              VN
+            <span class="hidden text-[9px] font-bold tracking-[0.18em] uppercase text-neutral-500 sm:inline">
+              Vietnam
             </span>
           </a>
         </div>
 
         <!-- Center: Desktop Category Navigation -->
-        <nav id="desktop-nav" class="hidden lg:flex items-center gap-6 text-sm font-semibold tracking-wide">
+        <nav id="desktop-nav" class="hidden lg:flex items-center gap-8 text-[11px] font-semibold tracking-[0.14em] uppercase">
           <div class="relative py-6">
             <a href="index.html#home-latest-drops" class="inline-flex items-center gap-1 hover:text-benchRed transition">
               <span data-i18n="navNew">New Arrivals</span>
@@ -275,8 +290,7 @@
             <div id="mega-panel-women" class="panel-reveal hidden absolute -left-16 top-full w-[540px] bg-white border border-neutral-200/90 shadow-2xl rounded-b-2xl p-6 z-50"></div>
           </div>
 
-          <a href="index.html?view=outfit-studio#outfit-studio" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-benchRed/10 text-benchRed hover:bg-benchRed hover:text-white transition">
-            <span class="w-1.5 h-1.5 rounded-full bg-current"></span>
+          <a href="index.html?view=outfit-studio#outfit-studio" class="inline-flex items-center gap-1.5 hover:text-benchRed transition">
             <span data-i18n="navOutfitStudio">Outfit Studio</span>
           </a>
         </nav>
@@ -290,14 +304,14 @@
         </a>
 
         <!-- Right: Language Switcher, Dark Mode Toggle, Search Toggle & Shopping Bag -->
-        <div class="flex items-center gap-1.5 sm:gap-2.5">
+        <div class="flex items-center gap-0 sm:gap-3">
           <!-- EN / VI Language Switcher -->
-          <div class="inline-flex items-center bg-offwhite border border-neutral-200 rounded-full p-0.5 text-[11px] font-extrabold">
+          <div class="inline-flex items-center gap-1 border-r border-neutral-200 pr-1 sm:pr-3 text-[10px] font-bold tracking-widest">
             <button
               type="button"
               id="lang-en-btn"
               onclick="setLanguage('en')"
-              class="px-2.5 py-1 rounded-full bg-charcoal text-white transition"
+              class="border-b-2 border-benchRed px-1 py-1 font-bold text-charcoal transition"
             >
               EN
             </button>
@@ -305,7 +319,7 @@
               type="button"
               id="lang-vi-btn"
               onclick="setLanguage('vi')"
-              class="px-2.5 py-1 rounded-full text-neutral-600 hover:text-charcoal transition"
+              class="px-1 py-1 text-neutral-500 hover:text-charcoal transition"
             >
               VI
             </button>
@@ -318,7 +332,7 @@
             onclick="toggleDarkMode()"
             aria-label="Toggle Dark Mode"
             title="Toggle Dark / Light Mode"
-            class="p-2.5 rounded-full border border-neutral-200/80 hover:border-benchRed hover:text-benchRed text-charcoal transition"
+            class="hidden p-2 text-neutral-500 hover:text-benchRed transition sm:block"
           >
             <!-- Sun Icon (shown in dark mode) -->
             <svg id="theme-icon-sun" class="hidden w-4 h-4 sm:w-5 sm:h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -331,22 +345,62 @@
           </button>
 
           <!-- Search Button -->
-          <button id="search-toggle-btn" type="button" aria-label="Search" class="p-2.5 rounded-full border border-neutral-200/80 hover:border-benchRed hover:text-benchRed text-charcoal transition">
+          <button id="search-toggle-btn" type="button" aria-label="Search" class="p-2 text-charcoal hover:text-benchRed transition">
             <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103.5 10.5a7.5 7.5 0 0013.15 6.15z" />
             </svg>
           </button>
 
+          <!-- Account Button -->
+          <button id="account-open-btn" type="button" onclick="openAccountModal()" aria-haspopup="dialog" aria-controls="account-modal" class="p-2 text-neutral-500 hover:text-benchRed transition">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="8" r="4" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 21a7.5 7.5 0 0115 0" />
+            </svg>
+            <span class="sr-only" data-i18n="accountButton">Account</span>
+          </button>
+
           <!-- Shopping Bag Button -->
-          <button id="cart-open-btn" type="button" aria-label="Open Shopping Bag" class="relative inline-flex items-center gap-2 bg-charcoal hover:bg-benchRed text-white text-xs sm:text-sm font-bold px-3.5 sm:px-4 py-2.5 rounded-full transition duration-200 shadow-xs">
+          <button id="cart-open-btn" type="button" aria-label="Open Shopping Bag" class="relative inline-flex items-center gap-2 bg-charcoal hover:bg-benchRed text-white text-[11px] font-semibold tracking-wide px-2 py-2.5 rounded-full transition duration-200 sm:px-3.5">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             <span data-i18n="bagBtn" class="hidden sm:inline">Bag</span>
-            <span id="cart-badge" class="bg-benchRed text-white text-[11px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center">
-              2
+            <span id="cart-badge" class="bg-benchRed text-white text-[11px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center" style="visibility: hidden">
+              0
             </span>
           </button>
+          <script>
+            (function () {
+              var badge = document.getElementById("cart-badge");
+              if (!badge) return;
+
+              var totalItems = 0;
+              try {
+                var savedCart = JSON.parse(localStorage.getItem("benchVietnamShoppingBag") || "[]");
+                var isValidCart = Array.isArray(savedCart) && savedCart.every(function (item) {
+                  return (
+                    item &&
+                    Number.isInteger(item.id) &&
+                    typeof item.color === "string" &&
+                    typeof item.size === "string" &&
+                    Number.isInteger(item.qty) &&
+                    item.qty > 0
+                  );
+                });
+                if (isValidCart) {
+                  totalItems = savedCart.reduce(function (total, item) {
+                    return total + item.qty;
+                  }, 0);
+                }
+              } catch (error) {
+                console.error("Unable to initialize the shopping bag count.", error);
+              }
+
+              badge.textContent = totalItems;
+              badge.style.visibility = "visible";
+            })();
+          </script>
         </div>
       </div>
 
@@ -374,129 +428,102 @@
   </header>
 
   <nav id="collection-route-nav" aria-label="Collection navigation" class="hidden border-b border-neutral-200 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center gap-2 py-3">
-      <a id="collection-nav-home" href="index.html" data-i18n="collectionNavHome" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Home</a>
-      <a id="collection-nav-men" href="index.html?view=collection&amp;category=Men" data-i18n="collectionNavMen" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Men</a>
-      <a id="collection-nav-women" href="index.html?view=collection&amp;category=Women" data-i18n="collectionNavWomen" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Women</a>
-      <a id="collection-nav-studio" href="index.html?view=outfit-studio#outfit-studio" data-i18n="collectionNavStudio" class="collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold transition">Outfit Studio</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center gap-6 py-3">
+      <a id="collection-nav-home" href="index.html" data-i18n="collectionNavHome" class="collection-route-link shrink-0 border-b-2 border-transparent pb-2 text-xs font-semibold transition">Home</a>
+      <a id="collection-nav-men" href="index.html?view=collection&amp;category=Men" data-i18n="collectionNavMen" class="collection-route-link shrink-0 border-b-2 border-transparent pb-2 text-xs font-semibold transition">Men</a>
+      <a id="collection-nav-women" href="index.html?view=collection&amp;category=Women" data-i18n="collectionNavWomen" class="collection-route-link shrink-0 border-b-2 border-transparent pb-2 text-xs font-semibold transition">Women</a>
+      <a id="collection-nav-studio" href="index.html?view=outfit-studio#outfit-studio" data-i18n="collectionNavStudio" class="collection-route-link shrink-0 border-b-2 border-transparent pb-2 text-xs font-semibold transition">Outfit Studio</a>
     </div>
   </nav>
 
   <!-- 3. EDITORIAL HERO SECTION -->
-  <section id="home-hero" class="relative overflow-hidden bg-offwhite border-b border-neutral-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 lg:py-24">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+  <section id="home-hero" class="relative isolate min-h-[620px] sm:min-h-[700px] lg:min-h-[760px] overflow-hidden bg-neutral-900 text-white">
+    <img
+      src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=2000&q=90"
+      onerror="this.onerror=null;this.src='https://placehold.co/2000x1200/141414/FFFFFF?text=BENCH%2F+VIETNAM+CAMPAIGN';"
+      alt=""
+      aria-hidden="true"
+      fetchpriority="high"
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_12%]"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/55 to-black/10"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/45 via-transparent to-black/10"></div>
 
-        <!-- Left Copy -->
-        <div class="lg:col-span-6 space-y-6">
-          <div class="inline-flex items-center gap-2 bg-white border border-neutral-200/90 px-3.5 py-1.5 rounded-full shadow-2xs">
-            <span class="w-2 h-2 rounded-full bg-benchRed"></span>
-            <span data-i18n="heroBadge" class="text-xs font-bold tracking-wider uppercase text-charcoal">Saigon &amp; Hanoi Release ’26</span>
-          </div>
-
-          <h1 data-i18n-html="heroTitle" class="font-display font-extrabold text-4xl sm:text-6xl lg:text-[64px] leading-[1.03] tracking-tight text-charcoal">
-            Bench/ <br />
-            <span class="text-benchRed">Everyday</span> <br />
-            Essentials.
-          </h1>
-
-          <p data-i18n="heroSubtitle" class="text-neutral-600 text-base sm:text-lg max-w-lg leading-relaxed">
-            Engineered for Southeast Asian tropical comfort and effortless city layering. Heavyweight combed cotton tees, relaxed denim, and clean silhouettes—now officially in Vietnam.
-          </p>
-
-          <div class="flex flex-wrap items-center gap-3.5 pt-2">
-            <a href="#mens-collection" data-i18n="heroCtaPrimary" class="inline-flex items-center justify-center bg-benchRed hover:bg-benchRedDark text-white font-bold text-sm px-7 py-4 rounded-xl transition shadow-sm">
-              Shop The Collection
-            </a>
-            <a href="#lookbook" data-i18n="heroCtaSecondary" class="inline-flex items-center justify-center bg-white hover:bg-neutral-100 text-charcoal border border-neutral-300 font-bold text-sm px-7 py-4 rounded-xl transition">
-              Explore Lookbook
-            </a>
-          </div>
-
-          <!-- Micro Trust Badges -->
-          <div class="pt-5 grid grid-cols-3 gap-4 border-t border-neutral-200/80 max-w-md text-xs">
-            <div>
-              <p data-i18n="trust1Title" class="font-extrabold text-charcoal text-sm">100% Cotton</p>
-              <p data-i18n="trust1Sub" class="text-neutral-500">Breathable weave</p>
-            </div>
-            <div>
-              <p data-i18n="trust2Title" class="font-extrabold text-charcoal text-sm">Vietnam Exclusive</p>
-              <p data-i18n="trust2Sub" class="text-neutral-500">Official VN Release</p>
-            </div>
-            <div>
-              <p data-i18n="trust3Title" class="font-extrabold text-charcoal text-sm">Easy Returns</p>
-              <p data-i18n="trust3Sub" class="text-neutral-500">30-day exchange</p>
-            </div>
-          </div>
+    <div class="mx-auto flex min-h-[620px] max-w-7xl items-end px-4 pb-14 pt-24 sm:min-h-[700px] sm:px-6 sm:pb-20 lg:min-h-[760px] lg:items-center lg:px-8">
+      <div class="max-w-3xl">
+        <p data-i18n="heroBadge" class="mb-6 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/80 sm:text-xs">
+          Saigon / Hanoi — Bench/ Vietnam
+        </p>
+        <h1 data-i18n-html="heroTitle" class="font-display text-5xl font-extrabold uppercase leading-[0.92] tracking-[-0.06em] sm:text-7xl lg:text-8xl">
+          Everyday, <br /><span class="text-benchRed">in motion.</span>
+        </h1>
+        <p data-i18n="heroSubtitle" class="mt-6 max-w-xl text-sm leading-relaxed text-white/80 sm:text-base">
+          Easy layers, relaxed denim, and everyday essentials made for the pace of Saigon and Hanoi.
+        </p>
+        <div class="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
+          <a href="#home-latest-drops" data-i18n="heroCtaPrimary" class="inline-flex items-center justify-center bg-white px-6 py-3.5 text-xs font-bold uppercase tracking-[0.12em] text-charcoal transition hover:bg-benchRed hover:text-white sm:px-8 sm:py-4">
+            Shop New Arrivals
+          </a>
+          <a href="#lookbook" data-i18n="heroCtaSecondary" class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-white transition hover:text-benchRed">
+            Discover the campaign <span aria-hidden="true">↗</span>
+          </a>
         </div>
-
-        <!-- Right Editorial Visual Frame -->
-        <div class="lg:col-span-6">
-          <div class="relative rounded-3xl overflow-hidden shadow-xl bg-neutral-900 aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5] max-h-[600px] mx-auto ring-1 ring-black/10 dark:ring-white/10">
-            <img
-              src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=1000&q=85"
-              onerror="this.onerror=null;this.src='https://placehold.co/800x950/141414/FFFFFF?text=BENCH%2F+VIETNAM+MENS+CAMPAIGN';"
-              alt="Bench/ Vietnam Men's Streetwear Editorial Model"
-              class="w-full h-full object-cover object-center"
-            />
-            <div data-i18n="newDropTag" class="absolute top-5 right-5 bg-benchRed text-white text-xs font-extrabold tracking-widest uppercase px-3.5 py-1.5 rounded-lg shadow-md">
-              NEW DROP
-            </div>
-          </div>
-        </div>
-
       </div>
+    </div>
+
+    <div data-i18n="newDropTag" class="absolute right-4 top-8 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/75 sm:right-8 sm:top-10">
+      Bench/ Vietnam
     </div>
   </section>
 
-  <section id="home-latest-drops" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-7">
+  <section id="home-latest-drops" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-8">
       <div>
-        <span data-i18n="latestDropsEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">JUST IN</span>
-        <h2 data-i18n="catalogTitle" class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-charcoal mt-1">Latest Drops</h2>
-        <p data-i18n="latestDropsSubtitle" class="text-sm text-neutral-600 mt-2">A few of the latest arrivals, selected for you.</p>
+        <span data-i18n="latestDropsEyebrow" class="text-[10px] font-semibold tracking-[0.2em] uppercase text-neutral-500">Just in</span>
+        <h2 data-i18n="catalogTitle" class="font-display font-bold text-3xl sm:text-4xl tracking-tight text-charcoal mt-2">Latest Drops</h2>
+        <p data-i18n="latestDropsSubtitle" class="text-sm text-neutral-600 mt-2">New-season pieces made to move with you.</p>
       </div>
     </div>
-    <div id="home-latest-drops-grid" class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6"></div>
+    <div id="home-latest-drops-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10"></div>
   </section>
 
   <!-- 4. COLLECTION PRODUCT GRID -->
   <main id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
 
     <!-- Section Header + Filter Pills + Sort -->
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-neutral-200">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-neutral-200">
       <div>
-        <span data-i18n="catalogEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">The Collection</span>
-        <h2 id="catalog-title" data-i18n="catalogTitle" class="font-display font-extrabold text-3xl sm:text-4xl tracking-tight text-charcoal mt-1">
+        <span data-i18n="catalogEyebrow" class="text-[10px] font-semibold tracking-[0.2em] uppercase text-neutral-500">The Collection</span>
+        <h2 id="catalog-title" data-i18n="catalogTitle" class="font-display font-bold text-3xl sm:text-4xl tracking-tight text-charcoal mt-2">
           Latest Drops
         </h2>
         <div id="collection-subcategory-filter" class="hidden mt-5">
           <p data-i18n="collectionTypeLabel" class="text-xs font-bold text-neutral-500 mb-2">Shop by item type</p>
-          <div id="collection-subcategory-buttons" role="group" class="flex flex-wrap gap-2"></div>
+          <div id="collection-subcategory-buttons" role="group" class="flex flex-wrap items-center gap-x-5 gap-y-2 border-b border-neutral-200"></div>
         </div>
       </div>
 
       <!-- Category Filter Tabs & Sort Dropdown -->
-      <div class="flex flex-wrap items-center justify-between gap-3">
-        <div id="category-tabs" class="flex flex-wrap items-center gap-2">
-          <button type="button" onclick="filterSubCategory('All', '')" data-category="All" data-i18n="catAll" class="category-pill active px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-charcoal text-white transition">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div id="category-tabs" class="flex flex-wrap items-center gap-5 border-b border-neutral-200">
+          <button type="button" onclick="filterSubCategory('All', '')" data-category="All" data-i18n="catAll" class="category-pill active pb-3 text-xs font-semibold tracking-wide text-charcoal transition">
             All
           </button>
-          <button type="button" onclick="filterSubCategory('Men', '')" data-category="Men" data-i18n="catMen" class="category-pill px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition">
+          <button type="button" onclick="filterSubCategory('Men', '')" data-category="Men" data-i18n="catMen" class="category-pill pb-3 text-xs font-semibold tracking-wide text-neutral-500 hover:text-charcoal transition">
             Men
           </button>
-          <button type="button" onclick="filterSubCategory('Women', '')" data-category="Women" data-i18n="catWomen" class="category-pill px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition">
+          <button type="button" onclick="filterSubCategory('Women', '')" data-category="Women" data-i18n="catWomen" class="category-pill pb-3 text-xs font-semibold tracking-wide text-neutral-500 hover:text-charcoal transition">
             Women
           </button>
-          <button type="button" onclick="filterSubCategory('Denim', '')" data-category="Denim" data-i18n="catDenim" class="category-pill px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition">
+          <button type="button" onclick="filterSubCategory('Denim', '')" data-category="Denim" data-i18n="catDenim" class="category-pill pb-3 text-xs font-semibold tracking-wide text-neutral-500 hover:text-charcoal transition">
             Denim
           </button>
-          <button type="button" onclick="filterSubCategory('Basics', '')" data-category="Basics" data-i18n="catBasics" class="category-pill px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition">
+          <button type="button" onclick="filterSubCategory('Basics', '')" data-category="Basics" data-i18n="catBasics" class="category-pill pb-3 text-xs font-semibold tracking-wide text-neutral-500 hover:text-charcoal transition">
             Basics
           </button>
         </div>
 
-        <select id="sort-select" aria-label="Sort products" class="bg-offwhite border border-neutral-300 rounded-xl px-3.5 py-2 text-xs font-semibold text-charcoal focus:outline-none focus:border-benchRed transition">
+        <select id="sort-select" aria-label="Sort products" class="bg-transparent border-0 border-b border-neutral-300 px-1 py-2 text-xs font-semibold text-charcoal focus:outline-none focus:border-benchRed transition">
           <option value="featured" data-i18n="sortFeatured">Sort: Featured</option>
           <option value="price-asc" data-i18n="sortLowHigh">Price: Low to High</option>
           <option value="price-desc" data-i18n="sortHighLow">Price: High to Low</option>
@@ -506,7 +533,7 @@
     </div>
 
     <!-- Active Results Count -->
-    <div class="flex items-center justify-between py-4 text-xs text-neutral-500 font-medium">
+    <div class="flex items-center justify-between py-4 text-[11px] text-neutral-500 font-medium">
       <p id="results-count" aria-live="polite">Showing products</p>
       <p data-i18n="vatNote">All prices inclusive of VAT (₫ VND)</p>
     </div>
@@ -802,15 +829,15 @@
 
         <!-- Left Split Story -->
         <div class="lg:col-span-5 space-y-6">
-          <div data-i18n="lookbookBadge" class="inline-block bg-benchRed text-white font-display font-extrabold text-xs tracking-widest uppercase px-3 py-1 rounded-md">
-            CAMPAIGN 04 // BENCH/ VIETNAM
+          <div data-i18n="lookbookBadge" class="inline-block text-[10px] font-semibold tracking-[0.2em] uppercase text-neutral-400">
+            SAIGON / HANOI — BENCH/ VIETNAM
           </div>
           <h2 data-i18n-html="lookbookTitle" class="font-display font-extrabold text-3xl sm:text-5xl leading-tight tracking-tight">
             Built for the <br />
             Streets of Saigon.
           </h2>
           <p data-i18n="lookbookBody" class="text-neutral-300 text-sm sm:text-base leading-relaxed">
-            From Manila to Ho Chi Minh City and Hanoi, Bench/ champions accessible everyday fashion. Our Vietnam debut capsule pairs crisp architectural tailoring with lived-in denim—crafted for warm days and vibrant city nights.
+            From bright Saigon afternoons to Hanoi after dark, build your everyday uniform with easy layers, relaxed denim, and pieces made to move through the city.
           </p>
           <div class="grid grid-cols-2 gap-6 pt-4 border-t border-neutral-800">
             <div>
@@ -823,7 +850,7 @@
             </div>
           </div>
           <div class="pt-2">
-            <a href="index.html?view=collection&amp;category=Men&amp;subcategory=Jeans" class="inline-flex items-center gap-2 bg-white text-charcoal hover:bg-benchRed hover:text-white font-bold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl transition">
+            <a href="index.html?view=collection&amp;category=Men&amp;subcategory=Jeans" class="inline-flex items-center gap-2 bg-white text-charcoal hover:bg-benchRed hover:text-white font-bold text-xs uppercase tracking-wider px-6 py-3.5 transition">
               <span data-i18n="lookbookCta">Shop The Denim Capsule</span>
               <span>→</span>
             </a>
@@ -831,13 +858,14 @@
         </div>
 
         <!-- Right Dual Editorial Cards -->
-        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div class="relative rounded-2xl overflow-hidden aspect-[3/4] group ring-1 ring-white/10">
+        <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="relative overflow-hidden aspect-[3/4] group">
             <img
               src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=800&q=80"
               onerror="this.onerror=null;this.src='https://placehold.co/600x800/262626/FFFFFF?text=BENCH%2F+LOOK+01';"
               alt="Bench/ Street Style Look 01"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            loading="lazy"
+              class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
             />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-5">
               <p data-i18n="look01Tag" class="text-[11px] font-bold uppercase tracking-widest text-benchRed">Look 01</p>
@@ -845,12 +873,13 @@
             </div>
           </div>
 
-          <div class="relative rounded-2xl overflow-hidden aspect-[3/4] group sm:mt-8 ring-1 ring-white/10">
+          <div class="relative overflow-hidden aspect-[3/4] group sm:mt-8">
             <img
               src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80"
               onerror="this.onerror=null;this.src='https://placehold.co/600x800/262626/FFFFFF?text=BENCH%2F+LOOK+02';"
               alt="Bench/ Street Style Look 02"
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700"
             />
             <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent p-5">
               <p data-i18n="look02Tag" class="text-[11px] font-bold uppercase tracking-widest text-benchRed">Look 02</p>
@@ -870,11 +899,11 @@
 
         <!-- Brand Story -->
         <div class="lg:col-span-4 space-y-4">
-          <div class="inline-flex items-center gap-2">
-            <span class="inline-block bg-benchRed text-white font-display font-extrabold text-xl tracking-tighter px-3 py-1 rounded-md">
-              BENCH/
+          <div class="inline-flex items-baseline gap-2">
+            <span class="font-display font-extrabold text-xl tracking-[-0.08em] text-charcoal">
+              BENCH<span class="text-benchRed">/</span>
             </span>
-            <span class="text-xs font-extrabold tracking-widest uppercase text-neutral-500">VIETNAM</span>
+            <span class="text-[9px] font-bold tracking-[0.18em] uppercase text-neutral-500">Vietnam</span>
           </div>
           <p data-i18n="footerBio" class="text-sm text-neutral-600 leading-relaxed max-w-sm">
             Southeast Asia’s iconic lifestyle and streetwear brand. Championing everyday essentials, quality denim, and modern urban style across Vietnam.
@@ -961,6 +990,91 @@
     </div>
   </footer>
 
+  <!-- ACCOUNT PREVIEW MODAL -->
+  <div id="account-modal" role="dialog" aria-modal="true" aria-labelledby="account-modal-title" aria-describedby="account-preview-note" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs">
+    <div class="panel-reveal relative grid w-full max-w-4xl grid-cols-1 overflow-y-auto rounded-3xl bg-white shadow-2xl max-h-[92vh] md:grid-cols-2">
+      <button id="account-close-btn" type="button" onclick="closeAccountModal()" aria-label="Close account dialog" class="absolute right-4 top-4 z-20 flex h-9 w-9 items-center justify-center rounded-full bg-white/95 text-charcoal shadow-sm transition hover:bg-benchRed hover:text-white">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <section class="hidden flex-col justify-between bg-charcoal p-8 text-white md:flex lg:p-10">
+        <div>
+          <p data-i18n="accountAsideEyebrow" class="text-[10px] font-bold uppercase tracking-[0.22em] text-white/60">BENCH/ MEMBERS</p>
+          <div class="mt-16">
+            <p data-i18n="accountAsideKicker" class="text-[10px] font-semibold uppercase tracking-[0.22em] text-benchRed">A little more you</p>
+            <h2 data-i18n="accountAsideTitle" class="mt-4 font-display text-4xl font-extrabold leading-tight">Your everyday,<br />in one place.</h2>
+            <p data-i18n="accountAsideBody" class="mt-4 max-w-xs text-sm leading-6 text-white/70">Save your favorites, keep up with orders, and make checkout feel effortless.</p>
+          </div>
+        </div>
+        <ul class="mt-10 space-y-4 text-sm text-white/85">
+          <li class="flex items-center gap-3">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-benchRed">✓</span>
+            <span data-i18n="accountPerkOrders">Order updates, all in one place</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-benchRed">✓</span>
+            <span data-i18n="accountPerkSaved">Your favorite pieces, ready when you are</span>
+          </li>
+          <li class="flex items-center gap-3">
+            <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-benchRed">✓</span>
+            <span data-i18n="accountPerkCheckout">A quicker checkout next time</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="p-6 pt-16 sm:p-9 sm:pt-16 lg:p-10 lg:pt-16">
+        <p data-i18n="accountFormEyebrow" class="text-[10px] font-bold uppercase tracking-[0.2em] text-benchRed">BENCH/ ACCOUNT</p>
+        <h2 id="account-modal-title" data-i18n="accountModalTitle" class="mt-2 font-display text-3xl font-extrabold tracking-tight text-charcoal">Your account, your way.</h2>
+        <p data-i18n="accountModalSubtitle" class="mt-2 text-sm leading-6 text-neutral-500">Sign in or create an account for a more personal shopping experience.</p>
+
+        <div role="tablist" aria-label="Account options" class="mt-6 grid grid-cols-2 rounded-xl bg-offwhite p-1">
+          <button id="account-signin-tab" type="button" role="tab" aria-selected="true" aria-controls="account-signin-panel" onclick="setAccountMode('signin')" data-i18n="accountSignInTab" class="rounded-lg bg-white px-3 py-2.5 text-xs font-bold text-charcoal shadow-sm transition">Sign in</button>
+          <button id="account-signup-tab" type="button" role="tab" aria-selected="false" aria-controls="account-signup-panel" onclick="setAccountMode('signup')" data-i18n="accountCreateTab" class="rounded-lg px-3 py-2.5 text-xs font-bold text-neutral-500 transition hover:text-charcoal">Create account</button>
+        </div>
+
+        <p id="account-preview-note" role="note" data-i18n="accountPreviewNote" class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3.5 py-3 text-xs leading-5 text-amber-900">Preview only: account access isn't connected. Don't enter real credentials.</p>
+
+        <div id="account-signin-panel" role="tabpanel" aria-labelledby="account-signin-tab" class="mt-5">
+          <form id="account-signin-form" autocomplete="off" class="space-y-4" onsubmit="handleAccountPreviewSubmit(event)">
+            <div>
+              <label for="account-signin-email" data-i18n="accountEmailLabel" class="mb-1.5 block text-xs font-bold text-charcoal">Email address</label>
+              <input id="account-signin-email" type="email" autocomplete="off" required data-i18n-placeholder="accountEmailPlaceholder" placeholder="you@example.com" class="w-full rounded-xl border border-neutral-300 bg-offwhite px-3.5 py-3 text-sm transition focus:border-benchRed focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label for="account-signin-password" data-i18n="accountPasswordLabel" class="mb-1.5 block text-xs font-bold text-charcoal">Password</label>
+              <input id="account-signin-password" type="password" autocomplete="off" required data-i18n-placeholder="accountPasswordPlaceholder" placeholder="Enter your password" class="w-full rounded-xl border border-neutral-300 bg-offwhite px-3.5 py-3 text-sm transition focus:border-benchRed focus:bg-white focus:outline-none" />
+            </div>
+            <button type="submit" data-i18n="accountSignInSubmit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-charcoal py-3.5 text-sm font-bold text-white transition hover:bg-benchRed">Sign in</button>
+          </form>
+        </div>
+
+        <div id="account-signup-panel" role="tabpanel" aria-labelledby="account-signup-tab" class="mt-5 hidden">
+          <form id="account-signup-form" autocomplete="off" class="space-y-4" onsubmit="handleAccountPreviewSubmit(event)">
+            <div>
+              <label for="account-signup-name" data-i18n="accountNameLabel" class="mb-1.5 block text-xs font-bold text-charcoal">Full name</label>
+              <input id="account-signup-name" type="text" autocomplete="off" required data-i18n-placeholder="accountNamePlaceholder" placeholder="Your name" class="w-full rounded-xl border border-neutral-300 bg-offwhite px-3.5 py-3 text-sm transition focus:border-benchRed focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label for="account-signup-email" data-i18n="accountEmailLabel" class="mb-1.5 block text-xs font-bold text-charcoal">Email address</label>
+              <input id="account-signup-email" type="email" autocomplete="off" required data-i18n-placeholder="accountEmailPlaceholder" placeholder="you@example.com" class="w-full rounded-xl border border-neutral-300 bg-offwhite px-3.5 py-3 text-sm transition focus:border-benchRed focus:bg-white focus:outline-none" />
+            </div>
+            <div>
+              <label for="account-signup-password" data-i18n="accountPasswordLabel" class="mb-1.5 block text-xs font-bold text-charcoal">Create password</label>
+              <input id="account-signup-password" type="password" autocomplete="off" minlength="8" required data-i18n-placeholder="accountNewPasswordPlaceholder" placeholder="At least 8 characters" class="w-full rounded-xl border border-neutral-300 bg-offwhite px-3.5 py-3 text-sm transition focus:border-benchRed focus:bg-white focus:outline-none" />
+              <p data-i18n="accountPasswordHint" class="mt-1.5 text-[11px] text-neutral-500">Use at least 8 characters.</p>
+            </div>
+            <button type="submit" data-i18n="accountCreateSubmit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-charcoal py-3.5 text-sm font-bold text-white transition hover:bg-benchRed">Create account</button>
+          </form>
+        </div>
+
+        <p id="account-preview-feedback" role="status" aria-live="polite" data-i18n="accountPreviewResponse" class="mt-4 hidden rounded-xl bg-neutral-100 px-3.5 py-3 text-xs leading-5 text-neutral-700">This is a preview only—no account was created and no details were sent.</p>
+        <button type="button" onclick="closeAccountModal()" data-i18n="accountContinueGuest" class="mt-4 w-full rounded-xl border border-neutral-200 py-3 text-xs font-bold text-neutral-600 transition hover:border-charcoal hover:text-charcoal">Continue as guest</button>
+      </section>
+    </div>
+  </div>
+
   <!-- EXPLORE VIETNAM & ABOUT BENCH/ MODAL -->
   <div id="info-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs">
     <div class="panel-reveal relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
@@ -992,7 +1106,7 @@
     <div class="px-6 py-5 border-b border-neutral-200 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
         <h3 data-i18n="drawerTitle" class="font-display font-extrabold text-lg text-charcoal">Shopping Bag</h3>
-        <span id="drawer-item-count" class="text-xs font-bold bg-benchRed/10 text-benchRed px-2.5 py-0.5 rounded-full">2 items</span>
+        <span id="drawer-item-count" class="text-xs font-bold bg-benchRed/10 text-benchRed px-2.5 py-0.5 rounded-full">0 items</span>
       </div>
       <button id="cart-close-btn" type="button" aria-label="Close bag" class="w-9 h-9 rounded-full border border-neutral-200 hover:border-benchRed hover:text-benchRed flex items-center justify-center text-charcoal transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -1004,10 +1118,10 @@
     <!-- Free Shipping Progress Bar -->
     <div class="px-6 py-3.5 bg-offwhite border-b border-neutral-200">
       <p id="shipping-status-text" class="text-xs font-semibold text-charcoal mb-2">
-        You’ve unlocked <span class="text-benchRed font-bold">FREE Vietnam Shipping!</span>
+        Add 650.000₫ more for <span class="font-bold">FREE Vietnam Shipping</span>
       </p>
       <div class="w-full h-2 bg-neutral-200 dark:bg-neutral-700 rounded-full overflow-hidden">
-        <div id="shipping-progress-bar" class="h-full bg-benchRed rounded-full transition-all duration-300" style="width: 100%"></div>
+        <div id="shipping-progress-bar" class="h-full bg-benchRed rounded-full transition-all duration-300" style="width: 0%"></div>
       </div>
     </div>
 
@@ -1017,19 +1131,19 @@
     </div>
 
     <!-- Drawer Footer / Subtotal & Checkout -->
-    <div id="cart-footer" class="p-6 border-t border-neutral-200 bg-white space-y-4">
+    <div id="cart-footer" class="hidden p-6 border-t border-neutral-200 bg-white space-y-4">
       <div class="space-y-1.5 text-sm">
         <div class="flex justify-between text-neutral-600">
           <span data-i18n="subtotalLabel">Subtotal</span>
-          <span id="cart-subtotal" class="font-semibold text-charcoal">1.128.000₫</span>
+          <span id="cart-subtotal" class="font-semibold text-charcoal">0₫</span>
         </div>
         <div class="flex justify-between text-neutral-600">
           <span data-i18n="shippingLabel">Shipping</span>
-          <span id="cart-shipping" class="font-semibold text-emerald-600 dark:text-emerald-400">FREE</span>
+          <span id="cart-shipping" class="font-semibold text-emerald-600 dark:text-emerald-400">0₫</span>
         </div>
         <div class="flex justify-between text-base font-extrabold text-charcoal pt-2 border-t border-neutral-100">
           <span data-i18n="estimatedTotalLabel">Estimated Total</span>
-          <span id="cart-total">1.128.000₫</span>
+          <span id="cart-total">0₫</span>
         </div>
       </div>
 
@@ -1101,7 +1215,7 @@
 
           <div class="bg-offwhite p-4 rounded-xl flex items-center justify-between border border-neutral-200">
             <span data-i18n="totalDueLabel" class="text-xs font-bold uppercase tracking-wider text-neutral-600">Total Amount Due</span>
-            <span id="checkout-modal-total" class="font-display font-extrabold text-xl text-charcoal">1.128.000₫</span>
+            <span id="checkout-modal-total" class="font-display font-extrabold text-xl text-charcoal">0₫</span>
           </div>
 
           <button type="submit" data-i18n="placeOrderBtn" class="w-full bg-benchRed hover:bg-benchRedDark text-white font-bold text-sm py-3.5 rounded-xl transition shadow-sm">
@@ -1170,6 +1284,7 @@
         navWomen: "Women",
         navOutfitStudio: "Outfit Studio",
         studioHomeLink: "Shop",
+        themeToggleBtn: "Switch theme",
         collectionNavHome: "Home",
         collectionNavMen: "Men",
         collectionNavWomen: "Women",
@@ -1177,19 +1292,45 @@
         collectionTypeLabel: "Shop by item type",
         collectionTypeAll: "All items",
         bagBtn: "Bag",
+        accountButton: "Account",
+        accountAsideEyebrow: "BENCH/ MEMBERS",
+        accountAsideKicker: "A little more you",
+        accountAsideTitle: "Your everyday, in one place.",
+        accountAsideBody: "Save your favorites, keep up with orders, and make checkout feel effortless.",
+        accountPerkOrders: "Order updates, all in one place",
+        accountPerkSaved: "Your favorite pieces, ready when you are",
+        accountPerkCheckout: "A quicker checkout next time",
+        accountFormEyebrow: "BENCH/ ACCOUNT",
+        accountModalTitle: "Your account, your way.",
+        accountModalSubtitle: "Sign in or create an account for a more personal shopping experience.",
+        accountSignInTab: "Sign in",
+        accountCreateTab: "Create account",
+        accountPreviewNote: "Preview only: account access isn't connected. Don't enter real credentials.",
+        accountEmailLabel: "Email address",
+        accountEmailPlaceholder: "you@example.com",
+        accountPasswordLabel: "Password",
+        accountPasswordPlaceholder: "Enter your password",
+        accountNameLabel: "Full name",
+        accountNamePlaceholder: "Your name",
+        accountNewPasswordPlaceholder: "At least 8 characters",
+        accountPasswordHint: "Use at least 8 characters.",
+        accountSignInSubmit: "Sign in",
+        accountCreateSubmit: "Create account",
+        accountContinueGuest: "Continue as guest",
+        accountPreviewResponse: "This is a preview only—no account was created and no details were sent.",
         searchPlaceholder: "Search graphic tees, carpenter denim, overshirts...",
-        heroBadge: "Saigon & Hanoi Release ’26",
-        heroTitle: 'Bench/ <br /><span class="text-benchRed">Everyday</span> <br />Essentials.',
-        heroSubtitle: "Engineered for Southeast Asian tropical comfort and effortless city layering. Heavyweight combed cotton tees, relaxed denim, and clean silhouettes—now officially in Vietnam.",
-        heroCtaPrimary: "Shop The Collection",
-        heroCtaSecondary: "Explore Lookbook",
+        heroBadge: "Saigon / Hanoi — Bench/ Vietnam",
+        heroTitle: 'Everyday, <br /><span class="text-benchRed">in motion.</span>',
+        heroSubtitle: "Easy layers, relaxed denim, and everyday essentials made for the pace of Saigon and Hanoi.",
+        heroCtaPrimary: "Shop New Arrivals",
+        heroCtaSecondary: "Discover the campaign",
         trust1Title: "100% Cotton",
         trust1Sub: "Breathable weave",
         trust2Title: "Vietnam Exclusive",
         trust2Sub: "Official VN Release",
         trust3Title: "Easy Returns",
         trust3Sub: "30-day exchange",
-        newDropTag: "NEW DROP",
+        newDropTag: "Bench/ Vietnam",
         catalogEyebrow: "The Collection",
         catalogTitle: "Latest Drops",
         mensCollectionEyebrow: "The Collection",
@@ -1201,7 +1342,7 @@
         womensCollectionSubtitle: "Versatile tops, denim, and easy everyday favorites.",
         womensCollectionLink: "Shop Women’s Collection →",
         latestDropsEyebrow: "Just In",
-        latestDropsSubtitle: "A few of the latest arrivals, selected for you.",
+        latestDropsSubtitle: "New-season pieces made to move with you.",
         catAll: "All",
         catMen: "Men",
         catWomen: "Women",
@@ -1222,9 +1363,9 @@
         categoryFilterLabel: "Category:",
         subcategoryFilterLabel: "Subcategory:",
         searchFilterLabel: "Search:",
-        lookbookBadge: "CAMPAIGN 04 // BENCH/ VIETNAM",
+        lookbookBadge: "SAIGON / HANOI — BENCH/ VIETNAM",
         lookbookTitle: "Built for the <br />Streets of Saigon.",
-        lookbookBody: "From Manila to Ho Chi Minh City and Hanoi, Bench/ champions accessible everyday fashion. Our Vietnam debut capsule pairs crisp architectural tailoring with lived-in denim—crafted for warm days and vibrant city nights.",
+        lookbookBody: "From bright Saigon afternoons to Hanoi after dark, build your everyday uniform with easy layers, relaxed denim, and pieces made to move through the city.",
         stat1Title: "35+ Years",
         stat1Sub: "Of Asian streetwear heritage",
         stat2Sub: "Combed tropical-weight cotton",
@@ -1270,6 +1411,7 @@
         orderConfirmedBody: 'Thank you for shopping with <strong class="text-charcoal">BENCH/ Vietnam</strong>. Your order reference is <span class="font-mono font-bold text-benchRed">#BNCH-VN8492</span>. We’re packing your essentials now.',
         continueShoppingBtn: "Continue Shopping",
         quickViewBtn: "Quick View",
+        quickAddBtn: "Choose a size",
         addBtn: "+ Add",
         detailsHeading: "Product details",
         colorLabel: "Color",
@@ -1313,6 +1455,7 @@
         navWomen: "Nữ",
         navOutfitStudio: "Phối Đồ Ảo",
         studioHomeLink: "Cửa hàng",
+        themeToggleBtn: "Đổi giao diện",
         collectionNavHome: "Trang chủ",
         collectionNavMen: "Nam",
         collectionNavWomen: "Nữ",
@@ -1320,19 +1463,45 @@
         collectionTypeLabel: "Chọn loại sản phẩm",
         collectionTypeAll: "Tất cả sản phẩm",
         bagBtn: "Giỏ hàng",
+        accountButton: "Tài Khoản",
+        accountAsideEyebrow: "THÀNH VIÊN BENCH/",
+        accountAsideKicker: "Thêm dấu ấn riêng",
+        accountAsideTitle: "Phong cách mỗi ngày, trong một nơi.",
+        accountAsideBody: "Lưu sản phẩm yêu thích, theo dõi đơn hàng và thanh toán dễ dàng hơn.",
+        accountPerkOrders: "Cập nhật đơn hàng tại một nơi",
+        accountPerkSaved: "Sản phẩm yêu thích luôn sẵn sàng",
+        accountPerkCheckout: "Thanh toán nhanh hơn lần tới",
+        accountFormEyebrow: "TÀI KHOẢN BENCH/",
+        accountModalTitle: "Tài khoản theo cách của bạn.",
+        accountModalSubtitle: "Đăng nhập hoặc tạo tài khoản để có trải nghiệm mua sắm cá nhân hơn.",
+        accountSignInTab: "Đăng Nhập",
+        accountCreateTab: "Tạo Tài Khoản",
+        accountPreviewNote: "Bản xem trước: tài khoản chưa được kết nối. Vui lòng không nhập thông tin đăng nhập thật.",
+        accountEmailLabel: "Địa chỉ email",
+        accountEmailPlaceholder: "ban@example.com",
+        accountPasswordLabel: "Mật khẩu",
+        accountPasswordPlaceholder: "Nhập mật khẩu",
+        accountNameLabel: "Họ và tên",
+        accountNamePlaceholder: "Tên của bạn",
+        accountNewPasswordPlaceholder: "Ít nhất 8 ký tự",
+        accountPasswordHint: "Sử dụng ít nhất 8 ký tự.",
+        accountSignInSubmit: "Đăng Nhập",
+        accountCreateSubmit: "Tạo Tài Khoản",
+        accountContinueGuest: "Tiếp tục với tư cách khách",
+        accountPreviewResponse: "Đây chỉ là bản xem trước—tài khoản chưa được tạo và thông tin chưa được gửi.",
         searchPlaceholder: "Tìm áo thun in hình, quần denim, áo khoác sơ mi...",
-        heroBadge: "Ra Mắt Tại Sài Gòn & Hà Nội ’26",
-        heroTitle: 'Bench/ <br /><span class="text-benchRed">Trang Phục</span> <br />Thiết Yếu.',
-        heroSubtitle: "Thiết kế tối ưu cho khí hậu nhiệt đới Đông Nam Á và phong cách dạo phố hiện đại. Áo thun cotton dày dặn, quần denim phom rộng và đường cắt tinh tế—nay đã chính thức có mặt tại Việt Nam.",
-        heroCtaPrimary: "Mua Sắm Bộ Sưu Tập",
-        heroCtaSecondary: "Khám Phá Lookbook",
+        heroBadge: "Sài Gòn / Hà Nội — Bench/ Việt Nam",
+        heroTitle: 'Phong cách <br /><span class="text-benchRed">mỗi ngày.</span>',
+        heroSubtitle: "Lớp áo nhẹ, denim phóng khoáng và trang phục thiết yếu cho nhịp sống Sài Gòn và Hà Nội.",
+        heroCtaPrimary: "Khám phá hàng mới",
+        heroCtaSecondary: "Khám phá chiến dịch",
         trust1Title: "100% Cotton",
         trust1Sub: "Chất vải thoáng khí",
         trust2Title: "Độc Quyền Việt Nam",
         trust2Sub: "Phiên bản VN chính thức",
         trust3Title: "Đổi Trả Dễ Dàng",
         trust3Sub: "Đổi hàng trong 30 ngày",
-        newDropTag: "MỚI RA MẮT",
+        newDropTag: "Bench/ Việt Nam",
         catalogEyebrow: "Bộ Sưu Tập",
         catalogTitle: "Sản Phẩm Mới Nhất",
         mensCollectionEyebrow: "Bộ Sưu Tập",
@@ -1344,7 +1513,7 @@
         womensCollectionSubtitle: "Áo dễ phối, denim và những món đồ yêu thích hàng ngày.",
         womensCollectionLink: "Mua Bộ Sưu Tập Nữ →",
         latestDropsEyebrow: "Mới Về",
-        latestDropsSubtitle: "Một vài sản phẩm mới nhất được tuyển chọn dành cho bạn.",
+        latestDropsSubtitle: "Những thiết kế mới cho nhịp sống năng động mỗi ngày.",
         catAll: "Tất cả",
         catMen: "Nam",
         catWomen: "Nữ",
@@ -1365,9 +1534,9 @@
         categoryFilterLabel: "Danh mục:",
         subcategoryFilterLabel: "Danh mục con:",
         searchFilterLabel: "Tìm kiếm:",
-        lookbookBadge: "CHIẾN DỊCH 04 // BENCH/ VIỆT NAM",
+        lookbookBadge: "SÀI GÒN / HÀ NỘI — BENCH/ VIỆT NAM",
         lookbookTitle: "Thiết Kế Cho <br />Đường Phố Sài Gòn.",
-        lookbookBody: "Từ Manila đến TP. Hồ Chí Minh và Hà Nội, Bench/ mang đến thời trang ứng dụng hàng ngày đầy cá tính. Bộ sưu tập ra mắt tại Việt Nam kết hợp đường cắt hiện đại cùng chất liệu denim phóng khoáng cho những ngày nắng ấm và đêm thành phố sôi động.",
+        lookbookBody: "Từ những buổi chiều nắng ở Sài Gòn đến Hà Nội về đêm, hãy tạo phong cách thường ngày với denim phóng khoáng, lớp áo nhẹ và thiết kế linh hoạt cho nhịp sống thành phố.",
         stat1Title: "35+ Năm",
         stat1Sub: "Di sản thời trang đường phố châu Á",
         stat2Sub: "Cotton chải kỹ thoáng mát nhiệt đới",
@@ -1413,6 +1582,7 @@
         orderConfirmedBody: 'Cảm ơn bạn đã mua sắm tại <strong class="text-charcoal">BENCH/ Việt Nam</strong>. Mã đơn hàng của bạn là <span class="font-mono font-bold text-benchRed">#BNCH-VN8492</span>. Chúng tôi đang chuẩn bị đóng gói sản phẩm cho bạn.',
         continueShoppingBtn: "Tiếp Tục Mua Sắm",
         quickViewBtn: "Xem Nhanh",
+        quickAddBtn: "Chọn kích cỡ",
         addBtn: "+ Thêm",
         detailsHeading: "Thông Tin Sản Phẩm",
         colorLabel: "Màu sắc",
@@ -1506,12 +1676,14 @@
       const enBtn = document.getElementById("lang-en-btn");
       const viBtn = document.getElementById("lang-vi-btn");
       if (enBtn && viBtn) {
+        const activeClass = "border-b-2 border-benchRed px-1 py-1 font-bold text-charcoal dark:text-white transition";
+        const inactiveClass = "border-b-2 border-transparent px-1 py-1 text-neutral-500 hover:text-charcoal transition";
         if (lang === "en") {
-          enBtn.className = "px-2.5 py-1 rounded-full bg-charcoal dark:bg-benchRed text-white transition";
-          viBtn.className = "px-2.5 py-1 rounded-full text-neutral-600 hover:text-charcoal transition";
+          enBtn.className = activeClass;
+          viBtn.className = inactiveClass;
         } else {
-          viBtn.className = "px-2.5 py-1 rounded-full bg-benchRed text-white transition";
-          enBtn.className = "px-2.5 py-1 rounded-full text-neutral-600 hover:text-charcoal transition";
+          viBtn.className = activeClass;
+          enBtn.className = inactiveClass;
         }
       }
 
@@ -1885,6 +2057,13 @@
           >
             ${t("navOutfitStudio")}
           </a>
+          <button
+            type="button"
+            onclick="toggleDarkMode()"
+            class="mt-2 flex w-full items-center justify-between border-t border-neutral-200 px-3 py-3 text-left text-xs font-semibold uppercase tracking-wider text-neutral-500 transition hover:text-charcoal"
+          >
+            <span data-i18n="themeToggleBtn">${t("themeToggleBtn")}</span>
+          </button>
         `;
     }
 
@@ -1911,7 +2090,12 @@
         colors: [
           { name: "Assorted Colors", nameVi: "Nhiều màu", hex: "#B8A58C" }
         ],
-        sizes: ["S", "M", "L", "XL"],
+        sizes: [
+          "32A", "32B", "32C", "32D",
+          "34A", "34B", "34C", "34D",
+          "36A", "36B", "36C", "36D",
+          "38A", "38B", "38C", "38D"
+        ],
         description: "Women's two-piece pack wireless bra.",
         descriptionVi: "Bộ 2 áo ngực không gọng dành cho nữ.",
         details: ["Two-piece pack", "Wireless bra"],
@@ -1938,7 +2122,12 @@
         colors: [
           { name: "Assorted Colors", nameVi: "Nhiều màu", hex: "#B8A58C" }
         ],
-        sizes: ["S", "M", "L", "XL"],
+        sizes: [
+          "32A", "32B", "32C", "32D",
+          "34A", "34B", "34C", "34D",
+          "36A", "36B", "36C", "36D",
+          "38A", "38B", "38C", "38D"
+        ],
         description: "Women's two-piece pack wired bra.",
         descriptionVi: "Bộ 2 áo ngực có gọng dành cho nữ.",
         details: ["Two-piece pack", "Wired bra"],
@@ -1970,7 +2159,7 @@
         colors: [
           { name: "Assorted Colors", nameVi: "Nhiều màu", hex: "#B8A58C" }
         ],
-        sizes: ["S", "M", "L", "XL"],
+        sizes: ["XS", "S", "M", "L", "XL"],
         description: "Women's three-piece pack mid-rise bikini underwear.",
         descriptionVi: "Bộ 3 quần lót bikini cạp vừa dành cho nữ.",
         details: ["Three-piece pack", "Mid-rise bikini cut"],
@@ -4166,30 +4355,76 @@
     const PRODUCTS_PER_PAGE = 12;
     let productDisplayLimit = PRODUCTS_PER_PAGE;
 
-    let cart = [
-      {
-        id: 15,
-        name: "Bench x Kim Soo Hyun Men's Varsity Jacket",
-        nameVi: "Áo Khoác Varsity Nam Bench x Kim Soo Hyun",
-        price: 679000,
-        color: "Collegiate Black / Cream",
-        colorVi: "Đen Phối Kem",
-        size: "L",
-        qty: 1,
-        image: "https://shop.bench.com.ph/cdn/shop/files/temp_1784085219439.-105119391.jpg?v=1784099639&width=640"
-      },
-      {
-        id: 14,
-        name: "Bench Everyday Men's Hooded Pullover",
-        nameVi: "Áo Hoodie Chui Đầu Nam Bench Everyday",
-        price: 449000,
-        color: "Warm Cream",
-        colorVi: "Kem Ấm",
-        size: "M",
-        qty: 1,
-        image: "https://shop.bench.com.ph/cdn/shop/files/ITJ0365CR2_MD_F_ZA.jpg?v=1753673238&width=640"
+    const CART_STORAGE_KEY = "benchVietnamShoppingBag";
+
+    function loadCart() {
+      let savedCart;
+      try {
+        savedCart = localStorage.getItem(CART_STORAGE_KEY);
+      } catch (error) {
+        console.error("Unable to read the saved shopping bag.", error);
+        return [];
       }
-    ];
+
+      if (savedCart === null) return [];
+
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        if (!Array.isArray(parsedCart)) {
+          throw new Error("Saved shopping bag data must be an array.");
+        }
+
+        return parsedCart.map((item) => {
+          if (
+            !item ||
+            !Number.isInteger(item.id) ||
+            typeof item.color !== "string" ||
+            typeof item.size !== "string" ||
+            !Number.isInteger(item.qty) ||
+            item.qty <= 0
+          ) {
+            throw new Error("Saved shopping bag contains an invalid item.");
+          }
+
+          const product = products.find((candidate) => candidate.id === item.id);
+          const color = product && product.colors.find((candidate) => candidate.name === item.color);
+          const isAvailableSize =
+            product &&
+            product.sizes.includes(item.size) &&
+            !(product.outOfStockSizes && product.outOfStockSizes.includes(item.size));
+
+          if (!product || !color || !isAvailableSize) {
+            throw new Error("Saved shopping bag contains an unavailable product option.");
+          }
+
+          return {
+            id: product.id,
+            name: product.name,
+            nameVi: product.nameVi || product.name,
+            price: product.price,
+            color: color.name,
+            colorVi: color.nameVi || color.name,
+            size: item.size,
+            qty: item.qty,
+            image: product.image
+          };
+        });
+      } catch (error) {
+        console.error("Unable to restore the saved shopping bag.", error);
+        return [];
+      }
+    }
+
+    let cart = loadCart();
+
+    function persistCart() {
+      try {
+        const savedCart = cart.map(({ id, color, size, qty }) => ({ id, color, size, qty }));
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(savedCart));
+      } catch (error) {
+        console.error("Unable to save the shopping bag.", error);
+      }
+    }
 
     const FREE_SHIPPING_THRESHOLD = 650000;
     const STANDARD_SHIPPING_FEE = 35000;
@@ -4235,8 +4470,8 @@
 
         const isActive = collectionPageCategory === category;
         link.className = isActive
-          ? "collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold bg-charcoal text-white transition"
-          : "collection-route-link shrink-0 rounded-full px-4 py-2 text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition";
+          ? "collection-route-link shrink-0 border-b-2 border-benchRed pb-2 text-xs font-semibold text-charcoal transition"
+          : "collection-route-link shrink-0 border-b-2 border-transparent pb-2 text-xs font-semibold text-neutral-500 hover:text-charcoal transition";
         if (isActive) {
           link.setAttribute("aria-current", "page");
         } else {
@@ -4267,8 +4502,8 @@
           const isActive = selectedSubcategory === value.toLowerCase();
           const href = getCollectionUrl(collectionPageCategory, value).replace(/&/g, "&amp;");
           const classes = isActive
-            ? "rounded-full px-4 py-2 text-xs font-bold bg-charcoal text-white transition"
-            : "rounded-full px-4 py-2 text-xs font-bold bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition";
+            ? "border-b-2 border-benchRed pb-2 text-xs font-semibold text-charcoal transition"
+            : "border-b-2 border-transparent pb-2 text-xs font-medium text-neutral-500 hover:text-charcoal transition";
           return `<a href="${href}" class="${classes}"${isActive ? ' aria-current="page"' : ""}>${label}</a>`;
         })
         .join("");
@@ -4386,73 +4621,65 @@
             ? `<img
                 src="${product.hoverImage}"
                 onerror="this.style.display='none';"
-                alt="${displayName} detail view"
-                class="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                alt=""
+                loading="lazy"
+                class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
               />`
             : "";
 
           return `
-          <article class="group bg-white rounded-2xl border border-neutral-200/80 hover:border-benchRed/40 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
-            <div class="relative aspect-[4/5] bg-offwhite overflow-hidden cursor-pointer" onclick="openQuickView(${product.id})">
+          <article class="flex flex-col">
+            <div class="group relative aspect-[4/5] overflow-hidden bg-[#F1EEE8]">
+              <button
+                type="button"
+                onclick="openQuickView(${product.id})"
+                aria-label="${t("quickViewBtn")}: ${displayName}"
+                class="absolute inset-0 z-0 block h-full w-full text-left"
+              >
               <img
                 src="${product.image}"
                 onerror="this.onerror=null;this.src='${product.fallback}';"
-                alt="${displayName}"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                alt=""
+                loading="lazy"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
               ${hoverImgMarkup}
+              </button>
               ${
                 displayBadge
-                  ? `<span class="absolute top-3 left-3 bg-benchRed text-white text-[10px] font-extrabold tracking-widest uppercase px-2.5 py-1 rounded-md shadow-xs">${displayBadge}</span>`
+                  ? `<span class="pointer-events-none absolute left-3 top-3 z-10 bg-white/95 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-charcoal">${displayBadge}</span>`
                   : ""
               }
-              <div class="absolute inset-x-3 bottom-3 flex gap-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-200">
-                <button
-                  type="button"
-                  onclick="event.stopPropagation(); openQuickView(${product.id})"
-                  class="flex-1 bg-white/95 hover:bg-charcoal text-charcoal hover:text-white font-bold text-xs py-2.5 rounded-xl shadow-sm transition"
-                >
-                  ${t("quickViewBtn")}
+              <button
+                type="button"
+                onclick="openQuickView(${product.id})"
+                aria-label="${t("quickAddBtn")}: ${displayName}"
+                class="pointer-events-auto absolute inset-x-2 bottom-2 z-20 translate-y-0 bg-white px-3 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-charcoal opacity-100 transition-all duration-200 hover:bg-benchRed hover:text-white lg:pointer-events-none lg:translate-y-2 lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:translate-y-0 lg:group-hover:opacity-100 lg:group-focus-within:pointer-events-auto lg:group-focus-within:translate-y-0 lg:group-focus-within:opacity-100"
+              >
+                ${t("quickAddBtn")}
                 </button>
-                <button
-                  type="button"
-                  onclick="event.stopPropagation(); quickAddDefault(${product.id})"
-                  class="bg-benchRed hover:bg-benchRedDark text-white font-bold text-xs px-3.5 py-2.5 rounded-xl shadow-sm transition"
-                >
-                  ${t("addBtn")}
-                </button>
-              </div>
             </div>
 
-            <div class="p-4 flex-1 flex flex-col justify-between space-y-3">
-              <div>
-                <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-neutral-400">
-                  <span class="text-benchRed/90">${displayCat}</span>
-                  <span>${displayGender}</span>
-                </div>
-                <h3
+            <div class="flex flex-1 flex-col pt-3">
+              <div class="text-[9px] font-semibold uppercase tracking-[0.16em] text-neutral-500">
+                ${displayCat} <span class="px-1 text-neutral-300">/</span> ${displayGender}
+              </div>
+              <div class="mt-1 flex flex-1 flex-col">
+                <button
+                  type="button"
                   onclick="openQuickView(${product.id})"
-                  class="font-bold text-sm sm:text-base text-charcoal mt-1 group-hover:text-benchRed transition cursor-pointer line-clamp-1"
+                  class="text-left text-sm font-medium leading-snug text-charcoal transition hover:text-benchRed sm:text-[15px]"
                 >
                   ${displayName}
-                </h3>
-                <p class="font-display font-extrabold text-base text-charcoal mt-1">
+                </button>
+                <p class="mt-1.5 text-sm font-semibold text-charcoal">
                   ${formatVND(product.price)}
                 </p>
               </div>
 
-              <div class="pt-2.5 border-t border-neutral-100 flex items-center justify-between">
-                <div class="flex items-center gap-1.5 min-w-0">
+              <div class="mt-3 flex items-center gap-1.5">
                   ${swatches}
-                  <span class="text-[11px] text-neutral-500 ml-1 truncate">${displayColorName}</span>
-                </div>
-                <button
-                  type="button"
-                  onclick="openQuickView(${product.id})"
-                  class="text-xs font-bold text-charcoal hover:text-benchRed transition shrink-0 ml-2"
-                >
-                  ${t("quickViewBtn")}
-                </button>
+                  <span class="ml-1 truncate text-[10px] text-neutral-500">${displayColorName}</span>
               </div>
             </div>
           </article>
@@ -4463,23 +4690,50 @@
 
     function renderCollectionCard(product) {
       const productName = getProductName(product);
+      const productBadge = product.badge ? getBadgeLabel(product.badge) : "";
+      const hoverImageMarkup = product.hoverImage
+        ? `<img
+            src="${product.hoverImage}"
+            onerror="this.style.display='none';"
+            alt=""
+            loading="lazy"
+            class="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+          />`
+        : "";
       return `
-        <article class="group bg-white rounded-2xl border border-neutral-200/80 hover:border-benchRed/40 overflow-hidden hover:shadow-lg transition-all duration-300">
-          <button type="button" onclick="openQuickView(${product.id})" class="block w-full text-left">
-            <div class="aspect-[4/5] bg-offwhite overflow-hidden">
+        <article class="flex flex-col">
+          <div class="group relative aspect-[4/5] overflow-hidden bg-[#F1EEE8]">
+            <button type="button" onclick="openQuickView(${product.id})" aria-label="${t("quickViewBtn")}: ${productName}" class="absolute inset-0 z-0 block h-full w-full text-left">
               <img
                 src="${product.image}"
                 onerror="this.onerror=null;this.src='${product.fallback}';"
-                alt="${productName}"
+                alt=""
                 loading="lazy"
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
               />
-            </div>
-            <div class="p-3 sm:p-4">
-              <h3 class="font-bold text-sm text-charcoal group-hover:text-benchRed transition line-clamp-2 min-h-[2.5rem]">${productName}</h3>
-              <p class="font-display font-extrabold text-sm text-charcoal mt-1">${formatVND(product.price)}</p>
-            </div>
-          </button>
+              ${hoverImageMarkup}
+            </button>
+            ${
+              productBadge
+                ? `<span class="pointer-events-none absolute left-3 top-3 z-10 bg-white/95 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-charcoal">${productBadge}</span>`
+                : ""
+            }
+            <button
+              type="button"
+              onclick="openQuickView(${product.id})"
+              aria-label="${t("quickAddBtn")}: ${productName}"
+              class="pointer-events-auto absolute inset-x-2 bottom-2 z-20 translate-y-0 bg-white px-3 py-3 text-[10px] font-bold uppercase tracking-[0.14em] text-charcoal opacity-100 transition-all duration-200 hover:bg-benchRed hover:text-white lg:pointer-events-none lg:translate-y-2 lg:opacity-0 lg:group-hover:pointer-events-auto lg:group-hover:translate-y-0 lg:group-hover:opacity-100 lg:group-focus-within:pointer-events-auto lg:group-focus-within:translate-y-0 lg:group-focus-within:opacity-100"
+            >
+              ${t("quickAddBtn")}
+            </button>
+          </div>
+          <div class="flex flex-1 flex-col pt-3">
+            <p class="text-[9px] font-semibold uppercase tracking-[0.16em] text-neutral-500">${getSubcategoryLabel(product.subCategory || product.category)}</p>
+            <button type="button" onclick="openQuickView(${product.id})" class="mt-1 text-left text-sm font-medium leading-snug text-charcoal transition hover:text-benchRed">
+              ${productName}
+            </button>
+            <p class="mt-1.5 text-sm font-semibold text-charcoal">${formatVND(product.price)}</p>
+          </div>
         </article>
       `;
     }
@@ -4518,8 +4772,8 @@
       document.querySelectorAll(".category-pill").forEach((btn) => {
         const isMatch = btn.getAttribute("data-category") === category;
         btn.className = isMatch
-          ? "category-pill active px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-charcoal text-white transition"
-          : "category-pill px-4 py-2 rounded-full text-xs font-bold tracking-wide bg-neutral-100 text-neutral-700 hover:bg-neutral-200 transition";
+          ? "category-pill active pb-3 text-xs font-semibold tracking-wide text-charcoal transition"
+          : "category-pill pb-3 text-xs font-semibold tracking-wide text-neutral-500 hover:text-charcoal transition";
       });
     }
 
@@ -4877,6 +5131,7 @@
           image: product.image
         });
       }
+      persistCart();
       renderCart();
       openCartDrawer();
       const itemLabel = currentLang === "vi" ? product.nameVi || product.name : product.name;
@@ -4893,11 +5148,13 @@
       if (cart[index].qty <= 0) {
         cart.splice(index, 1);
       }
+      persistCart();
       renderCart();
     }
 
     function removeCartItem(index) {
       cart.splice(index, 1);
+      persistCart();
       renderCart();
     }
 
@@ -4919,7 +5176,10 @@
       const shippingFee = subtotal === 0 ? 0 : isFreeShipping ? 0 : STANDARD_SHIPPING_FEE;
       const grandTotal = subtotal + shippingFee;
 
-      if (badge) badge.textContent = totalItems;
+      if (badge) {
+        badge.textContent = totalItems;
+        badge.style.visibility = "visible";
+      }
       if (drawerCount) {
         drawerCount.textContent =
           currentLang === "vi"
@@ -5055,6 +5315,7 @@
 
     function finishOrderAndReset() {
       cart = [];
+      persistCart();
       renderCart();
       closeCheckoutModal();
     }
@@ -5518,6 +5779,70 @@
     function closeInfoModal() {
       const modal = document.getElementById("info-modal");
       if (modal) modal.classList.add("hidden");
+    }
+
+    function setAccountMode(mode) {
+      const isSignUp = mode === "signup";
+      const signInTab = document.getElementById("account-signin-tab");
+      const signUpTab = document.getElementById("account-signup-tab");
+      const signInPanel = document.getElementById("account-signin-panel");
+      const signUpPanel = document.getElementById("account-signup-panel");
+      const feedback = document.getElementById("account-preview-feedback");
+
+      if (!signInTab || !signUpTab || !signInPanel || !signUpPanel) return;
+
+      signInTab.setAttribute("aria-selected", String(!isSignUp));
+      signUpTab.setAttribute("aria-selected", String(isSignUp));
+      signInTab.className = isSignUp
+        ? "rounded-lg px-3 py-2.5 text-xs font-bold text-neutral-500 transition hover:text-charcoal"
+        : "rounded-lg bg-white px-3 py-2.5 text-xs font-bold text-charcoal shadow-sm transition";
+      signUpTab.className = isSignUp
+        ? "rounded-lg bg-white px-3 py-2.5 text-xs font-bold text-charcoal shadow-sm transition"
+        : "rounded-lg px-3 py-2.5 text-xs font-bold text-neutral-500 transition hover:text-charcoal";
+      signInPanel.classList.toggle("hidden", isSignUp);
+      signUpPanel.classList.toggle("hidden", !isSignUp);
+
+      if (feedback) {
+        feedback.textContent = "";
+        feedback.classList.add("hidden");
+      }
+    }
+
+    function openAccountModal(mode) {
+      const modal = document.getElementById("account-modal");
+      if (!modal) return;
+
+      const accountMode = mode === "signup" ? "signup" : "signin";
+      setAccountMode(accountMode);
+      modal.classList.remove("hidden");
+
+      const firstFieldId =
+        accountMode === "signup" ? "account-signup-name" : "account-signin-email";
+      const firstField = document.getElementById(firstFieldId);
+      if (firstField) firstField.focus();
+    }
+
+    function closeAccountModal() {
+      const modal = document.getElementById("account-modal");
+      if (!modal || modal.classList.contains("hidden")) return;
+      modal.classList.add("hidden");
+
+      ["account-signin-form", "account-signup-form"].forEach((formId) => {
+        const form = document.getElementById(formId);
+        if (form) form.reset();
+      });
+
+      const openButton = document.getElementById("account-open-btn");
+      if (openButton) openButton.focus();
+    }
+
+    function handleAccountPreviewSubmit(event) {
+      event.preventDefault();
+      const feedback = document.getElementById("account-preview-feedback");
+      if (!feedback) return;
+
+      feedback.textContent = t("accountPreviewResponse");
+      feedback.classList.remove("hidden");
     }
 
     function showToast(message) {
@@ -6017,6 +6342,12 @@
       }
 
       // Close Modals on Backdrop Click & Escape Key
+      const accountModal = document.getElementById("account-modal");
+      if (accountModal) {
+        accountModal.addEventListener("click", (e) => {
+          if (e.target === accountModal) closeAccountModal();
+        });
+      }
       const qvModal = document.getElementById("quick-view-modal");
       if (qvModal) {
         qvModal.addEventListener("click", (e) => {
@@ -6039,6 +6370,7 @@
         if (e.key === "Escape") {
           closeQuickView();
           closeInfoModal();
+          closeAccountModal();
           closeCheckoutModal();
           closeCartDrawer();
           closeAllMegaPanels();
