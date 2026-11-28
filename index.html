@@ -240,6 +240,14 @@
       background-color: #0D0D0F;
       color: #F3F4F6;
     }
+    html.dark #lookbook {
+      background-color: #0D0D0F;
+      color: #F3F4F6;
+    }
+    html.dark #lookbook .expansion-card {
+      background-color: #1D1D22;
+      color: #F4F4F6;
+    }
     html.dark header {
       background-color: rgba(18, 18, 21, 0.92) !important;
       border-color: #26262B !important;
@@ -698,7 +706,7 @@
     </div>
   </details>
 
-  <details id="womens-collection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 border-t border-neutral-200/80 group">
+  <details id="womens-collection" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9 border-y border-neutral-200/80 group">
     <summary aria-controls="womens-collection-content" class="flex items-center justify-between gap-4 cursor-pointer list-none">
       <div>
         <span data-i18n="womensCollectionEyebrow" class="text-xs font-extrabold tracking-widest uppercase text-benchRed">THE COLLECTION</span>
@@ -924,14 +932,14 @@
   </section>
 
   <!-- 5. EDITORIAL LOOKBOOK & BRAND STORY SECTION -->
-  <section id="lookbook" class="bg-charcoal text-white py-16 sm:py-24">
+  <section id="lookbook" class="bg-[#FAF9F6] py-12 text-charcoal transition-colors duration-200 sm:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <div class="grid grid-cols-1 items-center gap-6 lg:grid-cols-12 lg:gap-10">
 
         <!-- Left Split Story -->
-        <div class="lg:col-span-5 space-y-6">
+        <div class="lg:col-span-5">
           <h2 data-i18n-html="lookbookTitle" class="font-display font-extrabold text-3xl sm:text-5xl leading-tight tracking-tight">
-            BENCH/ GOES BEYOND BORDERS
+            BENCH/ GOES<br />BEYOND<br />BORDERS
           </h2>
         </div>
 
@@ -968,34 +976,34 @@
 
       </div>
       <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
-        <article class="rounded-2xl bg-[#F8F3F4] p-5 text-charcoal dark:bg-neutral-800 sm:p-6">
-          <svg class="mb-3 h-9 w-9 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+        <article class="expansion-card group flex h-full flex-col rounded-2xl border border-neutral-200 border-t-2 border-t-benchRed bg-[#FFFFFF] p-5 text-charcoal shadow-sm transition-colors duration-200 hover:border-neutral-400 sm:p-6">
+          <svg class="mb-4 h-10 w-10 rounded-full bg-benchRed/10 p-2 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M3 17l6-6 4 4 8-8" />
             <path d="M15 7h6v6M4 21h16" />
             <path d="M5 18v2m5-5v5m5-5v5m5-11v11" />
           </svg>
-          <p data-i18n="expansionCard1Eyebrow" class="text-sm font-semibold">A Growing Presence</p>
-          <h3 data-i18n="expansionCard1Title" class="mt-2 font-display text-xl font-extrabold leading-tight">1st Store in Vietnam</h3>
+          <p data-i18n="expansionCard1Eyebrow" class="text-xs font-bold uppercase tracking-[0.12em] text-benchRed">A Growing Presence</p>
+          <h3 data-i18n="expansionCard1Title" class="mt-2 font-display text-lg font-extrabold leading-tight sm:text-xl">1st Store in Vietnam</h3>
           <p data-i18n="expansionCard1Body" class="mt-2 text-sm leading-relaxed text-neutral-700">Part of BENCH/’s continued expansion in Southeast Asia.</p>
         </article>
-        <article class="rounded-2xl bg-[#F8F3F4] p-5 text-charcoal dark:bg-neutral-800 sm:p-6">
-          <svg class="mb-3 h-9 w-9 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+        <article class="expansion-card group flex h-full flex-col rounded-2xl border border-neutral-200 border-t-2 border-t-benchRed bg-[#FFFFFF] p-5 text-charcoal shadow-sm transition-colors duration-200 hover:border-neutral-400 sm:p-6">
+          <svg class="mb-4 h-10 w-10 rounded-full bg-benchRed/10 p-2 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M12 3a3 3 0 0 1 3 3c0 1.7-1.3 2.5-2.5 3.4V12" />
             <path d="M12.5 12H21l-9 8-9-8h8.5" />
             <path d="M10 15h4" />
           </svg>
-          <p data-i18n="expansionCard2Eyebrow" class="text-sm font-semibold">Fashion for Every You</p>
-          <h3 data-i18n="expansionCard2Title" class="mt-2 font-display text-xl font-extrabold leading-tight">Trendy. Comfortable. Timeless.</h3>
+          <p data-i18n="expansionCard2Eyebrow" class="text-xs font-bold uppercase tracking-[0.12em] text-benchRed">Fashion for Every You</p>
+          <h3 data-i18n="expansionCard2Title" class="mt-2 font-display text-lg font-extrabold leading-tight sm:text-xl">Trendy. Comfortable. Timeless.</h3>
           <p data-i18n="expansionCard2Body" class="mt-2 text-sm leading-relaxed text-neutral-700">Styles that fit your everyday life — anywhere, anytime.</p>
         </article>
-        <article class="rounded-2xl bg-[#F8F3F4] p-5 text-charcoal dark:bg-neutral-800 sm:p-6">
-          <svg class="mb-3 h-9 w-9 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+        <article class="expansion-card group flex h-full flex-col rounded-2xl border border-neutral-200 border-t-2 border-t-benchRed bg-[#FFFFFF] p-5 text-charcoal shadow-sm transition-colors duration-200 hover:border-neutral-400 sm:p-6">
+          <svg class="mb-4 h-10 w-10 rounded-full bg-benchRed/10 p-2 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M8 11l2-2 3 2 3-2 5 4-5 5-4-2-3 2-6-5 3-3 2 1z" />
             <path d="M2 12l4-4 3 2m13 3 2-3-4-3-3 2" />
             <path d="M9 13l3 3m1-5 3 3m-7 0 2 2" />
           </svg>
-          <p data-i18n="expansionCard3Eyebrow" class="text-sm font-semibold">A Stronger Connection</p>
-          <h3 data-i18n="expansionCard3Title" class="mt-2 font-display text-xl font-extrabold leading-tight">Bringing Filipino Fashion Closer to You</h3>
+          <p data-i18n="expansionCard3Eyebrow" class="text-xs font-bold uppercase tracking-[0.12em] text-benchRed">A Stronger Connection</p>
+          <h3 data-i18n="expansionCard3Title" class="mt-2 font-display text-lg font-extrabold leading-tight sm:text-xl">Bringing Filipino Fashion Closer to You</h3>
           <p data-i18n="expansionCard3Body" class="mt-2 text-sm leading-relaxed text-neutral-700">Building a community through style.</p>
         </article>
       </div>
@@ -1473,7 +1481,7 @@
         categoryFilterLabel: "Category:",
         subcategoryFilterLabel: "Subcategory:",
         searchFilterLabel: "Search:",
-        lookbookTitle: "BENCH/ GOES BEYOND BORDERS",
+        lookbookTitle: "BENCH/ GOES<br />BEYOND<br />BORDERS",
         expansionCard1Eyebrow: "A Growing Presence",
         expansionCard1Title: "1st Store in Vietnam",
         expansionCard1Body: "Part of BENCH/’s continued expansion in Southeast Asia.",
@@ -1647,7 +1655,7 @@
         categoryFilterLabel: "Danh mục:",
         subcategoryFilterLabel: "Danh mục con:",
         searchFilterLabel: "Tìm kiếm:",
-        lookbookTitle: "BENCH/ VƯƠN XA BIÊN GIỚI",
+        lookbookTitle: "BENCH/<br />VƯƠN XA<br />BIÊN GIỚI",
         expansionCard1Eyebrow: "Dấu Ấn Ngày Càng Lớn",
         expansionCard1Title: "Cửa Hàng Đầu Tiên Tại Việt Nam",
         expansionCard1Body: "Tiếp nối hành trình mở rộng của BENCH/ tại Đông Nam Á.",
