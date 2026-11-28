@@ -131,6 +131,28 @@
       outline: 2px solid #E31837;
       outline-offset: 2px;
     }
+    @media (prefers-reduced-motion: reduce) {
+      #home-hero-video {
+        display: none;
+      }
+    }
+    #home-hero-poster,
+    #home-hero-video {
+      object-position: center center;
+      transform-origin: left center;
+      transform: scale(1.1);
+    }
+    #home-hero-video {
+      filter: brightness(1.04) contrast(0.98);
+    }
+    @media (max-width: 767px) {
+      #home-hero-poster,
+      #home-hero-video {
+        object-position: 70% center;
+        transform-origin: center center;
+        transform: scale(1.05) translateY(-14%);
+      }
+    }
     body.qv-open {
       overflow: hidden;
     }
@@ -502,36 +524,50 @@
   </nav>
 
   <!-- 3. EDITORIAL HERO SECTION -->
-  <section id="home-hero" class="relative isolate min-h-[620px] sm:min-h-[700px] lg:min-h-[760px] overflow-hidden bg-neutral-900 text-white">
+  <section id="home-hero" class="relative isolate min-h-[760px] sm:min-h-[700px] lg:min-h-[760px] overflow-hidden bg-neutral-900 text-white">
     <img
-      src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?auto=format&fit=crop&w=2000&q=90"
+      id="home-hero-poster"
+      src="https://images.pexels.com/videos/7326366/pexels-photo-7326366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
       onerror="this.onerror=null;this.src='https://placehold.co/2000x1200/141414/FFFFFF?text=BENCH%2F+VIETNAM+CAMPAIGN';"
       alt=""
       aria-hidden="true"
       fetchpriority="high"
-      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_12%]"
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-center"
     />
-    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/80 via-black/55 to-black/10"></div>
-    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/45 via-transparent to-black/10"></div>
+    <video
+      id="home-hero-video"
+      class="absolute inset-0 -z-10 h-full w-full object-cover object-[center_12%]"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="https://images.pexels.com/videos/7326366/pexels-photo-7326366.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+      aria-hidden="true"
+    >
+      <source src="https://videos.pexels.com/video-files/7326366/7326366-hd_1920_1080_24fps.mp4" type="video/mp4" />
+    </video>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-r from-black/70 via-black/40 to-black/10"></div>
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/40 via-transparent to-black/10"></div>
 
-    <div class="mx-auto flex min-h-[620px] max-w-7xl items-end px-4 pb-14 pt-24 sm:min-h-[700px] sm:px-6 sm:pb-20 lg:min-h-[760px] lg:items-center lg:px-8">
-      <div class="max-w-3xl">
+    <div class="mx-auto flex min-h-[760px] max-w-7xl items-end px-4 pb-14 pt-24 sm:min-h-[700px] sm:px-6 sm:pb-20 lg:min-h-[760px] lg:items-center lg:px-8">
+      <div class="max-w-4xl">
         <p data-i18n="heroBadge" class="mb-6 text-[10px] font-semibold uppercase tracking-[0.24em] text-white/80 sm:text-xs">
-          Saigon / Hanoi — Bench/ Vietnam
+          A Filipino Original — Now Introducing to Vietnam
         </p>
-        <h1 data-i18n-html="heroTitle" class="font-display text-5xl font-extrabold uppercase leading-[0.92] tracking-[-0.06em] sm:text-7xl lg:text-8xl">
-          Everyday, <br /><span class="text-benchRed">in motion.</span>
+        <h1 data-i18n-html="heroTitle" class="font-display text-4xl font-extrabold uppercase leading-[0.92] tracking-[-0.06em] sm:text-6xl lg:text-6xl">
+          Everyday style.<br /><span class="text-benchRed">Your city. Your story.</span>
         </h1>
         <p data-i18n="heroSubtitle" class="mt-6 max-w-xl text-sm leading-relaxed text-white/80 sm:text-base">
-          Easy layers, relaxed denim, and everyday essentials made for the pace of Saigon and Hanoi.
+          Discover BENCH/ — the Filipino lifestyle brand bringing versatile fashion and everyday essentials to Vietnam. From casual city days to nights out, find styles that move with you.
         </p>
         <div class="mt-8 flex flex-wrap items-center gap-x-7 gap-y-4">
-          <a href="#home-latest-drops" data-i18n="heroCtaPrimary" class="inline-flex items-center justify-center bg-white px-6 py-3.5 text-xs font-bold uppercase tracking-[0.12em] text-charcoal transition hover:bg-benchRed hover:text-white sm:px-8 sm:py-4">
-            Shop New Arrivals
-          </a>
-          <a href="#lookbook" data-i18n="heroCtaSecondary" class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-white transition hover:text-benchRed">
-            Discover the campaign <span aria-hidden="true">↗</span>
-          </a>
+          <button type="button" onclick="openInfoModal('about-bench')" data-i18n="heroCtaPrimary" class="inline-flex items-center justify-center bg-white px-6 py-3.5 text-xs font-bold uppercase tracking-[0.12em] text-charcoal transition hover:bg-benchRed hover:text-white sm:px-8 sm:py-4">
+            About BENCH
+          </button>
+          <button type="button" onclick="openInfoModal('vietnam')" class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-white transition hover:text-benchRed">
+            <span data-i18n="heroCtaSecondary">Expansion to Vietnam</span> <span aria-hidden="true">↗</span>
+          </button>
         </div>
       </div>
     </div>
@@ -894,32 +930,9 @@
 
         <!-- Left Split Story -->
         <div class="lg:col-span-5 space-y-6">
-          <div data-i18n="lookbookBadge" class="inline-block text-[10px] font-semibold tracking-[0.2em] uppercase text-neutral-400">
-            SAIGON / HANOI — BENCH/ VIETNAM
-          </div>
           <h2 data-i18n-html="lookbookTitle" class="font-display font-extrabold text-3xl sm:text-5xl leading-tight tracking-tight">
-            Built for the <br />
-            Streets of Saigon.
+            BENCH/ GOES BEYOND BORDERS
           </h2>
-          <p data-i18n="lookbookBody" class="text-neutral-300 text-sm sm:text-base leading-relaxed">
-            From bright Saigon afternoons to Hanoi after dark, build your everyday uniform with easy layers, relaxed denim, and pieces made to move through the city.
-          </p>
-          <div class="grid grid-cols-2 gap-6 pt-4 border-t border-neutral-800">
-            <div>
-              <p data-i18n="stat1Title" class="font-display font-extrabold text-2xl text-white">35+ Years</p>
-              <p data-i18n="stat1Sub" class="text-xs text-neutral-400 mt-0.5">Of Asian streetwear heritage</p>
-            </div>
-            <div>
-              <p class="font-display font-extrabold text-2xl text-benchRed">100%</p>
-              <p data-i18n="stat2Sub" class="text-xs text-neutral-400 mt-0.5">Combed tropical-weight cotton</p>
-            </div>
-          </div>
-          <div class="pt-2">
-            <a href="index.html?view=collection&amp;category=Men&amp;subcategory=Jeans" class="inline-flex items-center gap-2 bg-white text-charcoal hover:bg-benchRed hover:text-white font-bold text-xs uppercase tracking-wider px-6 py-3.5 transition">
-              <span data-i18n="lookbookCta">Shop The Denim Capsule</span>
-              <span>→</span>
-            </a>
-          </div>
         </div>
 
         <!-- Right Dual Editorial Cards -->
@@ -954,6 +967,38 @@
         </div>
 
       </div>
+      <div class="mt-10 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <article class="rounded-2xl bg-[#F8F3F4] p-5 text-charcoal dark:bg-neutral-800 sm:p-6">
+          <svg class="mb-3 h-9 w-9 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 17l6-6 4 4 8-8" />
+            <path d="M15 7h6v6M4 21h16" />
+            <path d="M5 18v2m5-5v5m5-5v5m5-11v11" />
+          </svg>
+          <p data-i18n="expansionCard1Eyebrow" class="text-sm font-semibold">A Growing Presence</p>
+          <h3 data-i18n="expansionCard1Title" class="mt-2 font-display text-xl font-extrabold leading-tight">1st Store in Vietnam</h3>
+          <p data-i18n="expansionCard1Body" class="mt-2 text-sm leading-relaxed text-neutral-700">Part of BENCH/’s continued expansion in Southeast Asia.</p>
+        </article>
+        <article class="rounded-2xl bg-[#F8F3F4] p-5 text-charcoal dark:bg-neutral-800 sm:p-6">
+          <svg class="mb-3 h-9 w-9 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3a3 3 0 0 1 3 3c0 1.7-1.3 2.5-2.5 3.4V12" />
+            <path d="M12.5 12H21l-9 8-9-8h8.5" />
+            <path d="M10 15h4" />
+          </svg>
+          <p data-i18n="expansionCard2Eyebrow" class="text-sm font-semibold">Fashion for Every You</p>
+          <h3 data-i18n="expansionCard2Title" class="mt-2 font-display text-xl font-extrabold leading-tight">Trendy. Comfortable. Timeless.</h3>
+          <p data-i18n="expansionCard2Body" class="mt-2 text-sm leading-relaxed text-neutral-700">Styles that fit your everyday life — anywhere, anytime.</p>
+        </article>
+        <article class="rounded-2xl bg-[#F8F3F4] p-5 text-charcoal dark:bg-neutral-800 sm:p-6">
+          <svg class="mb-3 h-9 w-9 text-benchRed" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 11l2-2 3 2 3-2 5 4-5 5-4-2-3 2-6-5 3-3 2 1z" />
+            <path d="M2 12l4-4 3 2m13 3 2-3-4-3-3 2" />
+            <path d="M9 13l3 3m1-5 3 3m-7 0 2 2" />
+          </svg>
+          <p data-i18n="expansionCard3Eyebrow" class="text-sm font-semibold">A Stronger Connection</p>
+          <h3 data-i18n="expansionCard3Title" class="mt-2 font-display text-xl font-extrabold leading-tight">Bringing Filipino Fashion Closer to You</h3>
+          <p data-i18n="expansionCard3Body" class="mt-2 text-sm leading-relaxed text-neutral-700">Building a community through style.</p>
+        </article>
+      </div>
     </div>
   </section>
 
@@ -974,7 +1019,7 @@
             Southeast Asia’s iconic lifestyle and streetwear brand. Championing everyday essentials, quality denim, and modern urban style across Vietnam.
           </p>
           <div data-i18n="footerStores" class="pt-1 text-xs font-semibold text-neutral-500 leading-relaxed">
-            Vietnam Flagships: Saigon Centre (District 1) • Crescent Mall • Vincom Center Dong Khoi • Lotte Mall West Lake Hanoi
+            Vietnam Flagships: Vincom Center Dong Khoi, District 1, Ho Chi Minh City
           </div>
         </div>
 
@@ -992,7 +1037,7 @@
         <div class="lg:col-span-2 space-y-3 text-sm">
           <h4 data-i18n="footerCareHeading" class="font-extrabold uppercase tracking-wider text-xs text-charcoal">Customer Care</h4>
           <ul class="space-y-2 text-neutral-600">
-            <li><a href="#lookbook" data-i18n="footerLocator" class="hover:text-benchRed transition">Vietnam Store Locator</a></li>
+            <li><button type="button" onclick="openInfoModal('stores')" data-i18n="footerLocator" aria-haspopup="dialog" aria-controls="info-modal" class="text-left hover:text-benchRed transition">Vietnam Store Locator</button></li>
           </ul>
         </div>
 
@@ -1005,7 +1050,7 @@
               onclick="openInfoModal('vietnam')"
               class="w-full text-left inline-flex items-center justify-between bg-white hover:bg-benchRed text-charcoal hover:text-white border border-neutral-300 hover:border-benchRed font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-2xs"
             >
-              <span data-i18n="exploreVietnamBtn">Explore Vietnam</span>
+              <span data-i18n="exploreVietnamBtn">Expansion to Vietnam</span>
               <span>→</span>
             </button>
             <button
@@ -1013,7 +1058,7 @@
               onclick="openInfoModal('about-bench')"
               class="w-full text-left inline-flex items-center justify-between bg-charcoal dark:bg-neutral-800 hover:bg-benchRed text-white font-bold text-xs px-4 py-2.5 rounded-xl transition shadow-2xs"
             >
-              <span data-i18n="aboutBenchBtn">About BENCH/</span>
+              <span data-i18n="aboutBenchBtn">About BENCH</span>
               <span>→</span>
             </button>
           </div>
@@ -1045,9 +1090,9 @@
       <div class="mt-12 pt-8 border-t border-neutral-200 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-neutral-500">
         <p data-i18n="copyright">© 2026 Suyen Corporation / BENCH/ Vietnam. All rights reserved.</p>
         <div class="flex flex-wrap items-center gap-3 sm:gap-4">
-          <button type="button" onclick="openInfoModal('vietnam')" data-i18n="exploreVietnamBtn" class="font-semibold text-charcoal hover:text-benchRed transition">Explore Vietnam</button>
+          <button type="button" onclick="openInfoModal('vietnam')" data-i18n="exploreVietnamBtn" class="font-semibold text-charcoal hover:text-benchRed transition">Expansion to Vietnam</button>
           <span>•</span>
-          <button type="button" onclick="openInfoModal('about-bench')" data-i18n="aboutBenchBtn" class="font-semibold text-charcoal hover:text-benchRed transition">About BENCH/</button>
+          <button type="button" onclick="openInfoModal('about-bench')" data-i18n="aboutBenchBtn" class="font-semibold text-charcoal hover:text-benchRed transition">About BENCH</button>
           <span>•</span>
           <span>MoMo • ZaloPay • VNPay • Visa • Mastercard • COD</span>
         </div>
@@ -1141,7 +1186,7 @@
   </div>
 
   <!-- EXPLORE VIETNAM & ABOUT BENCH/ MODAL -->
-  <div id="info-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs">
+  <div id="info-modal" role="dialog" aria-modal="true" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-black/65 backdrop-blur-xs">
     <div class="panel-reveal relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
       <button type="button" onclick="closeInfoModal()" aria-label="Close modal" class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/95 text-charcoal hover:bg-benchRed hover:text-white flex items-center justify-center shadow-sm transition">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -1384,11 +1429,11 @@
         accountContinueGuest: "Continue as guest",
         accountPreviewResponse: "This is a preview only—no account was created and no details were sent.",
         searchPlaceholder: "Search graphic tees, carpenter denim, overshirts...",
-        heroBadge: "Saigon / Hanoi — Bench/ Vietnam",
-        heroTitle: 'Everyday, <br /><span class="text-benchRed">in motion.</span>',
-        heroSubtitle: "Easy layers, relaxed denim, and everyday essentials made for the pace of Saigon and Hanoi.",
-        heroCtaPrimary: "Shop New Arrivals",
-        heroCtaSecondary: "Discover the campaign",
+        heroBadge: "A Filipino Original — Now Introducing to Vietnam",
+        heroTitle: 'Everyday style.<br /><span class="text-benchRed">Your city. Your story.</span>',
+        heroSubtitle: "Discover BENCH/ — the Filipino lifestyle brand bringing versatile fashion and everyday essentials to Vietnam. From casual city days to nights out, find styles that move with you.",
+        heroCtaPrimary: "About BENCH",
+        heroCtaSecondary: "Expansion to Vietnam",
         trust1Title: "100% Cotton",
         trust1Sub: "Breathable weave",
         trust2Title: "Vietnam Exclusive",
@@ -1428,27 +1473,30 @@
         categoryFilterLabel: "Category:",
         subcategoryFilterLabel: "Subcategory:",
         searchFilterLabel: "Search:",
-        lookbookBadge: "SAIGON / HANOI — BENCH/ VIETNAM",
-        lookbookTitle: "Built for the <br />Streets of Saigon.",
-        lookbookBody: "From bright Saigon afternoons to Hanoi after dark, build your everyday uniform with easy layers, relaxed denim, and pieces made to move through the city.",
-        stat1Title: "35+ Years",
-        stat1Sub: "Of Asian streetwear heritage",
-        stat2Sub: "Combed tropical-weight cotton",
-        lookbookCta: "Shop The Denim Capsule",
+        lookbookTitle: "BENCH/ GOES BEYOND BORDERS",
+        expansionCard1Eyebrow: "A Growing Presence",
+        expansionCard1Title: "1st Store in Vietnam",
+        expansionCard1Body: "Part of BENCH/’s continued expansion in Southeast Asia.",
+        expansionCard2Eyebrow: "Fashion for Every You",
+        expansionCard2Title: "Trendy. Comfortable. Timeless.",
+        expansionCard2Body: "Styles that fit your everyday life — anywhere, anytime.",
+        expansionCard3Eyebrow: "A Stronger Connection",
+        expansionCard3Title: "Bringing Filipino Fashion Closer to You",
+        expansionCard3Body: "Building a community through style.",
         look01Tag: "Look 01",
         look01Title: "Monochrome Layers",
         look02Tag: "Look 02",
         look02Title: "Relaxed Utility",
         footerBio: "Southeast Asia’s iconic lifestyle and streetwear brand. Championing everyday essentials, quality denim, and modern urban style across Vietnam.",
-        footerStores: "Vietnam Flagships: Saigon Centre (District 1) • Crescent Mall • Vincom Center Dong Khoi • Lotte Mall West Lake Hanoi",
+        footerStores: "Vietnam Flagships: Vincom Center Dong Khoi, District 1, Ho Chi Minh City",
         footerShopHeading: "Shop",
         footerMens: "Men’s Apparel",
         footerWomens: "Women’s Apparel",
         footerCareHeading: "Customer Care",
         footerLocator: "Vietnam Store Locator",
         footerDiscoverHeading: "Discover",
-        exploreVietnamBtn: "Explore Vietnam",
-        aboutBenchBtn: "About BENCH/",
+        exploreVietnamBtn: "Expansion to Vietnam",
+        aboutBenchBtn: "About BENCH",
         newsletterHeading: "Join BENCH/ Vietnam Insider",
         newsletterSub: "Get 10% off your first Vietnam online order plus early access to limited capsule drops.",
         newsletterPlaceholder: "Enter your email",
@@ -1555,11 +1603,11 @@
         accountContinueGuest: "Tiếp tục với tư cách khách",
         accountPreviewResponse: "Đây chỉ là bản xem trước—tài khoản chưa được tạo và thông tin chưa được gửi.",
         searchPlaceholder: "Tìm áo thun in hình, quần denim, áo khoác sơ mi...",
-        heroBadge: "Sài Gòn / Hà Nội — Bench/ Việt Nam",
-        heroTitle: 'Phong cách <br /><span class="text-benchRed">mỗi ngày.</span>',
-        heroSubtitle: "Lớp áo nhẹ, denim phóng khoáng và trang phục thiết yếu cho nhịp sống Sài Gòn và Hà Nội.",
-        heroCtaPrimary: "Khám phá hàng mới",
-        heroCtaSecondary: "Khám phá chiến dịch",
+        heroBadge: "Thương hiệu Philippines chính hiệu — Chính thức ra mắt tại Việt Nam",
+        heroTitle: 'Phong cách mỗi ngày.<br /><span class="text-benchRed">Thành phố của bạn. Câu chuyện của bạn.</span>',
+        heroSubtitle: "Khám phá BENCH/ — thương hiệu thời trang và phong cách sống Philippines với những thiết kế đa năng cùng trang phục thiết yếu hàng ngày tại Việt Nam. Từ những ngày dạo phố đến những buổi tối đi chơi, luôn có phong cách đồng hành cùng bạn.",
+        heroCtaPrimary: "Về BENCH",
+        heroCtaSecondary: "Mở Rộng Sang Việt Nam",
         trust1Title: "100% Cotton",
         trust1Sub: "Chất vải thoáng khí",
         trust2Title: "Độc Quyền Việt Nam",
@@ -1599,27 +1647,30 @@
         categoryFilterLabel: "Danh mục:",
         subcategoryFilterLabel: "Danh mục con:",
         searchFilterLabel: "Tìm kiếm:",
-        lookbookBadge: "SÀI GÒN / HÀ NỘI — BENCH/ VIỆT NAM",
-        lookbookTitle: "Thiết Kế Cho <br />Đường Phố Sài Gòn.",
-        lookbookBody: "Từ những buổi chiều nắng ở Sài Gòn đến Hà Nội về đêm, hãy tạo phong cách thường ngày với denim phóng khoáng, lớp áo nhẹ và thiết kế linh hoạt cho nhịp sống thành phố.",
-        stat1Title: "35+ Năm",
-        stat1Sub: "Di sản thời trang đường phố châu Á",
-        stat2Sub: "Cotton chải kỹ thoáng mát nhiệt đới",
-        lookbookCta: "Khám Phá Bộ Sưu Tập Denim",
+        lookbookTitle: "BENCH/ VƯƠN XA BIÊN GIỚI",
+        expansionCard1Eyebrow: "Dấu Ấn Ngày Càng Lớn",
+        expansionCard1Title: "Cửa Hàng Đầu Tiên Tại Việt Nam",
+        expansionCard1Body: "Tiếp nối hành trình mở rộng của BENCH/ tại Đông Nam Á.",
+        expansionCard2Eyebrow: "Thời Trang Cho Riêng Bạn",
+        expansionCard2Title: "Thời Thượng. Thoải Mái. Bền Lâu.",
+        expansionCard2Body: "Phong cách phù hợp với cuộc sống hàng ngày của bạn — mọi nơi, mọi lúc.",
+        expansionCard3Eyebrow: "Kết Nối Bền Chặt Hơn",
+        expansionCard3Title: "Mang Thời Trang Philippines Đến Gần Bạn Hơn",
+        expansionCard3Body: "Cùng xây dựng cộng đồng qua phong cách.",
         look01Tag: "Phong cách 01",
         look01Title: "Phối Lớp Đơn Sắc",
         look02Tag: "Phong cách 02",
         look02Title: "Tiện Ích Phóng Khoáng",
         footerBio: "Thương hiệu phong cách sống và thời trang đường phố biểu tượng của Đông Nam Á. Mang đến trang phục thiết yếu, denim chất lượng và phong cách đô thị hiện đại khắp Việt Nam.",
-        footerStores: "Cửa hàng chính thức tại Việt Nam: Saigon Centre (Quận 1) • Crescent Mall • Vincom Center Đồng Khởi • Lotte Mall West Lake Hà Nội",
+        footerStores: "Cửa hàng chính thức tại Việt Nam: Vincom Center Đồng Khởi, Quận 1, Thành phố Hồ Chí Minh",
         footerShopHeading: "Mua Sắm",
         footerMens: "Thời Trang Nam",
         footerWomens: "Thời Trang Nữ",
         footerCareHeading: "Chăm Sóc Khách Hàng",
         footerLocator: "Hệ Thống Cửa Hàng VN",
         footerDiscoverHeading: "Khám Phá",
-        exploreVietnamBtn: "Khám Phá Việt Nam",
-        aboutBenchBtn: "Về Thương Hiệu BENCH/",
+        exploreVietnamBtn: "Mở Rộng Sang Việt Nam",
+        aboutBenchBtn: "Về BENCH",
         newsletterHeading: "Đăng Ký Thành Viên BENCH/ Việt Nam",
         newsletterSub: "Nhận ưu đãi giảm 10% cho đơn hàng trực tuyến đầu tiên tại Việt Nam cùng quyền mua sớm các bộ sưu tập giới hạn.",
         newsletterPlaceholder: "Nhập email của bạn",
@@ -5399,13 +5450,53 @@
       const content = document.getElementById("info-modal-content");
       if (!modal || !content) return;
 
-      if (type === "vietnam") {
+      if (type === "stores") {
+        const directionsUrl = "https://www.google.com/maps/search/?api=1&query=Vincom+Center+Dong+Khoi%2C+Ho+Chi+Minh+City";
+        content.innerHTML =
+          currentLang === "vi"
+            ? `
+          <div class="p-6 sm:p-8 space-y-5">
+            <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
+              CỬA HÀNG TẠI VIỆT NAM
+            </span>
+            <section class="space-y-2">
+              <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">Cửa Hàng Flagship</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">Ghé thăm BENCH/ tại trung tâm Thành phố Hồ Chí Minh.</p>
+            </section>
+            <article class="rounded-2xl bg-offwhite border border-neutral-200 p-5 sm:p-6">
+              <p class="text-[11px] font-bold uppercase tracking-widest text-benchRed">Thành phố Hồ Chí Minh</p>
+              <h4 class="mt-2 font-display font-extrabold text-xl text-charcoal">Vincom Center Đồng Khởi</h4>
+              <p class="mt-1 text-sm text-neutral-600">Quận 1, Thành phố Hồ Chí Minh</p>
+              <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 rounded-lg bg-charcoal px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-benchRed">
+                Mở Bản Đồ <span aria-hidden="true">↗</span>
+              </a>
+            </article>
+          </div>`
+            : `
+          <div class="p-6 sm:p-8 space-y-5">
+            <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
+              VIETNAM STORE LOCATOR
+            </span>
+            <section class="space-y-2">
+              <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">Vietnam Flagship Store</h3>
+              <p class="text-sm text-neutral-600 leading-relaxed">Visit BENCH/ in the heart of Ho Chi Minh City.</p>
+            </section>
+            <article class="rounded-2xl bg-offwhite border border-neutral-200 p-5 sm:p-6">
+              <p class="text-[11px] font-bold uppercase tracking-widest text-benchRed">Ho Chi Minh City</p>
+              <h4 class="mt-2 font-display font-extrabold text-xl text-charcoal">Vincom Center Dong Khoi</h4>
+              <p class="mt-1 text-sm text-neutral-600">District 1, Ho Chi Minh City</p>
+              <a href="${directionsUrl}" target="_blank" rel="noopener noreferrer" class="mt-5 inline-flex items-center gap-2 rounded-lg bg-charcoal px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-benchRed">
+                Get Directions <span aria-hidden="true">↗</span>
+              </a>
+            </article>
+          </div>`;
+      } else if (type === "vietnam") {
         content.innerHTML =
           currentLang === "vi"
             ? `
           <div class="p-6 sm:p-8 space-y-7">
             <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
-              KHÁM PHÁ VIỆT NAM
+              MỞ RỘNG SANG VIỆT NAM
             </span>
             <section class="space-y-3">
               <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">A. Tổng Quan Về Việt Nam</h3>
@@ -5505,7 +5596,7 @@
             : `
           <div class="p-6 sm:p-8 space-y-7">
             <span class="inline-block bg-benchRed text-white font-display font-extrabold text-[11px] tracking-widest uppercase px-3 py-1 rounded-md">
-              EXPLORE VIETNAM
+              EXPANSION TO VIETNAM
             </span>
             <section class="space-y-3">
               <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-charcoal">Vietnam at a Glance</h3>
